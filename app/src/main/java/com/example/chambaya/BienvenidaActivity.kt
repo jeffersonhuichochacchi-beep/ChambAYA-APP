@@ -1,8 +1,12 @@
 package com.example.chambaya
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ValueAnimator
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.animation.LinearInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chambaya.databinding.ActividadBienvenidaBinding
 
@@ -10,6 +14,8 @@ class BienvenidaActivity : AppCompatActivity() {
 
     private lateinit var binding: ActividadBienvenidaBinding
     private lateinit var indicators: List<View>
+    private var currentSlideIndex = 0
+    private var indicatorAnimator: ValueAnimator? = null
 
     private val slides = listOf(
         WelcomeSlide(
@@ -47,20 +53,40 @@ class BienvenidaActivity : AppCompatActivity() {
         )
 
         indicators.forEachIndexed { index, indicator ->
-            indicator.setOnClickListener { showSlide(index) }
+            indicator.setOnClickListener { showSlide(index, restartProgress = true) }
         }
 
         binding.btnAccessAccount.setOnClickListener { openMain() }
         binding.tvSignup.setOnClickListener { openMain() }
-        showSlide(0)
+        showSlide(0, restartProgress = true)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (::binding.isInitialized) {
+            startIndicatorProgress()
+        }
+    }
+
+    override fun onPause() {
+        indicatorAnimator?.cancel()
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        indicatorAnimator?.cancel()
+        indicatorAnimator = null
+        super.onDestroy()
     }
 
     private fun openMain() {
+        indicatorAnimator?.cancel()
         startActivity(Intent(this, MainActivity::class.java))
         finish()
     }
 
-    private fun showSlide(index: Int) {
+    private fun showSlide(index: Int, restartProgress: Boolean) {
+        currentSlideIndex = index
         val slide = slides[index]
         binding.imgWelcomeIllustration.setImageResource(slide.imageRes)
         binding.tvWelcomeTitle.text = slide.title
@@ -72,9 +98,52 @@ class BienvenidaActivity : AppCompatActivity() {
                 if (isSelected) R.drawable.bg_indicator_active else R.drawable.bg_indicator_inactive
             )
             indicator.layoutParams = indicator.layoutParams.apply {
-                width = if (isSelected) dp(34) else dp(8)
+                width = dp(8)
                 height = dp(8)
             }
+        }
+
+        if (restartProgress) {
+            startIndicatorProgress()
+        }
+    }
+
+    private fun startIndicatorProgress() {
+        indicatorAnimator?.cancel()
+        val activeIndicator = indicators[currentSlideIndex]
+        val collapsedWidth = dp(8)
+        val expandedWidth = dp(34)
+
+        activeIndicator.layoutParams = activeIndicator.layoutParams.apply {
+            width = collapsedWidth
+            height = dp(8)
+        }
+        activeIndicator.requestLayout()
+
+        indicatorAnimator = ValueAnimator.ofInt(collapsedWidth, expandedWidth).apply {
+            duration = SLIDE_DURATION_MS
+            interpolator = LinearInterpolator()
+            addUpdateListener { animator ->
+                activeIndicator.layoutParams = activeIndicator.layoutParams.apply {
+                    width = animator.animatedValue as Int
+                }
+                activeIndicator.requestLayout()
+            }
+            addListener(object : AnimatorListenerAdapter() {
+                private var wasCancelled = false
+
+                override fun onAnimationCancel(animation: Animator) {
+                    wasCancelled = true
+                }
+
+                override fun onAnimationEnd(animation: Animator) {
+                    if (!wasCancelled) {
+                    val nextIndex = (currentSlideIndex + 1) % slides.size
+                    showSlide(nextIndex, restartProgress = true)
+                }
+                }
+            })
+            start()
         }
     }
 
@@ -85,4 +154,8 @@ class BienvenidaActivity : AppCompatActivity() {
         val title: String,
         val subtitle: String
     )
+
+    private companion object {
+        const val SLIDE_DURATION_MS = 3500L
+    }
 }
