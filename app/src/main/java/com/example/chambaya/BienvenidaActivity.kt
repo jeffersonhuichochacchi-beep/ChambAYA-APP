@@ -56,7 +56,7 @@ class BienvenidaActivity : AppCompatActivity() {
             indicator.setOnClickListener { showSlide(index, restartProgress = true) }
         }
 
-        binding.btnAccessAccount.setOnClickListener { openLogin() }
+        binding.btnAccessAccount.setOnClickListener { openMain() }
         binding.tvSignup.setOnClickListener { openLogin() }
         showSlide(0, restartProgress = true)
     }
