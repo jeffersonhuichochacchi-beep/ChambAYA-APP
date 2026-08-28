@@ -111,27 +111,39 @@
         app:layout_constraintTop_toBottomOf="@id/tvWelcomeSubtitle">
 
         <View
+            android:id="@+id/indicatorOne"
             android:layout_width="34dp"
             android:layout_height="8dp"
-            android:background="@drawable/bg_indicator_active" />
+            android:background="@drawable/bg_indicator_active"
+            android:clickable="true"
+            android:focusable="true" />
 
         <View
+            android:id="@+id/indicatorTwo"
             android:layout_width="8dp"
             android:layout_height="8dp"
             android:layout_marginStart="12dp"
-            android:background="@drawable/bg_indicator_inactive" />
+            android:background="@drawable/bg_indicator_inactive"
+            android:clickable="true"
+            android:focusable="true" />
 
         <View
+            android:id="@+id/indicatorThree"
             android:layout_width="8dp"
             android:layout_height="8dp"
             android:layout_marginStart="12dp"
-            android:background="@drawable/bg_indicator_inactive" />
+            android:background="@drawable/bg_indicator_inactive"
+            android:clickable="true"
+            android:focusable="true" />
 
         <View
+            android:id="@+id/indicatorFour"
             android:layout_width="8dp"
             android:layout_height="8dp"
             android:layout_marginStart="12dp"
-            android:background="@drawable/bg_indicator_inactive" />
+            android:background="@drawable/bg_indicator_inactive"
+            android:clickable="true"
+            android:focusable="true" />
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
