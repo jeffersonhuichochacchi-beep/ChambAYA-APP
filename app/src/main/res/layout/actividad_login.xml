@@ -80,12 +80,12 @@
         android:elevation="6dp"
         android:orientation="vertical"
         android:paddingStart="34dp"
-        android:paddingTop="44dp"
+        android:paddingTop="30dp"
         android:paddingEnd="34dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1"
-        app:layout_constraintHeight_percent="0.69">
+        app:layout_constraintHeight_percent="0.72">
 
         <TextView
             android:layout_width="match_parent"
@@ -99,8 +99,8 @@
         <EditText
             android:id="@+id/etEmail"
             android:layout_width="match_parent"
-            android:layout_height="58dp"
-            android:layout_marginTop="18dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="14dp"
             android:background="@drawable/bg_login_input"
             android:drawableStart="@drawable/ic_login_email"
             android:drawablePadding="14dp"
@@ -118,7 +118,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="22dp"
             android:fontFamily="sans-serif-black"
             android:includeFontPadding="false"
             android:text="Password"
@@ -127,8 +127,8 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="58dp"
-            android:layout_marginTop="18dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="14dp"
             android:background="@drawable/bg_login_input">
 
             <EditText
@@ -161,7 +161,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="10dp"
             android:fontFamily="sans-serif"
             android:gravity="end"
             android:text="Forgot password?"
@@ -171,14 +171,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="16dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <CheckBox
                 android:id="@+id/cbAgreement"
-                android:layout_width="44dp"
-                android:layout_height="44dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:buttonTint="@color/login_red"
                 android:padding="0dp" />
 
@@ -188,17 +188,17 @@
                 android:layout_marginStart="12dp"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif"
-                android:lineSpacingExtra="4dp"
-                android:text="I've read and agree to the User Agreement\nand Privacy Policy"
+                android:singleLine="true"
+                android:text="Acepto terminos y privacidad"
                 android:textColor="@color/login_text_secondary"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
         </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSignIn"
             android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:layout_marginTop="30dp"
+            android:layout_height="58dp"
+            android:layout_marginTop="22dp"
             android:backgroundTint="@color/login_red"
             android:fontFamily="sans-serif-bold"
             android:insetTop="0dp"
@@ -207,12 +207,12 @@
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="18sp"
-            app:cornerRadius="32dp" />
+            app:cornerRadius="29dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="28dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="14dp"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -239,8 +239,8 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="58dp"
-            android:layout_marginTop="8dp"
+            android:layout_height="54dp"
+            android:layout_marginTop="6dp"
             android:background="@drawable/bg_login_google_button">
 
                 <ImageView
@@ -265,7 +265,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="12dp"
             android:gravity="center"
             android:orientation="horizontal">
 
