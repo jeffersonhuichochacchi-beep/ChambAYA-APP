@@ -157,7 +157,7 @@
         android:fontFamily="sans-serif-medium"
         android:insetTop="0dp"
         android:insetBottom="0dp"
-        android:text="Access Your Account"
+        android:text="Get Started"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="17sp"
