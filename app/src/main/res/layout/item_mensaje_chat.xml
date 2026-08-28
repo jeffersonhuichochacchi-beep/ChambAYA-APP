@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="4dp">
+
+    <!-- Outgoing Message (Mine) -->
+    <LinearLayout
+        android:id="@+id/layoutOutgoing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginStart="48dp"
+        android:background="@drawable/bg_chat_outgoing"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvOutgoingText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:text="Mensaje enviado"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvOutgoingTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="4dp"
+            android:fontFamily="sans-serif"
+            android:text="14:32"
+            android:textColor="#E0E0E0"
+            android:textSize="10sp" />
+    </LinearLayout>
+
+    <!-- Incoming Message (Other) -->
+    <LinearLayout
+        android:id="@+id/layoutIncoming"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginEnd="48dp"
+        android:background="@drawable/bg_chat_incoming"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvIncomingSender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-bold"
+            android:text="Carlos Mendoza"
+            android:textColor="@color/primary"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/tvIncomingText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:fontFamily="sans-serif"
+            android:text="Mensaje recibido"
+            android:textColor="@color/text_primary"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvIncomingTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="4dp"
+            android:fontFamily="sans-serif"
+            android:text="14:30"
+            android:textColor="@color/text_muted"
+            android:textSize="10sp" />
+    </LinearLayout>
+
+</LinearLayout>

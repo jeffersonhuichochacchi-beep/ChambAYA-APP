@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Logo alternativo más elaborado inspirado en el diseño Nintendo Switch -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="288dp"
+    android:height="288dp"
+    android:viewportWidth="288"
+    android:viewportHeight="288">
+    
+    <!-- Sombra del logo para dar profundidad -->
+    <path
+        android:fillColor="#99000000"
+        android:pathData="M144,100 m-60,0 a60,60 0,1,1 120,0 a60,60 0,1,1 -120,0" />
+    
+    <!-- Círculo principal blanco -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M144,96 m-58,0 a58,58 0,1,1 116,0 a58,58 0,1,1 -116,0" />
+    
+    <!-- Letra C estilizada grande en el centro -->
+    <path
+        android:fillColor="#E30613"
+        android:pathData="M144,70 Q168,70 168,94 L168,98 Q168,122 144,122 L128,122 Q104,122 104,98 L104,94 Q104,70 128,70 L144,70 Z M128,82 Q116,82 116,94 L116,98 Q116,110 128,110 L136,110 L136,82 L128,82 Z" />
+    
+    <!-- Detalles decorativos (puntos de luz) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.4"
+        android:pathData="M120,85 m-3,0 a3,3 0,1,1 6,0 a3,3 0,1,1 -6,0" />
+    
+    <!-- Texto CHAMBAYA con tipografía bold -->
+    <!-- C -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M50,180 Q42,180 42,188 L42,210 Q42,218 50,218 L64,218 L64,210 L52,210 L52,188 L64,188 L64,180 Z" />
+    
+    <!-- H -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M70,180 L80,180 L80,196 L92,196 L92,180 L102,180 L102,218 L92,218 L92,204 L80,204 L80,218 L70,218 Z" />
+    
+    <!-- A -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M108,180 L120,180 L133,218 L123,218 L120.5,210 L107.5,210 L105,218 L95,218 Z M110,202 L118,202 L114,187 Z" />
+    
+    <!-- M -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M138,180 L148,180 L157,200 L166,180 L176,180 L176,218 L166,218 L166,198 L157,218 L157,218 L148,198 L148,218 L138,218 Z" />
+    
+    <!-- B -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M182,180 L198,180 Q206,180 206,188 Q206,194 202,196 Q206,198 206,204 Q206,212 198,212 L182,212 Z M192,188 L192,194 L197,194 Q198,194 198,191 Q198,188 197,188 Z M192,202 L192,208 L197,208 Q198,208 198,205 Q198,202 197,202 Z" />
+    
+    <!-- A -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M212,180 L224,180 L237,218 L227,218 L224.5,210 L211.5,210 L209,218 L199,218 Z M214,202 L222,202 L218,187 Z" />
+    
+    <!-- Y -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M30,230 L40,230 L48,245 L56,230 L66,230 L54,250 L54,262 L44,262 L44,250 Z" />
+    
+    <!-- A -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M72,230 L84,230 L97,268 L87,268 L84.5,260 L71.5,260 L69,268 L59,268 Z M74,252 L82,252 L78,237 Z" />
+    
+    <!-- Línea decorativa debajo del logo -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.6"
+        android:pathData="M80,160 L208,160 L208,162 L80,162 Z" />
+    
+    <!-- Tagline "Trabajos a tu alcance" con texto pequeño -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.7"
+        android:pathData="M100,172 L188,172 L188,174 L100,174 Z" />
+</vector>

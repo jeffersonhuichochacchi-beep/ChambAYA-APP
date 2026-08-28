@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-black"
+        android:text="Reportar a Seguridad"
+        android:textColor="@color/error"
+        android:textSize="18sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:fontFamily="sans-serif"
+        android:text="El equipo de ChambAYA revisará este reporte de inmediato."
+        android:textColor="@color/text_secondary"
+        android:textSize="13sp" />
+
+    <RadioGroup
+        android:id="@+id/rgReportReason"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp">
+
+        <RadioButton
+            android:id="@+id/rbReason1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="Oferta falsa o sospecha de fraude" />
+
+        <RadioButton
+            android:id="@+id/rbReason2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Información engañosa o no responde" />
+
+        <RadioButton
+            android:id="@+id/rbReason3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Incumplimiento de acuerdo de pago" />
+
+        <RadioButton
+            android:id="@+id/rbReason4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Comportamiento irrespetuoso / Acoso" />
+    </RadioGroup>
+
+    <!-- Additional notes -->
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="Detalles adicionales (opcional)">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etReportDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="2" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="end"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCancelReport"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancelar" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSubmitReport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Enviar Reporte"
+            app:backgroundTint="@color/error" />
+    </LinearLayout>
+
+</LinearLayout>

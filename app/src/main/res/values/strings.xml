@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ChambAYA</string>
+    <string name="app_tagline">Chambas rápidas y seguras en Ayacucho</string>
+    <string name="location_ayacucho">Ayacucho, Perú</string>
+
+    <!-- Navigation -->
+    <string name="nav_jobs">Chambas</string>
+    <string name="nav_map">Mapa</string>
+    <string name="nav_publish">Publicar</string>
+    <string name="nav_chat">Mensajes</string>
+    <string name="nav_profile">Mi Perfil</string>
+
+    <!-- Job Feed & Search -->
+    <string name="search_hint">Buscar oficios, distritos, tareas...</string>
+    <string name="all_categories">Todas</string>
+    <string name="all_districts">Todos los distritos</string>
+    <string name="featured_badge">🔥 DESTACADA</string>
+    <string name="verified_worker">Verificado con DNI</string>
+    <string name="apply_now">Postular ahora</string>
+    <string name="applied_status">✅ Ya postulaste</string>
+    <string name="contact_employer">Contactar / Chat</string>
+    <string name="workers_needed">vacantes</string>
+
+    <!-- Districts of Ayacucho -->
+    <string name="dist_ayacucho_centro">Ayacucho Centro</string>
+    <string name="dist_carmen_alto">Carmen Alto</string>
+    <string name="dist_san_juan_bautista">San Juan Bautista</string>
+    <string name="dist_jesus_nazareno">Jesús Nazareno</string>
+    <string name="dist_andres_avelino">Andrés Avelino Cáceres</string>
+
+    <!-- Business Model & Monetization -->
+    <string name="publish_basic_title">Publicación Básica</string>
+    <string name="publish_basic_price">S/ 2.00</string>
+    <string name="publish_basic_desc">Visibilidad normal en el feed de ofertas.</string>
+    <string name="publish_featured_title">Publicación Destacada 🔥</string>
+    <string name="publish_featured_price">S/ 5.00</string>
+    <string name="publish_featured_desc">Aparece en los primeros lugares y en el radar con insignia de fuego.</string>
+
+    <string name="plan_premium_title">Plan Premium para Empresas</string>
+    <string name="plan_premium_price">S/ 29.90 / mes</string>
+    <string name="plan_premium_desc">Publicaciones ilimitadas, estadísticas de demanda y candidatos prioritarios.</string>
+
+    <!-- Actions -->
+    <string name="btn_publish">Publicar Chamba</string>
+    <string name="btn_save_changes">Guardar Cambios</string>
+    <string name="btn_rate_user">Calificar Servicio</string>
+    <string name="btn_report">Reportar</string>
+    <string name="btn_local_ads">Negocios Locales</string>
+</resources>

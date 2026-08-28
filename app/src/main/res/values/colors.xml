@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Brand Primary - Warm Ayacucho Terracotta / Sun Orange -->
+    <color name="primary">#E65100</color>
+    <color name="primary_dark">#BF360C</color>
+    <color name="primary_light">#FFE082</color>
+    <color name="primary_container">#FFF3E0</color>
+    <color name="on_primary_container">#4E1A00</color>
+
+    <!-- Secondary - Deep Navy / Indigo -->
+    <color name="secondary">#1A237E</color>
+    <color name="secondary_dark">#0D1350</color>
+    <color name="secondary_light">#3949AB</color>
+    <color name="secondary_container">#E8EAF6</color>
+    <color name="on_secondary_container">#0A1045</color>
+
+    <!-- Accent - Gold / Amber for Featured and Ratings -->
+    <color name="accent_gold">#FFB300</color>
+    <color name="accent_gold_dark">#F57F17</color>
+    <color name="accent_gold_light">#FFF8E1</color>
+    <color name="fire_orange">#FF3D00</color>
+
+    <!-- Status Colors -->
+    <color name="success">#2E7D32</color>
+    <color name="success_light">#E8F5E9</color>
+    <color name="warning">#ED6C02</color>
+    <color name="error">#D32F2F</color>
+    <color name="error_light">#FFEBEE</color>
+    <color name="info">#0288D1</color>
+    <color name="info_light">#E1F5FE</color>
+
+    <!-- Neutrals & Surfaces -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#121212</color>
+    <color name="background_light">#F6F8FA</color>
+    <color name="surface_light">#FFFFFF</color>
+    <color name="surface_variant">#EEF2F6</color>
+    <color name="divider">#E0E4EA</color>
+
+    <!-- Text Colors -->
+    <color name="text_primary">#1E293B</color>
+    <color name="text_secondary">#64748B</color>
+    <color name="text_muted">#94A3B8</color>
+    <color name="text_on_primary">#FFFFFF</color>
+
+    <!-- Category Tag Colors -->
+    <color name="cat_construction">#D97706</color>
+    <color name="cat_painting">#2563EB</color>
+    <color name="cat_cleaning">#0D9488</color>
+    <color name="cat_electric">#CA8A04</color>
+    <color name="cat_delivery">#7C3AED</color>
+    <color name="cat_cooking">#DC2626</color>
+    <color name="cat_gardening">#16A34A</color>
+    <color name="cat_moving">#475569</color>
+    
+    <!-- Splash Screen -->
+    <color name="splash_red">#5046E5</color>
+</resources>
