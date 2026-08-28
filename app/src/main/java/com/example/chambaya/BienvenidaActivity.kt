@@ -56,8 +56,8 @@ class BienvenidaActivity : AppCompatActivity() {
             indicator.setOnClickListener { showSlide(index, restartProgress = true) }
         }
 
-        binding.btnAccessAccount.setOnClickListener { openMain() }
-        binding.tvSignup.setOnClickListener { openMain() }
+        binding.btnAccessAccount.setOnClickListener { openLogin() }
+        binding.tvSignup.setOnClickListener { openLogin() }
         showSlide(0, restartProgress = true)
     }
 
@@ -83,6 +83,11 @@ class BienvenidaActivity : AppCompatActivity() {
         indicatorAnimator?.cancel()
         startActivity(Intent(this, MainActivity::class.java))
         finish()
+    }
+
+    private fun openLogin() {
+        indicatorAnimator?.cancel()
+        startActivity(Intent(this, LoginActivity::class.java))
     }
 
     private fun showSlide(index: Int, restartProgress: Boolean) {

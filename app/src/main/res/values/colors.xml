@@ -42,6 +42,9 @@
     <color name="text_secondary">#64748B</color>
     <color name="text_muted">#94A3B8</color>
     <color name="text_on_primary">#FFFFFF</color>
+    <color name="login_red">#F80D0D</color>
+    <color name="login_hint">#A9A9A9</color>
+    <color name="login_text_secondary">#666666</color>
 
     <!-- Category Tag Colors -->
     <color name="cat_construction">#D97706</color>
