@@ -4,7 +4,7 @@
 
 ```bash
 # 1. Cambiar a tu rama
-git checkout feature/integrante-X
+git checkout feature/tu-nombre-apellido
 
 # 2. Actualizar con develop
 git pull origin develop
@@ -17,7 +17,7 @@ git add .
 git commit -m "feat: descripción de tu cambio"
 
 # 5. Subir a GitHub
-git push origin feature/integrante-X
+git push origin feature/tu-nombre-apellido
 ```
 
 ---
@@ -26,17 +26,17 @@ git push origin feature/integrante-X
 
 ```bash
 # Mañana (inicio del día)
-git checkout feature/integrante-1           # Ir a tu rama
+git checkout feature/leonel-paitan           # Ir a tu rama (ejemplo)
 git pull origin develop                      # Actualizar
 
 # Durante el trabajo
 git status                                   # Ver cambios
 git add .                                    # Agregar todo
 git commit -m "feat: agregar nueva función"  # Guardar cambios
-git push origin feature/integrante-1         # Subir a GitHub
+git push origin feature/tu-rama         # Subir a GitHub
 
 # Tarde (antes de irte)
-git push origin feature/integrante-1         # Asegurar que todo está en GitHub
+git push origin feature/tu-rama         # Asegurar que todo está en GitHub
 ```
 
 ---
@@ -66,14 +66,14 @@ git commit -m "docs: agregar comentarios en RepositorioChambaya"
 
 ```bash
 # Descartar TODOS los cambios locales (¡CUIDADO!)
-git reset --hard origin/feature/integrante-X
+git reset --hard origin/feature/tu-rama
 
 # Descartar cambios de un archivo específico
 git checkout -- archivo.kt
 
 # Ver qué cambiará antes de hacer pull
 git fetch origin
-git diff feature/integrante-X origin/develop
+git diff feature/tu-rama origin/develop
 
 # Guardar cambios temporalmente (sin commit)
 git stash                    # Guardar
@@ -89,7 +89,7 @@ git log --oneline -10
 
 ```bash
 # Opción 1: Pull (recomendado)
-git checkout feature/integrante-X
+git checkout feature/tu-rama
 git pull origin develop
 
 # Opción 2: Fetch + Merge
@@ -121,7 +121,7 @@ git checkout -b feature/nueva-funcionalidad
 
 ```bash
 # Primera vez (establecer tracking)
-git push -u origin feature/integrante-X
+git push -u origin feature/tu-rama
 
 # Después de la primera vez
 git push
@@ -154,9 +154,9 @@ git log --oneline --graph --all
 
 ```bash
 # 1. Asegurar que tu rama está actualizada
-git checkout feature/integrante-X
+git checkout feature/tu-rama
 git pull origin develop
-git push origin feature/integrante-X
+git push origin feature/tu-rama
 
 # 2. Ir a GitHub y crear PR desde tu rama hacia develop
 
@@ -212,7 +212,7 @@ git add archivo-resuelto.kt
 git commit -m "fix: resolver conflictos con develop"
 
 # 7. Subir
-git push origin feature/integrante-X
+git push origin feature/tu-rama
 ```
 
 ---
@@ -285,7 +285,7 @@ git clone https://github.com/jeffersonhuichochacchi-beep/ChambAYA-APP.git
 cd ChambAYA-APP
 
 # Paso 3: Ir a tu rama
-git checkout feature/integrante-X
+git checkout feature/tu-nombre-apellido
 
 # Paso 4: Trabajar normalmente
 # (modificar archivos en Android Studio)

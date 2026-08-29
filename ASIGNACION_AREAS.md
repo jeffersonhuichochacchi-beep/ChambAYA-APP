@@ -34,8 +34,8 @@ app/src/main/java/com/example/chambaya/
 
 ## 🎯 Distribución Sugerida de Trabajo
 
-### 👤 Integrante 1: Sistema de Autenticación y Onboarding
-**Rama:** `feature/integrante-1` → Renombrar a: `feature/auth-onboarding`
+### 👤 Integrante 1: LEONEL PAITAN - Sistema de Autenticación y Onboarding
+**Rama:** `feature/leonel-paitan`
 
 **Responsabilidades:**
 - `SplashActivity.kt` - Pantalla de inicio
@@ -53,8 +53,8 @@ app/src/main/java/com/example/chambaya/
 
 ---
 
-### 👤 Integrante 2: Perfil y Gestión de Trabajador
-**Rama:** `feature/integrante-2` → Renombrar a: `feature/trabajador-profile`
+### 👤 Integrante 2: JEFFERSON HUICHO - Perfil y Gestión de Trabajador
+**Rama:** `feature/jefferson-huicho`
 
 **Responsabilidades:**
 - Perfil de trabajador
@@ -69,8 +69,8 @@ app/src/main/java/com/example/chambaya/
 
 ---
 
-### 👤 Integrante 3: Perfil y Gestión de Empleador
-**Rama:** `feature/integrante-3` → Renombrar a: `feature/empleador-profile`
+### 👤 Integrante 3: SCHIANG CHAVEZ - Perfil y Gestión de Empleador
+**Rama:** `feature/schiang-chavez`
 
 **Responsabilidades:**
 - Perfil de empleador
@@ -86,8 +86,8 @@ app/src/main/java/com/example/chambaya/
 
 ---
 
-### 👤 Integrante 4: Sistema de Chat
-**Rama:** `feature/integrante-4` → Renombrar a: `feature/chat-system`
+### 👤 Integrante 4: SUKER LLAMOCCA - Sistema de Chat
+**Rama:** `feature/suker-llamocca`
 
 **Responsabilidades:**
 - Lista de conversaciones
@@ -103,8 +103,8 @@ app/src/main/java/com/example/chambaya/
 
 ---
 
-### 👤 Integrante 5: Pantalla Principal y Navegación
-**Rama:** `feature/integrante-5` → Renombrar a: `feature/home-navigation`
+### 👤 Integrante 5: JHOEL QUICA - Pantalla Principal y Navegación
+**Rama:** `feature/jhoel-quica`
 
 **Responsabilidades:**
 - MainActivity (navegación principal)
@@ -120,8 +120,8 @@ app/src/main/java/com/example/chambaya/
 
 ---
 
-### 👤 Integrante 6: Sistema de Notificaciones
-**Rama:** `feature/integrante-6` → Renombrar a: `feature/notifications`
+### 👤 Integrante 6: MARCO CAMANA - Sistema de Notificaciones
+**Rama:** `feature/marco-camana`
 
 **Responsabilidades:**
 - Pantalla de notificaciones
@@ -136,8 +136,8 @@ app/src/main/java/com/example/chambaya/
 
 ---
 
-### 👤 Integrante 7: Gestión de Ofertas y Búsqueda
-**Rama:** `feature/integrante-7` → Renombrar a: `feature/ofertas-busqueda`
+### 👤 Integrante 7: NILTON TABOADA - Gestión de Ofertas y Búsqueda
+**Rama:** `feature/nilton-taboada`
 
 **Responsabilidades:**
 - Lista de ofertas de trabajo
@@ -152,8 +152,8 @@ app/src/main/java/com/example/chambaya/
 
 ---
 
-### 👤 Integrante 8: Sistema de Reseñas y Funcionalidades Extra
-**Rama:** `feature/integrante-8` → Renombrar a: `feature/reviews-extras`
+### 👤 Integrante 8: CARLOS QUISPE - Sistema de Reseñas y Funcionalidades Extra
+**Rama:** `feature/carlos-quispe`
 
 **Responsabilidades:**
 - Sistema de calificaciones y reseñas
@@ -186,14 +186,14 @@ app/src/main/java/com/example/chambaya/
 **Archivos en:** `app/src/main/res/values/`
 
 **Regla:** Usar prefijos para evitar conflictos:
-- Integrante 1: `auth_`, `onboarding_`
-- Integrante 2: `trabajador_`
-- Integrante 3: `empleador_`
-- Integrante 4: `chat_`
-- Integrante 5: `home_`, `nav_`
-- Integrante 6: `notif_`
-- Integrante 7: `oferta_`, `busqueda_`
-- Integrante 8: `review_`, `premium_`
+- Leonel Paitan: `auth_`, `onboarding_`
+- Jefferson Huicho: `trabajador_`
+- Schiang Chavez: `empleador_`
+- Suker Llamocca: `chat_`
+- Jhoel Quica: `home_`, `nav_`
+- Marco Camana: `notif_`
+- Nilton Taboada: `oferta_`, `busqueda_`
+- Carlos Quispe: `review_`, `premium_`
 
 ---
 
@@ -241,16 +241,16 @@ git push origin -u feature/auth-onboarding
 
 ## 📊 Tabla de Ramas Actualizadas
 
-| Integrante | Rama Original | Rama Sugerida | Área |
-|------------|---------------|---------------|------|
-| 1 | feature/integrante-1 | feature/auth-onboarding | Autenticación |
-| 2 | feature/integrante-2 | feature/trabajador-profile | Perfil Trabajador |
-| 3 | feature/integrante-3 | feature/empleador-profile | Perfil Empleador |
-| 4 | feature/integrante-4 | feature/chat-system | Sistema Chat |
-| 5 | feature/integrante-5 | feature/home-navigation | Navegación |
-| 6 | feature/integrante-6 | feature/notifications | Notificaciones |
-| 7 | feature/integrante-7 | feature/ofertas-busqueda | Ofertas/Búsqueda |
-| 8 | feature/integrante-8 | feature/reviews-extras | Reseñas/Extras |
+| Integrante | Rama Original | Rama Nueva | Área |
+|------------|---------------|------------|------|
+| Leonel Paitan | feature/integrante-1 | feature/leonel-paitan | Autenticación |
+| Jefferson Huicho | feature/integrante-2 | feature/jefferson-huicho | Perfil Trabajador |
+| Schiang Chavez | feature/integrante-3 | feature/schiang-chavez | Perfil Empleador |
+| Suker Llamocca | feature/integrante-4 | feature/suker-llamocca | Sistema Chat |
+| Jhoel Quica | feature/integrante-5 | feature/jhoel-quica | Navegación |
+| Marco Camana | feature/integrante-6 | feature/marco-camana | Notificaciones |
+| Nilton Taboada | feature/integrante-7 | feature/nilton-taboada | Ofertas/Búsqueda |
+| Carlos Quispe | feature/integrante-8 | feature/carlos-quispe | Reseñas/Extras |
 
 ---
 

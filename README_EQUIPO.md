@@ -45,14 +45,14 @@ Hemos creado 3 guías completas para ti:
 │   └── Aquí se integra el trabajo de todos
 │
 └── 🔵 Ramas de Trabajo Individual:
-    ├── feature/integrante-1 → Autenticación
-    ├── feature/integrante-2 → Perfil Trabajador
-    ├── feature/integrante-3 → Perfil Empleador
-    ├── feature/integrante-4 → Sistema Chat
-    ├── feature/integrante-5 → Navegación Principal
-    ├── feature/integrante-6 → Notificaciones
-    ├── feature/integrante-7 → Ofertas/Búsqueda
-    └── feature/integrante-8 → Reseñas/Extras
+    ├── feature/leonel-paitan → Leonel (Autenticación)
+    ├── feature/jefferson-huicho → Jefferson (Perfil Trabajador)
+    ├── feature/schiang-chavez → Schiang (Perfil Empleador)
+    ├── feature/suker-llamocca → Suker (Sistema Chat)
+    ├── feature/jhoel-quica → Jhoel (Navegación Principal)
+    ├── feature/marco-camana → Marco (Notificaciones)
+    ├── feature/nilton-taboada → Nilton (Ofertas/Búsqueda)
+    └── feature/carlos-quispe → Carlos (Reseñas/Extras)
 ```
 
 ---
@@ -69,8 +69,8 @@ cd ChambAYA-APP
 # 2. Ver qué ramas hay disponibles
 git branch -a
 
-# 3. Cambiar a TU rama asignada (ejemplo: integrante-1)
-git checkout feature/integrante-1
+# 3. Cambiar a TU rama asignada (ejemplo: Leonel)
+git checkout feature/leonel-paitan
 
 # 4. Abrir el proyecto en Android Studio
 # File > Open > Seleccionar la carpeta del proyecto
@@ -80,7 +80,7 @@ git checkout feature/integrante-1
 
 ```bash
 # ANTES de empezar a trabajar:
-git checkout feature/integrante-X
+git checkout feature/tu-nombre-apellido
 git pull origin develop
 
 # Trabajar normalmente en Android Studio...
@@ -89,7 +89,7 @@ git pull origin develop
 git status                                    # Ver qué cambió
 git add .                                     # Agregar todos los cambios
 git commit -m "feat: descripción del cambio"  # Guardar cambios
-git push origin feature/integrante-X          # Subir a GitHub
+git push origin feature/tu-nombre-apellido          # Subir a GitHub
 ```
 
 ---
@@ -247,14 +247,14 @@ Si eres nuevo en Git:
 
 | Rama | Responsable | Estado | Última Actualización |
 |------|-------------|--------|---------------------|
-| feature/integrante-1 | (nombre) | 🟡 En progreso | - |
-| feature/integrante-2 | (nombre) | 🟡 En progreso | - |
-| feature/integrante-3 | (nombre) | 🟡 En progreso | - |
-| feature/integrante-4 | (nombre) | 🟡 En progreso | - |
-| feature/integrante-5 | (nombre) | 🟡 En progreso | - |
-| feature/integrante-6 | (nombre) | 🟡 En progreso | - |
-| feature/integrante-7 | (nombre) | 🟡 En progreso | - |
-| feature/integrante-8 | (nombre) | 🟡 En progreso | - |
+| feature/leonel-paitan | Leonel Paitan | 🟡 En progreso | - |
+| feature/jefferson-huicho | Jefferson Huicho | 🟡 En progreso | - |
+| feature/schiang-chavez | Schiang Chavez | 🟡 En progreso | - |
+| feature/suker-llamocca | Suker Llamocca | 🟡 En progreso | - |
+| feature/jhoel-quica | Jhoel Quica | 🟡 En progreso | - |
+| feature/marco-camana | Marco Camana | 🟡 En progreso | - |
+| feature/nilton-taboada | Nilton Taboada | 🟡 En progreso | - |
+| feature/carlos-quispe | Carlos Quispe | 🟡 En progreso | - |
 
 **Leyenda:**
 - 🟢 Completado
@@ -289,14 +289,14 @@ Si eres nuevo en Git:
 ## 🏆 Créditos
 
 **Equipo de Desarrollo ChambAYA:**
-1. Integrante 1 - Autenticación
-2. Integrante 2 - Perfil Trabajador
-3. Integrante 3 - Perfil Empleador
-4. Integrante 4 - Sistema Chat
-5. Integrante 5 - Navegación
-6. Integrante 6 - Notificaciones
-7. Integrante 7 - Ofertas/Búsqueda
-8. Integrante 8 - Reseñas/Extras
+1. Leonel Paitan - Autenticación
+2. Jefferson Huicho - Perfil Trabajador
+3. Schiang Chavez - Perfil Empleador
+4. Suker Llamocca - Sistema Chat
+5. Jhoel Quica - Navegación
+6. Marco Camana - Notificaciones
+7. Nilton Taboada - Ofertas/Búsqueda
+8. Carlos Quispe - Reseñas/Extras
 
 ---
 

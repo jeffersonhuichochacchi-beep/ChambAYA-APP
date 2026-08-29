@@ -7,14 +7,14 @@
 - **`develop`** - Rama de desarrollo (integración de todas las características)
 
 ### Ramas de Trabajo Individual (8 integrantes)
-- `feature/integrante-1`
-- `feature/integrante-2`
-- `feature/integrante-3`
-- `feature/integrante-4`
-- `feature/integrante-5`
-- `feature/integrante-6`
-- `feature/integrante-7`
-- `feature/integrante-8`
+- `feature/leonel-paitan` - Leonel Paitan
+- `feature/jefferson-huicho` - Jefferson Huicho
+- `feature/schiang-chavez` - Schiang Chavez
+- `feature/suker-llamocca` - Suker Llamocca
+- `feature/jhoel-quica` - Jhoel Quica
+- `feature/marco-camana` - Marco Camana
+- `feature/nilton-taboada` - Nilton Taboada
+- `feature/carlos-quispe` - Carlos Quispe
 
 ---
 
@@ -22,11 +22,16 @@
 
 Cada integrante debe trabajar en su rama asignada. Recomendamos renombrar las ramas con nombres descriptivos:
 
-| Integrante | Rama Actual | Sugerencia de Renombre |
-|------------|-------------|------------------------|
-| Integrante 1 | feature/integrante-1 | feature/[nombre]-[funcionalidad] |
-| Integrante 2 | feature/integrante-2 | feature/[nombre]-[funcionalidad] |
-| ... | ... | ... |
+| Integrante | Rama Actual | Área de Trabajo |
+|------------|-------------|-----------------|
+| Leonel Paitan | feature/leonel-paitan | Autenticación y Onboarding |
+| Jefferson Huicho | feature/jefferson-huicho | Perfil Trabajador |
+| Schiang Chavez | feature/schiang-chavez | Perfil Empleador |
+| Suker Llamocca | feature/suker-llamocca | Sistema Chat |
+| Jhoel Quica | feature/jhoel-quica | Navegación Principal |
+| Marco Camana | feature/marco-camana | Notificaciones |
+| Nilton Taboada | feature/nilton-taboada | Ofertas/Búsqueda |
+| Carlos Quispe | feature/carlos-quispe | Reseñas/Extras |
 
 ---
 
@@ -42,15 +47,15 @@ cd ChambAYA-APP
 # Ver todas las ramas disponibles
 git branch -a
 
-# Cambiar a tu rama asignada (ejemplo: integrante-1)
-git checkout feature/integrante-1
+# Cambiar a tu rama asignada (ejemplo: leonel-paitan)
+git checkout feature/leonel-paitan
 ```
 
 ### 2️⃣ Antes de Empezar a Trabajar (Todos los días)
 
 ```bash
 # Asegurarte de estar en tu rama
-git checkout feature/integrante-1
+git checkout feature/leonel-paitan
 
 # Actualizar tu rama con los últimos cambios de develop
 git pull origin develop
@@ -74,7 +79,7 @@ git add .
 git commit -m "feat: descripción clara de lo que hiciste"
 
 # Subir cambios a tu rama en GitHub
-git push origin feature/integrante-1
+git push origin feature/tu-rama
 ```
 
 ### 4️⃣ Crear Pull Request (Cuando termines una funcionalidad)
@@ -83,7 +88,7 @@ git push origin feature/integrante-1
 2. Haz clic en "Pull requests" → "New pull request"
 3. Selecciona:
    - Base: `develop`
-   - Compare: `feature/integrante-X` (tu rama)
+   - Compare: `feature/tu-rama` (tu rama)
 4. Escribe un título y descripción clara
 5. Solicita revisión de al menos 1 compañero
 6. Espera aprobación antes de hacer merge
@@ -92,7 +97,7 @@ git push origin feature/integrante-1
 
 ```bash
 # Volver a tu rama
-git checkout feature/integrante-1
+git checkout feature/tu-rama
 
 # Actualizar con los cambios integrados en develop
 git pull origin develop
