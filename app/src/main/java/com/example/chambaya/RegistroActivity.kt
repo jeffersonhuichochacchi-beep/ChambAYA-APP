@@ -4,11 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowInsetsControllerCompat
-import com.example.chambaya.databinding.ActividadLoginBinding
+import com.example.chambaya.databinding.ActividadRegistroBinding
 
-class LoginActivity : AppCompatActivity() {
+class RegistroActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActividadLoginBinding
+    private lateinit var binding: ActividadRegistroBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,11 +17,11 @@ class LoginActivity : AppCompatActivity() {
         WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = false
         WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightNavigationBars = true
 
-        binding = ActividadLoginBinding.inflate(layoutInflater)
+        binding = ActividadRegistroBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.btnSignIn.setOnClickListener { openMain() }
-        binding.tvBottomSignup.setOnClickListener { openRegister() }
+        binding.btnCreateAccount.setOnClickListener { openMain() }
+        binding.tvBottomSignin.setOnClickListener { openLogin() }
     }
 
     private fun openMain() {
@@ -29,7 +29,8 @@ class LoginActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun openRegister() {
-        startActivity(Intent(this, RegistroActivity::class.java))
+    private fun openLogin() {
+        startActivity(Intent(this, LoginActivity::class.java))
+        finish()
     }
 }
