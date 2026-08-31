@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="google_maps_api_key">YOUR_GOOGLE_MAPS_API_KEY</string>
     <string name="action_change_language">Change language</string>
     <string name="welcome_slide_1_title">Welcome to ChambAYA!</string>
     <string name="welcome_slide_1_subtitle">The ultimate app for making your daily work as convenient\nand smooth as possible</string>
