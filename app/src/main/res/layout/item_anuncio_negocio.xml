@@ -5,8 +5,8 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="12dp"
     app:cardCornerRadius="14dp"
-    app:cardElevation="2dp"
-    app:strokeColor="@color/primary_light"
+    app:cardElevation="4dp"
+    app:strokeColor="@color/primary_container"
     app:strokeWidth="1dp"
     app:cardBackgroundColor="@color/surface_light">
 
@@ -46,7 +46,7 @@
                 android:background="@drawable/bg_tag_featured"
                 android:fontFamily="sans-serif-bold"
                 android:text="15% DSCTO"
-                android:textColor="@color/fire_orange"
+                android:textColor="@color/primary"
                 android:textSize="11sp" />
         </LinearLayout>
 
