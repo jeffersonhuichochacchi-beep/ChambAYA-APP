@@ -23,22 +23,22 @@ class AyacuchoMapView @JvmOverloads constructor(
 
     // Drawing paints
     private val backgroundPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.parseColor("#F4F6F9")
+        color = Color.parseColor("#F5F7FF")
     }
 
     private val gridPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.parseColor("#E2E8F0")
+        color = Color.parseColor("#DDE6FF")
         strokeWidth = 2f
         style = Paint.Style.STROKE
     }
 
     private val districtAreaPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.parseColor("#EDE9FE")
+        color = Color.parseColor("#EDEBFF")
         style = Paint.Style.FILL
     }
 
     private val roadPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.parseColor("#CBD5E1")
+        color = Color.parseColor("#B8C7F5")
         strokeWidth = 8f
         style = Paint.Style.STROKE
         strokeCap = Paint.Cap.ROUND
@@ -52,17 +52,17 @@ class AyacuchoMapView @JvmOverloads constructor(
     }
 
     private val pinPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.parseColor("#E65100")
+        color = Color.parseColor("#5046E5")
         style = Paint.Style.FILL
     }
 
     private val pinFeaturedPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.parseColor("#FF3D00")
+        color = Color.parseColor("#0891B2")
         style = Paint.Style.FILL
     }
 
     private val pinSelectedPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.parseColor("#1A237E")
+        color = Color.parseColor("#312E81")
         style = Paint.Style.FILL
     }
 
@@ -74,7 +74,7 @@ class AyacuchoMapView @JvmOverloads constructor(
     }
 
     private val pulsePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.parseColor("#FFCC80")
+        color = Color.parseColor("#A5B4FC")
         style = Paint.Style.STROKE
         strokeWidth = 4f
     }
@@ -183,7 +183,7 @@ class AyacuchoMapView @JvmOverloads constructor(
             // Pulse animation for featured or selected jobs
             if (job.isFeatured || isSelected) {
                 pulsePaint.alpha = pulseAlpha
-                pulsePaint.color = if (isSelected) Color.parseColor("#3F51B5") else Color.parseColor("#FF5722")
+                pulsePaint.color = if (isSelected) Color.parseColor("#312E81") else Color.parseColor("#0891B2")
                 canvas.drawCircle(pos.x, pos.y, 35f + pulseRadius, pulsePaint)
             }
 

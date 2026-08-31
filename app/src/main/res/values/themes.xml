@@ -46,5 +46,10 @@
         <item name="itemRippleColor">@color/primary_container</item>
         <item name="elevation">8dp</item>
         <item name="backgroundTint">@color/surface_light</item>
+        <item name="itemActiveIndicatorStyle">@style/Widget.ChambAYA.BottomNav.ActiveIndicator</item>
+    </style>
+
+    <style name="Widget.ChambAYA.BottomNav.ActiveIndicator" parent="">
+        <item name="android:color">@color/primary_container</item>
     </style>
 </resources>

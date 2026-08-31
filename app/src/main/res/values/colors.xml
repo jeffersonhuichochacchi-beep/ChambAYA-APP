@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Brand Primary - Warm Ayacucho Terracotta / Sun Orange -->
-    <color name="primary">#E65100</color>
-    <color name="primary_dark">#BF360C</color>
-    <color name="primary_light">#FFE082</color>
-    <color name="primary_container">#FFF3E0</color>
-    <color name="on_primary_container">#4E1A00</color>
+    <!-- Brand Primary - Professional Blue/Violet -->
+    <color name="primary">#5046E5</color>
+    <color name="primary_dark">#312E81</color>
+    <color name="primary_light">#7C8CF8</color>
+    <color name="primary_container">#EDEBFF</color>
+    <color name="on_primary_container">#1E1B4B</color>
 
     <!-- Secondary - Deep Navy / Indigo -->
-    <color name="secondary">#1A237E</color>
-    <color name="secondary_dark">#0D1350</color>
-    <color name="secondary_light">#3949AB</color>
-    <color name="secondary_container">#E8EAF6</color>
-    <color name="on_secondary_container">#0A1045</color>
+    <color name="secondary">#0891B2</color>
+    <color name="secondary_dark">#155E75</color>
+    <color name="secondary_light">#22D3EE</color>
+    <color name="secondary_container">#DDF7FF</color>
+    <color name="on_secondary_container">#083344</color>
 
     <!-- Accent - Gold / Amber for Featured and Ratings -->
     <color name="accent_gold">#FFB300</color>
@@ -32,10 +32,10 @@
     <!-- Neutrals & Surfaces -->
     <color name="white">#FFFFFF</color>
     <color name="black">#121212</color>
-    <color name="background_light">#F6F8FA</color>
+    <color name="background_light">#F5F7FF</color>
     <color name="surface_light">#FFFFFF</color>
-    <color name="surface_variant">#EEF2F6</color>
-    <color name="divider">#E0E4EA</color>
+    <color name="surface_variant">#EEF2FF</color>
+    <color name="divider">#DEE5F8</color>
 
     <!-- Text Colors -->
     <color name="text_primary">#1E293B</color>
@@ -45,6 +45,9 @@
     <color name="login_red">#5046E5</color>
     <color name="login_hint">#A9A9A9</color>
     <color name="login_text_secondary">#666666</color>
+    <color name="header_blue_start">#5046E5</color>
+    <color name="header_blue_end">#0891B2</color>
+    <color name="surface_blue">#F8FAFF</color>
 
     <!-- Category Tag Colors -->
     <color name="cat_construction">#D97706</color>

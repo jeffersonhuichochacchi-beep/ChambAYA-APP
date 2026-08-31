@@ -10,35 +10,44 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp"
         android:paddingBottom="100dp">
 
-        <!-- Header -->
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-black"
-            android:text="Publicar Oferta de Chamba"
-            android:textColor="@color/text_primary"
-            android:textSize="20sp" />
+            android:background="@drawable/bg_main_header"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingTop="18dp"
+            android:paddingBottom="20dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:fontFamily="sans-serif"
-            android:text="Conecta con trabajadores independientes de Ayacucho en minutos"
-            android:textColor="@color/text_secondary"
-            android:textSize="13sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:text="Publicar Oferta de Chamba"
+                android:textColor="@color/white"
+                android:textSize="22sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="sans-serif"
+                android:text="Conecta con trabajadores independientes de Ayacucho en minutos"
+                android:textColor="@color/primary_container"
+                android:textSize="13sp" />
+        </LinearLayout>
 
         <!-- Form Card -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
             android:layout_marginTop="16dp"
             app:cardCornerRadius="16dp"
-            app:cardElevation="2dp"
-            app:strokeColor="@color/divider"
+            app:cardElevation="5dp"
+            app:strokeColor="@color/primary_container"
             app:strokeWidth="1dp"
             app:cardBackgroundColor="@color/surface_light">
 
@@ -247,6 +256,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
             android:layout_marginTop="20dp"
             android:fontFamily="sans-serif-bold"
             android:text="Elige el tipo de publicación"
@@ -257,6 +267,7 @@
             android:id="@+id/rgPublicationType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp">
 
             <!-- Plan Basic S/2 -->
@@ -266,8 +277,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 app:cardCornerRadius="14dp"
-                app:cardElevation="1dp"
-                app:strokeColor="@color/divider"
+                app:cardElevation="3dp"
+                app:strokeColor="@color/primary_container"
                 app:strokeWidth="1dp"
                 app:cardBackgroundColor="@color/surface_light">
 
@@ -324,10 +335,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="14dp"
-                app:cardElevation="2dp"
-                app:strokeColor="@color/accent_gold"
+                app:cardElevation="4dp"
+                app:strokeColor="@color/primary"
                 app:strokeWidth="1.5dp"
-                app:cardBackgroundColor="@color/accent_gold_light">
+                app:cardBackgroundColor="@color/primary_container">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -359,7 +370,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif-black"
                                 android:text="Publicación Destacada"
-                                android:textColor="@color/fire_orange"
+                                android:textColor="@color/primary"
                                 android:textSize="14sp" />
 
                             <ImageView
@@ -383,7 +394,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-black"
                         android:text="S/ 5.00"
-                        android:textColor="@color/fire_orange"
+                        android:textColor="@color/primary"
                         android:textSize="16sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -394,6 +405,7 @@
             android:id="@+id/btnSubmitPublish"
             android:layout_width="match_parent"
             android:layout_height="54dp"
+            android:layout_marginHorizontal="16dp"
             android:layout_marginTop="20dp"
             android:fontFamily="sans-serif-bold"
             android:text="Publicar Chamba Ahora"
