@@ -280,6 +280,7 @@
                 android:id="@+id/tvBottomSignup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
                 android:fontFamily="sans-serif-black"
                 android:text="@string/auth_signup"
                 android:textColor="@color/login_red"
