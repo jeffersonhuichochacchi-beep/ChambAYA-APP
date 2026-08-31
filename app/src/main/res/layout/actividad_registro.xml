@@ -192,11 +192,14 @@
                         android:textSize="14sp" />
 
                     <ImageView
+                        android:id="@+id/ivTogglePassword"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_gravity="center_vertical|end"
                         android:layout_marginEnd="18dp"
+                        android:clickable="true"
                         android:contentDescription="@string/auth_show_password"
+                        android:focusable="true"
                         android:src="@drawable/ic_login_eye_off" />
                 </FrameLayout>
 
@@ -235,11 +238,14 @@
                         android:textSize="14sp" />
 
                     <ImageView
+                        android:id="@+id/ivToggleConfirmPassword"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_gravity="center_vertical|end"
                         android:layout_marginEnd="18dp"
+                        android:clickable="true"
                         android:contentDescription="@string/auth_show_password"
+                        android:focusable="true"
                         android:src="@drawable/ic_login_eye_off" />
                 </FrameLayout>
 

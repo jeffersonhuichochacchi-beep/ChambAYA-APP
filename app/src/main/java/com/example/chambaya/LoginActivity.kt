@@ -2,6 +2,9 @@ package com.example.chambaya
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.method.PasswordTransformationMethod
+import android.widget.EditText
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowInsetsControllerCompat
 import com.example.chambaya.databinding.ActividadLoginBinding
@@ -22,6 +25,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.btnSignIn.setOnClickListener { openMain() }
+        setupPasswordToggle(binding.etPassword, binding.ivTogglePassword)
     }
 
     private fun openMain() {
@@ -29,4 +33,18 @@ class LoginActivity : AppCompatActivity() {
         finish()
     }
 
+    private fun setupPasswordToggle(editText: EditText, toggle: ImageView) {
+        var isPasswordVisible = false
+        editText.transformationMethod = PasswordTransformationMethod.getInstance()
+
+        toggle.setOnClickListener {
+            isPasswordVisible = !isPasswordVisible
+            editText.transformationMethod = if (isPasswordVisible) {
+                null
+            } else {
+                PasswordTransformationMethod.getInstance()
+            }
+            editText.setSelection(editText.text?.length ?: 0)
+        }
+    }
 }
