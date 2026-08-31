@@ -22,7 +22,6 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.btnSignIn.setOnClickListener { openMain() }
-        binding.tvBottomSignup.setOnClickListener { openRegister() }
     }
 
     private fun openMain() {
@@ -30,7 +29,4 @@ class LoginActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun openRegister() {
-        startActivity(Intent(this, RegistroActivity::class.java))
-    }
 }
