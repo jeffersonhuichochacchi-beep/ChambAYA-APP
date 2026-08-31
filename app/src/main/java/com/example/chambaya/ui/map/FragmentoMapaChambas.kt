@@ -3,6 +3,8 @@ package com.example.chambaya.ui.map
 import android.content.Context
 import android.content.Intent
 import android.graphics.*
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,13 +17,15 @@ import com.example.chambaya.data.repository.ChambayaRepository
 import com.example.chambaya.databinding.FragmentoMapaChambasBinding
 import com.example.chambaya.ui.adapters.AdaptadorTrabajo
 import com.example.chambaya.ui.jobs.ActividadDetalleTrabajo
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.*
+import org.osmdroid.config.Configuration
+import org.osmdroid.tileprovider.tilesource.XYTileSource
+import org.osmdroid.util.BoundingBox
+import org.osmdroid.util.GeoPoint
+import org.osmdroid.views.CustomZoomButtonsController
+import org.osmdroid.views.overlay.Marker
+import java.io.File
 
-class FragmentoMapaChambas : Fragment(), OnMapReadyCallback {
+class FragmentoMapaChambas : Fragment() {
 
     private var _binding: FragmentoMapaChambasBinding? = null
     private val binding get() = _binding!!
@@ -29,13 +33,41 @@ class FragmentoMapaChambas : Fragment(), OnMapReadyCallback {
     private lateinit var repository: ChambayaRepository
     private lateinit var carouselAdapter: AdaptadorTrabajo
     private var selectedDistrict: String = "Todos"
-    
-    private var googleMap: GoogleMap? = null
-    private val markersMap = mutableMapOf<String, Marker>()
     private var selectedJobId: String? = null
 
-    // Centro de referencia: Huamanga / Plaza Mayor de Ayacucho
-    private val centerHuamanga = LatLng(-13.1631, -74.2236)
+    // Servidor de mapas moderno, rápido y sin bloqueos (CartoDB Voyager)
+    private val cartoVoyagerTileSource = XYTileSource(
+        "CartoVoyager",
+        0, 20, 256, ".png",
+        arrayOf(
+            "https://a.basemaps.cartocdn.com/rastertiles/voyager/",
+            "https://b.basemaps.cartocdn.com/rastertiles/voyager/",
+            "https://c.basemaps.cartocdn.com/rastertiles/voyager/"
+        )
+    )
+
+    // Coordenadas de Huamanga / Plaza Mayor de Ayacucho
+    private val centerHuamanga = GeoPoint(-13.1631, -74.2236)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        
+        val ctx = requireContext().applicationContext
+        val config = Configuration.getInstance()
+        val osmBaseDir = File(ctx.cacheDir, "osmdroid")
+        if (!osmBaseDir.exists()) osmBaseDir.mkdirs()
+
+        // Limpiar caché previa para borrar imágenes de error 403
+        val tileCache = File(osmBaseDir, "tiles")
+        if (tileCache.exists()) {
+            tileCache.deleteRecursively()
+        }
+
+        config.osmdroidBasePath = osmBaseDir
+        config.osmdroidTileCache = File(osmBaseDir, "tiles")
+        config.userAgentValue = "ChambAYA_Ayacucho_Android_App/1.0"
+        config.load(ctx, ctx.getSharedPreferences("osmdroid_prefs", Context.MODE_PRIVATE))
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,53 +82,23 @@ class FragmentoMapaChambas : Fragment(), OnMapReadyCallback {
         super.onViewCreated(view, savedInstanceState)
         repository = ChambayaRepository.getInstance(requireContext())
 
+        setupMap()
         setupCarousel()
         setupListeners()
-        initGoogleMap()
-    }
-
-    override fun onResume() {
-        super.onResume()
         loadMapData()
     }
 
-    private fun initGoogleMap() {
-        val mapFragment = childFragmentManager.findFragmentById(R.id.googleMapFragment) as? SupportMapFragment
-        mapFragment?.getMapAsync(this)
-    }
+    private fun setupMap() {
+        val mapView = binding.osmMapView
+        // Usar fuente de mosaicos CartoVoyager (estilo moderno y libre de restricciones)
+        mapView.setTileSource(cartoVoyagerTileSource)
+        mapView.setMultiTouchControls(true)
+        mapView.zoomController.setVisibility(CustomZoomButtonsController.Visibility.NEVER)
+        mapView.setDestroyMode(false)
 
-    override fun onMapReady(map: GoogleMap) {
-        googleMap = map
-
-        // Configuración visual y controles del mapa
-        with(map.uiSettings) {
-            isZoomControlsEnabled = false
-            isMyLocationButtonEnabled = false
-            isMapToolbarEnabled = false
-            isCompassEnabled = true
-        }
-
-        // Mover cámara a Huamanga, Ayacucho
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(centerHuamanga, 14.5f))
-
-        // Interacción con marcadores
-        map.setOnMarkerClickListener { marker ->
-            val job = marker.tag as? JobOffer
-            if (job != null) {
-                selectJob(job, fromMapMarker = true)
-                true
-            } else {
-                false
-            }
-        }
-
-        map.setOnMapClickListener {
-            selectedJobId = null
-            binding.tvMapHint.text = "💡 Toca cualquier punto en el mapa para ver detalles"
-            refreshMarkers()
-        }
-
-        loadMapData()
+        val mapController = mapView.controller
+        mapController.setZoom(15.0)
+        mapController.setCenter(centerHuamanga)
     }
 
     private fun setupCarousel() {
@@ -123,16 +125,16 @@ class FragmentoMapaChambas : Fragment(), OnMapReadyCallback {
         selectedJobId = job.id
         binding.tvMapHint.text = "🎯 Chamba seleccionada: ${job.title}"
 
-        // Si se hizo click desde el marcador, scrollear carrusel
+        // Si se seleccionó desde el mapa, scrollear carrusel
         val jobs = repository.getJobs(district = selectedDistrict)
         val index = jobs.indexOfFirst { it.id == job.id }
         if (index >= 0 && fromMapMarker) {
             binding.rvMapJobsCarousel.smoothScrollToPosition(index)
         }
 
-        // Animar cámara hacia el punto
-        val targetPos = LatLng(job.latitude, job.longitude)
-        googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(targetPos, 16f))
+        // Mover mapa hacia la ubicación de la oferta
+        val targetPoint = GeoPoint(job.latitude, job.longitude)
+        binding.osmMapView.controller.animateTo(targetPoint, 16.0, 500L)
 
         refreshMarkers()
     }
@@ -157,73 +159,92 @@ class FragmentoMapaChambas : Fragment(), OnMapReadyCallback {
 
         refreshMarkers()
 
-        // Centrar vista en los resultados
-        if (jobs.isNotEmpty() && googleMap != null) {
+        // Ajuste seguro de cámara
+        binding.osmMapView.post {
+            if (_binding == null) return@post
+            val mapView = binding.osmMapView
+            if (mapView.width <= 0 || mapView.height <= 0) return@post
+
             if (jobs.size == 1) {
                 val singleJob = jobs.first()
-                googleMap?.animateCamera(
-                    CameraUpdateFactory.newLatLngZoom(
-                        LatLng(singleJob.latitude, singleJob.longitude),
-                        15.5f
-                    )
+                mapView.controller.animateTo(
+                    GeoPoint(singleJob.latitude, singleJob.longitude),
+                    15.5,
+                    500L
                 )
-            } else {
-                val boundsBuilder = LatLngBounds.Builder()
-                jobs.forEach { boundsBuilder.include(LatLng(it.latitude, it.longitude)) }
+            } else if (jobs.isNotEmpty()) {
+                val latitudes = jobs.map { it.latitude }
+                val longitudes = jobs.map { it.longitude }
+                val maxLat = latitudes.maxOrNull() ?: centerHuamanga.latitude
+                val minLat = latitudes.minOrNull() ?: centerHuamanga.latitude
+                val maxLon = longitudes.maxOrNull() ?: centerHuamanga.longitude
+                val minLon = longitudes.minOrNull() ?: centerHuamanga.longitude
+
                 try {
-                    val bounds = boundsBuilder.build()
-                    googleMap?.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 120))
+                    val boundingBox = BoundingBox(
+                        maxLat + 0.008,
+                        maxLon + 0.008,
+                        minLat - 0.008,
+                        minLon - 0.008
+                    )
+                    mapView.zoomToBoundingBox(boundingBox, true, 80)
                 } catch (e: Exception) {
-                    googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(centerHuamanga, 14f))
+                    mapView.controller.setCenter(centerHuamanga)
                 }
+            } else {
+                mapView.controller.setCenter(centerHuamanga)
             }
         }
     }
 
     private fun refreshMarkers() {
-        val map = googleMap ?: return
-        map.clear()
-        markersMap.clear()
+        val mapView = _binding?.osmMapView ?: return
+        mapView.overlays.clear()
 
         val jobs = repository.getJobs(district = selectedDistrict)
         val context = context ?: return
 
         for (job in jobs) {
             val isSelected = job.id == selectedJobId
-            val position = LatLng(job.latitude, job.longitude)
-            val icon = createCustomMarkerBitmap(
+            val marker = Marker(mapView)
+            marker.position = GeoPoint(job.latitude, job.longitude)
+            marker.title = job.title
+            marker.snippet = "S/ ${job.payment.toInt()} • ${job.district}"
+            marker.relatedObject = job
+
+            // Generar icono personalizado con diseño ChambAYA
+            marker.icon = createCustomMarkerDrawable(
                 context = context,
                 price = job.payment,
                 isFeatured = job.isFeatured,
                 isSelected = isSelected
             )
+            marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
 
-            val markerOptions = MarkerOptions()
-                .position(position)
-                .title(job.title)
-                .snippet("S/ ${job.payment.toInt()} • ${job.district}")
-                .icon(icon)
-                .anchor(0.5f, 1.0f)
-                .zIndex(if (isSelected) 10f else if (job.isFeatured) 5f else 1f)
-
-            val marker = map.addMarker(markerOptions)
-            if (marker != null) {
-                marker.tag = job
-                markersMap[job.id] = marker
+            marker.setOnMarkerClickListener { m, _ ->
+                val clickedJob = m.relatedObject as? JobOffer
+                if (clickedJob != null) {
+                    selectJob(clickedJob, fromMapMarker = true)
+                }
+                true
             }
+
+            mapView.overlays.add(marker)
         }
+
+        mapView.invalidate()
     }
 
     /**
      * Genera un pin de mapa personalizado estilo Badge/Pill con el precio (S/ ...)
      * y paleta de colores ChambAYA (Índigo para normal, Cian para destacada, Índigo profundo para seleccionada).
      */
-    private fun createCustomMarkerBitmap(
+    private fun createCustomMarkerDrawable(
         context: Context,
         price: Double,
         isFeatured: Boolean,
         isSelected: Boolean
-    ): BitmapDescriptor {
+    ): Drawable {
         val text = "S/${price.toInt()}"
         val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             textSize = dpToPx(context, 12f)
@@ -292,15 +313,26 @@ class FragmentoMapaChambas : Fragment(), OnMapReadyCallback {
         val textY = (pillHeight + strokeWidth + textBounds.height()) / 2f - dpToPx(context, 1f)
         canvas.drawText(text, textX, textY, paint)
 
-        return BitmapDescriptorFactory.fromBitmap(bitmap)
+        return BitmapDrawable(context.resources, bitmap)
     }
 
     private fun dpToPx(context: Context, dp: Float): Float {
         return dp * context.resources.displayMetrics.density
     }
 
+    override fun onResume() {
+        super.onResume()
+        binding.osmMapView.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.osmMapView.onPause()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
+        binding.osmMapView.onDetach()
         _binding = null
     }
 }

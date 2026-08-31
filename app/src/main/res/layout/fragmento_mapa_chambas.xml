@@ -6,10 +6,9 @@
     android:layout_height="match_parent"
     android:background="@color/background_light">
 
-    <!-- Google Maps background. The existing ChambAYA controls stay layered above it. -->
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/googleMapFragment"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
+    <!-- Real Interactive OpenStreetMap of Ayacucho (No API Key or credit card required) -->
+    <org.osmdroid.views.MapView
+        android:id="@+id/osmMapView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
