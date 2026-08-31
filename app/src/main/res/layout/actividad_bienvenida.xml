@@ -42,7 +42,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:background="@drawable/bg_welcome_language"
-        android:contentDescription="Cambiar idioma"
+        android:contentDescription="@string/action_change_language"
         android:padding="12dp"
         android:scaleType="centerInside"
         android:src="@drawable/ic_language_globe"
@@ -74,7 +74,7 @@
         android:fontFamily="sans-serif-black"
         android:gravity="center"
         android:includeFontPadding="false"
-        android:text="Welcome to ChambAYA!"
+        android:text="@string/welcome_slide_1_title"
         android:textColor="@color/black"
         android:textSize="31sp"
         app:layout_constraintBottom_toTopOf="@id/tvWelcomeSubtitle"
@@ -90,7 +90,7 @@
         android:fontFamily="sans-serif"
         android:gravity="center"
         android:lineSpacingExtra="7dp"
-        android:text="The ultimate app for making your daily work as convenient\nand smooth as possible"
+        android:text="@string/welcome_slide_1_subtitle"
         android:textColor="@color/text_secondary"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@id/indicatorGroup"
@@ -157,7 +157,7 @@
         android:fontFamily="sans-serif-medium"
         android:insetTop="0dp"
         android:insetBottom="0dp"
-        android:text="Get Started"
+        android:text="@string/welcome_get_started"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="17sp"
@@ -183,7 +183,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
             android:includeFontPadding="false"
-            android:text="Don't have an account? "
+            android:text="@string/auth_no_account"
             android:textColor="@color/black"
             android:textSize="16sp" />
 
@@ -193,7 +193,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-black"
             android:includeFontPadding="false"
-            android:text="Signup"
+            android:text="@string/auth_signup"
             android:textColor="@color/black"
             android:textSize="16sp" />
     </LinearLayout>

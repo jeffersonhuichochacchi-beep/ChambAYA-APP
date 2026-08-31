@@ -11,6 +11,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActividadLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        IdiomaManager.applySavedLanguage(this)
         super.onCreate(savedInstanceState)
         window.statusBarColor = getColor(R.color.login_red)
         window.navigationBarColor = getColor(R.color.surface_light)

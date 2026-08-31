@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_change_language">Change language</string>
+    <string name="welcome_slide_1_title">Welcome to ChambAYA!</string>
+    <string name="welcome_slide_1_subtitle">The ultimate app for making your daily work as convenient\nand smooth as possible</string>
+    <string name="welcome_slide_2_title">Find local jobs fast</string>
+    <string name="welcome_slide_2_subtitle">Discover trusted chambas near you and apply\nwith just a few taps</string>
+    <string name="welcome_slide_3_title">Work around your city</string>
+    <string name="welcome_slide_3_subtitle">Explore opportunities on the map and choose\nthe best route for your day</string>
+    <string name="welcome_slide_4_title">Chat and get hired</string>
+    <string name="welcome_slide_4_subtitle">Talk directly with employers, confirm details\nand start with confidence</string>
+    <string name="welcome_get_started">Get Started</string>
+    <string name="auth_email_label">Email Address</string>
+    <string name="auth_email_hint">Enter your email address</string>
+    <string name="auth_password_label">Password</string>
+    <string name="auth_password_hint">Enter your password</string>
+    <string name="auth_confirm_password_label">Confirm Password</string>
+    <string name="auth_confirm_password_hint">Confirm your password</string>
+    <string name="auth_full_name_label">Full Name</string>
+    <string name="auth_full_name_hint">Enter your full name</string>
+    <string name="auth_show_password">Show password</string>
+    <string name="auth_forgot_password">Forgot password?</string>
+    <string name="auth_terms">I accept terms and privacy</string>
+    <string name="auth_signin">Sign in</string>
+    <string name="auth_signup">Sign up</string>
+    <string name="auth_or_continue">or continue with</string>
+    <string name="auth_continue_google">Continue with Google</string>
+    <string name="auth_no_account">Don\'t have an account? </string>
+    <string name="auth_have_account">Already have an account? </string>
+</resources>

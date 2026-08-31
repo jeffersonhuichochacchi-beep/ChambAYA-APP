@@ -17,30 +17,8 @@ class BienvenidaActivity : AppCompatActivity() {
     private var currentSlideIndex = 0
     private var indicatorAnimator: ValueAnimator? = null
 
-    private val slides = listOf(
-        WelcomeSlide(
-            R.drawable.welcome_illustration,
-            "Welcome to ChambAYA!",
-            "The ultimate app for making your daily work as convenient\nand smooth as possible"
-        ),
-        WelcomeSlide(
-            R.drawable.welcome_illustration_jobs,
-            "Find local jobs fast",
-            "Discover trusted chambas near you and apply\nwith just a few taps"
-        ),
-        WelcomeSlide(
-            R.drawable.welcome_illustration_map,
-            "Work around your city",
-            "Explore opportunities on the map and choose\nthe best route for your day"
-        ),
-        WelcomeSlide(
-            R.drawable.welcome_illustration_chat,
-            "Chat and get hired",
-            "Talk directly with employers, confirm details\nand start with confidence"
-        )
-    )
-
     override fun onCreate(savedInstanceState: Bundle?) {
+        IdiomaManager.applySavedLanguage(this)
         super.onCreate(savedInstanceState)
         binding = ActividadBienvenidaBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -58,6 +36,7 @@ class BienvenidaActivity : AppCompatActivity() {
 
         binding.btnAccessAccount.setOnClickListener { openMain() }
         binding.tvSignup.setOnClickListener { openLogin() }
+        binding.btnLanguage.setOnClickListener { IdiomaManager.toggleLanguage(this) }
         showSlide(0, restartProgress = true)
     }
 
@@ -92,10 +71,10 @@ class BienvenidaActivity : AppCompatActivity() {
 
     private fun showSlide(index: Int, restartProgress: Boolean) {
         currentSlideIndex = index
-        val slide = slides[index]
+        val slide = getSlides()[index]
         binding.imgWelcomeIllustration.setImageResource(slide.imageRes)
-        binding.tvWelcomeTitle.text = slide.title
-        binding.tvWelcomeSubtitle.text = slide.subtitle
+        binding.tvWelcomeTitle.text = getString(slide.titleRes)
+        binding.tvWelcomeSubtitle.text = getString(slide.subtitleRes)
 
         indicators.forEachIndexed { indicatorIndex, indicator ->
             val isSelected = indicatorIndex == index
@@ -143,7 +122,7 @@ class BienvenidaActivity : AppCompatActivity() {
 
                 override fun onAnimationEnd(animation: Animator) {
                     if (!wasCancelled) {
-                    val nextIndex = (currentSlideIndex + 1) % slides.size
+                    val nextIndex = (currentSlideIndex + 1) % getSlides().size
                     showSlide(nextIndex, restartProgress = true)
                 }
                 }
@@ -156,8 +135,31 @@ class BienvenidaActivity : AppCompatActivity() {
 
     private data class WelcomeSlide(
         val imageRes: Int,
-        val title: String,
-        val subtitle: String
+        val titleRes: Int,
+        val subtitleRes: Int
+    )
+
+    private fun getSlides() = listOf(
+        WelcomeSlide(
+            R.drawable.welcome_illustration,
+            R.string.welcome_slide_1_title,
+            R.string.welcome_slide_1_subtitle
+        ),
+        WelcomeSlide(
+            R.drawable.welcome_illustration_jobs,
+            R.string.welcome_slide_2_title,
+            R.string.welcome_slide_2_subtitle
+        ),
+        WelcomeSlide(
+            R.drawable.welcome_illustration_map,
+            R.string.welcome_slide_3_title,
+            R.string.welcome_slide_3_subtitle
+        ),
+        WelcomeSlide(
+            R.drawable.welcome_illustration_chat,
+            R.string.welcome_slide_4_title,
+            R.string.welcome_slide_4_subtitle
+        )
     )
 
     private companion object {

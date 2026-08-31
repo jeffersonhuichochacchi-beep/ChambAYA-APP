@@ -105,7 +105,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-black"
                     android:includeFontPadding="false"
-                    android:text="Full Name"
+                    android:text="@string/auth_full_name_label"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 
@@ -118,7 +118,7 @@
                     android:drawableStart="@drawable/ic_person"
                     android:drawablePadding="14dp"
                     android:fontFamily="sans-serif"
-                    android:hint="Enter your full name"
+                    android:hint="@string/auth_full_name_hint"
                     android:importantForAutofill="yes"
                     android:inputType="textPersonName"
                     android:paddingStart="18dp"
@@ -134,7 +134,7 @@
                     android:layout_marginTop="18dp"
                     android:fontFamily="sans-serif-black"
                     android:includeFontPadding="false"
-                    android:text="Email Address"
+                    android:text="@string/auth_email_label"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 
@@ -147,7 +147,7 @@
                     android:drawableStart="@drawable/ic_login_email"
                     android:drawablePadding="14dp"
                     android:fontFamily="sans-serif"
-                    android:hint="Enter your email address"
+                    android:hint="@string/auth_email_hint"
                     android:importantForAutofill="yes"
                     android:inputType="textEmailAddress"
                     android:paddingStart="18dp"
@@ -163,7 +163,7 @@
                     android:layout_marginTop="18dp"
                     android:fontFamily="sans-serif-black"
                     android:includeFontPadding="false"
-                    android:text="Password"
+                    android:text="@string/auth_password_label"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 
@@ -181,7 +181,7 @@
                         android:drawableStart="@drawable/ic_login_lock"
                         android:drawablePadding="14dp"
                         android:fontFamily="sans-serif"
-                        android:hint="Enter your password"
+                        android:hint="@string/auth_password_hint"
                         android:importantForAutofill="yes"
                         android:inputType="textPassword"
                         android:paddingStart="18dp"
@@ -196,7 +196,7 @@
                         android:layout_height="30dp"
                         android:layout_gravity="center_vertical|end"
                         android:layout_marginEnd="18dp"
-                        android:contentDescription="Mostrar password"
+                        android:contentDescription="@string/auth_show_password"
                         android:src="@drawable/ic_login_eye_off" />
                 </FrameLayout>
 
@@ -206,7 +206,7 @@
                     android:layout_marginTop="18dp"
                     android:fontFamily="sans-serif-black"
                     android:includeFontPadding="false"
-                    android:text="Confirm Password"
+                    android:text="@string/auth_confirm_password_label"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 
@@ -224,7 +224,7 @@
                         android:drawableStart="@drawable/ic_login_lock"
                         android:drawablePadding="14dp"
                         android:fontFamily="sans-serif"
-                        android:hint="Confirm your password"
+                        android:hint="@string/auth_confirm_password_hint"
                         android:importantForAutofill="yes"
                         android:inputType="textPassword"
                         android:paddingStart="18dp"
@@ -239,7 +239,7 @@
                         android:layout_height="30dp"
                         android:layout_gravity="center_vertical|end"
                         android:layout_marginEnd="18dp"
-                        android:contentDescription="Mostrar password"
+                        android:contentDescription="@string/auth_show_password"
                         android:src="@drawable/ic_login_eye_off" />
                 </FrameLayout>
 
@@ -263,7 +263,7 @@
                         android:layout_marginStart="12dp"
                         android:layout_weight="1"
                         android:fontFamily="sans-serif"
-                        android:text="Acepto terminos y privacidad"
+                        android:text="@string/auth_terms"
                         android:textColor="@color/login_text_secondary"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -277,7 +277,7 @@
                     android:fontFamily="sans-serif-bold"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
-                    android:text="Sign up"
+                    android:text="@string/auth_signup"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="18sp"
@@ -303,7 +303,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-medium"
-                        android:text="Continue with Google"
+                        android:text="@string/auth_continue_google"
                         android:textColor="@color/text_primary"
                         android:textSize="17sp" />
                 </LinearLayout>
@@ -321,7 +321,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
-                android:text="Already have an account? "
+                android:text="@string/auth_have_account"
                 android:textColor="@color/login_text_secondary"
                 android:textSize="16sp" />
 
@@ -330,7 +330,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-black"
-                android:text="Sign in"
+                android:text="@string/auth_signin"
                 android:textColor="@color/login_red"
                 android:textSize="16sp" />
         </LinearLayout>

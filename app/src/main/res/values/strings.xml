@@ -47,4 +47,33 @@
     <string name="btn_rate_user">Calificar Servicio</string>
     <string name="btn_report">Reportar</string>
     <string name="btn_local_ads">Negocios Locales</string>
+
+    <!-- Welcome & Auth -->
+    <string name="action_change_language">Cambiar idioma</string>
+    <string name="welcome_slide_1_title">Bienvenido a ChambAYA!</string>
+    <string name="welcome_slide_1_subtitle">La app ideal para hacer tu trabajo diario mas comodo\ny sencillo</string>
+    <string name="welcome_slide_2_title">Encuentra chambas cerca</string>
+    <string name="welcome_slide_2_subtitle">Descubre trabajos confiables cerca de ti y postula\ncon pocos toques</string>
+    <string name="welcome_slide_3_title">Trabaja por tu ciudad</string>
+    <string name="welcome_slide_3_subtitle">Explora oportunidades en el mapa y elige\nla mejor ruta para tu dia</string>
+    <string name="welcome_slide_4_title">Chatea y consigue trabajo</string>
+    <string name="welcome_slide_4_subtitle">Habla directo con contratantes, confirma detalles\ny empieza con confianza</string>
+    <string name="welcome_get_started">Empezar</string>
+    <string name="auth_email_label">Correo electronico</string>
+    <string name="auth_email_hint">Ingresa tu correo electronico</string>
+    <string name="auth_password_label">Contrasena</string>
+    <string name="auth_password_hint">Ingresa tu contrasena</string>
+    <string name="auth_confirm_password_label">Confirmar contrasena</string>
+    <string name="auth_confirm_password_hint">Confirma tu contrasena</string>
+    <string name="auth_full_name_label">Nombre completo</string>
+    <string name="auth_full_name_hint">Ingresa tu nombre completo</string>
+    <string name="auth_show_password">Mostrar contrasena</string>
+    <string name="auth_forgot_password">Olvidaste tu contrasena?</string>
+    <string name="auth_terms">Acepto terminos y privacidad</string>
+    <string name="auth_signin">Iniciar sesion</string>
+    <string name="auth_signup">Registrarse</string>
+    <string name="auth_or_continue">o continua con</string>
+    <string name="auth_continue_google">Continuar con Google</string>
+    <string name="auth_no_account">No tienes una cuenta? </string>
+    <string name="auth_have_account">Ya tienes una cuenta? </string>
 </resources>
