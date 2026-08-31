@@ -84,7 +84,7 @@
         android:paddingEnd="34dp"
         android:paddingBottom="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHeight_percent="0.82"
+        app:layout_constraintHeight_percent="0.72"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1">
 
