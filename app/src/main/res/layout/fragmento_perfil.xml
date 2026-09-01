@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="32dp">
+            android:paddingBottom="16dp">
 
             <!-- Header degradado -->
             <LinearLayout
@@ -250,7 +250,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="12dp"
                 android:background="@drawable/bg_guest_card_employer"
                 android:clickable="true"
                 android:focusable="true"
@@ -380,22 +380,19 @@
 
             <!-- Fila: ¿Ya tienes cuenta? Inicia sesión -->
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="28dp"
-                android:layout_marginBottom="28dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
                 android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingHorizontal="24dp"
-                android:paddingVertical="14dp">
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif"
                     android:text="@string/guest_already_account"
-                    android:textColor="@color/text_secondary"
+                    android:textColor="@color/login_text_secondary"
                     android:textSize="15sp" />
 
                 <TextView
