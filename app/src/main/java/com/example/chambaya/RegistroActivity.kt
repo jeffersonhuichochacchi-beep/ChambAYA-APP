@@ -169,24 +169,112 @@ class RegistroActivity : AppCompatActivity() {
             email = email,
             password = password,
             rol = currentUserRole,
-            onExito = {
+            onExito = { user ->
                 mostrarCarga(false)
-                authGestor.cerrarSesion()
-
-                com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
-                    .setTitle("📧 ¡Verifica tu Correo!")
-                    .setMessage("Hemos enviado un correo de autorización a:\n\n$email\n\nPor favor, abre tu bandeja de entrada (o carpeta de spam), haz clic en el enlace para activar tu cuenta y luego inicia sesión.")
-                    .setCancelable(false)
-                    .setPositiveButton("Ir a Iniciar Sesión") { _, _ ->
-                        openLogin(email)
-                    }
-                    .show()
+                mostrarDialogoEsperandoVerificacion(user, email)
             },
             onError = { error ->
                 mostrarCarga(false)
                 Toast.makeText(this, error, Toast.LENGTH_LONG).show()
             }
         )
+    }
+
+    private var verificationHandler: android.os.Handler? = null
+    private var verificationRunnable: Runnable? = null
+    private var verificationDialog: androidx.appcompat.app.AlertDialog? = null
+
+    private fun mostrarDialogoEsperandoVerificacion(user: com.google.firebase.auth.FirebaseUser, email: String) {
+        val dialogView = layoutInflater.inflate(R.layout.dialogo_esperando_verificacion, null)
+
+        val tvIcon = dialogView.findViewById<android.widget.TextView>(R.id.tvDialogIcon)
+        val tvTitle = dialogView.findViewById<android.widget.TextView>(R.id.tvDialogTitle)
+        val tvEmail = dialogView.findViewById<android.widget.TextView>(R.id.tvDialogEmail)
+        val tvInstruction = dialogView.findViewById<android.widget.TextView>(R.id.tvDialogInstruction)
+        val progressChecking = dialogView.findViewById<android.widget.ProgressBar>(R.id.progressChecking)
+        val tvStatusLabel = dialogView.findViewById<android.widget.TextView>(R.id.tvStatusLabel)
+        val btnResend = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnResendVerification)
+        val btnCancel = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnCancelVerification)
+
+        tvEmail.text = email
+
+        verificationDialog = com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
+            .setView(dialogView)
+            .setCancelable(false)
+            .create()
+
+        verificationDialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        verificationDialog?.show()
+
+        // Reenviar correo
+        btnResend.setOnClickListener {
+            btnResend.isEnabled = false
+            authGestor.reenviarCorreoVerificacion(
+                user = user,
+                onExito = {
+                    Toast.makeText(this, "¡Correo de verificación reenviado a $email!", Toast.LENGTH_SHORT).show()
+                    btnResend.postDelayed({ btnResend.isEnabled = true }, 5000L)
+                },
+                onError = { error ->
+                    Toast.makeText(this, "Error al reenviar: $error", Toast.LENGTH_SHORT).show()
+                    btnResend.isEnabled = true
+                }
+            )
+        }
+
+        // Cancelar y cerrar
+        btnCancel.setOnClickListener {
+            detenerComprobacionVerificacion()
+            verificationDialog?.dismiss()
+            authGestor.cerrarSesion()
+        }
+
+        // Iniciar comprobación en tiempo real (cada 2.5 segundos)
+        verificationHandler = android.os.Handler(android.os.Looper.getMainLooper())
+        verificationRunnable = object : Runnable {
+            override fun run() {
+                user.reload().addOnCompleteListener { task ->
+                    if (isFinishing || isDestroyed) return@addOnCompleteListener
+
+                    if (user.isEmailVerified) {
+                        detenerComprobacionVerificacion()
+
+                        // Estado verificado
+                        tvIcon.text = "✅"
+                        tvTitle.text = "¡Correo Verificado!"
+                        tvInstruction.text = "Tu cuenta ha sido autorizada con éxito. Redirigiendo al inicio de sesión..."
+                        progressChecking.visibility = View.GONE
+                        tvStatusLabel.text = "¡Verificación exitosa!"
+                        tvStatusLabel.setTextColor(getColor(R.color.success))
+                        btnResend.visibility = View.GONE
+                        btnCancel.visibility = View.GONE
+
+                        // Redirigir al Login después de 1.5 segundos
+                        android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
+                            verificationDialog?.dismiss()
+                            authGestor.cerrarSesion()
+                            openLogin(email)
+                        }, 1500L)
+                    } else {
+                        // Seguir consultando cada 2.5 segundos
+                        verificationHandler?.postDelayed(this, 2500L)
+                    }
+                }
+            }
+        }
+        verificationHandler?.postDelayed(verificationRunnable!!, 2500L)
+    }
+
+    private fun detenerComprobacionVerificacion() {
+        verificationRunnable?.let { verificationHandler?.removeCallbacks(it) }
+        verificationHandler = null
+        verificationRunnable = null
+    }
+
+    override fun onDestroy() {
+        detenerComprobacionVerificacion()
+        verificationDialog?.dismiss()
+        super.onDestroy()
     }
 
     private fun iniciarFlujoGoogle() {
