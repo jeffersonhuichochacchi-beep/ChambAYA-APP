@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.chambaya.BienvenidaActivity
 import com.example.chambaya.RegistroActivity
 import com.example.chambaya.data.auth.FirebaseGestorAutenticacion
 import com.example.chambaya.data.repository.ChambayaRepository
@@ -25,6 +26,9 @@ class FragmentoPerfil : Fragment() {
     private lateinit var authGestor: FirebaseGestorAutenticacion
     private lateinit var reviewsAdapter: AdaptadorReseñas
 
+    /** true = el usuario ingresó como invitado (sin cuenta) */
+    private var isGuestMode: Boolean = false
+
     companion object {
         private const val ARG_GUEST_MODE = "arg_guest_mode"
 
@@ -35,6 +39,11 @@ class FragmentoPerfil : Fragment() {
                 }
             }
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        isGuestMode = arguments?.getBoolean(ARG_GUEST_MODE, false) ?: false
     }
 
     override fun onCreateView(
@@ -54,12 +63,13 @@ class FragmentoPerfil : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        // Re-evaluar cuando volvemos al fragmento (por ej: después del registro o login)
         determinarModoVisual()
     }
 
     private fun determinarModoVisual() {
-        if (authGestor.estaAutenticado) {
+        if (isGuestMode) {
+            showGuestMode()
+        } else if (authGestor.estaAutenticado) {
             showProfileMode()
         } else {
             showGuestMode()
@@ -138,6 +148,16 @@ class FragmentoPerfil : Fragment() {
 
         binding.btnOpenPremiumPlan.setOnClickListener {
             DialogoFragmentoPlanPremium().show(parentFragmentManager, "PremiumDialog")
+        }
+
+        binding.btnSignOut.setOnClickListener {
+            authGestor.cerrarSesion()
+            Toast.makeText(requireContext(), "Sesión cerrada", Toast.LENGTH_SHORT).show()
+            val intent = Intent(requireContext(), BienvenidaActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
+            startActivity(intent)
+            requireActivity().finish()
         }
     }
 

@@ -61,6 +61,7 @@ class BienvenidaActivity : AppCompatActivity() {
 
     private fun openMain() {
         indicatorAnimator?.cancel()
+        com.example.chambaya.data.auth.FirebaseGestorAutenticacion.getInstance(this).cerrarSesion()
         val intent = Intent(this, MainActivity::class.java).apply {
             putExtra(MainActivity.EXTRA_GUEST_MODE, true)
         }
