@@ -250,7 +250,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
-                android:layout_marginBottom="12dp"
+                android:layout_marginBottom="24dp"
                 android:background="@drawable/bg_guest_card_employer"
                 android:clickable="true"
                 android:focusable="true"
@@ -376,36 +376,6 @@
                     android:text="@string/guest_employer_btn"
                     android:textColor="@color/secondary"
                     android:textSize="14sp" />
-            </LinearLayout>
-
-            <!-- Fila: ¿Ya tienes cuenta? Inicia sesión -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:text="@string/guest_already_account"
-                    android:textColor="@color/login_text_secondary"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:id="@+id/tvGuestLoginLink"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:fontFamily="sans-serif-black"
-                    android:text="@string/guest_login_link"
-                    android:textColor="@color/primary"
-                    android:textSize="15sp" />
             </LinearLayout>
 
         </LinearLayout>

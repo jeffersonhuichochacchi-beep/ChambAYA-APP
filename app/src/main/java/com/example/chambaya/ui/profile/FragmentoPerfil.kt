@@ -90,12 +90,6 @@ class FragmentoPerfil : Fragment() {
         }
         binding.cardGuestEmployer.setOnClickListener(openRegisterEmployer)
         binding.btnGuestEmployerRegister.setOnClickListener(openRegisterEmployer)
-
-        // Enlace de inicio de sesión
-        binding.tvGuestLoginLink.setOnClickListener {
-            val intent = Intent(requireContext(), com.example.chambaya.LoginActivity::class.java)
-            startActivity(intent)
-        }
     }
 
     // ─────────────────────────────────────────────────────────────
