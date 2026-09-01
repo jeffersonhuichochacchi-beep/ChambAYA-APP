@@ -333,11 +333,15 @@
 
                 <!-- Botón Google -->
                 <LinearLayout
+                    android:id="@+id/btnGoogleSignIn"
                     android:layout_width="match_parent"
                     android:layout_height="46dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="4dp"
                     android:background="@drawable/bg_login_google_button"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
                     android:gravity="center"
                     android:orientation="horizontal">
 

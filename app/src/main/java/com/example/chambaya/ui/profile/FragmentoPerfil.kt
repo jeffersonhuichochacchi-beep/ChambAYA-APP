@@ -7,7 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.example.chambaya.R
+import com.example.chambaya.RegistroActivity
+import com.example.chambaya.data.auth.FirebaseGestorAutenticacion
 import com.example.chambaya.data.repository.ChambayaRepository
 import com.example.chambaya.databinding.FragmentoPerfilBinding
 import com.example.chambaya.ui.adapters.AdaptadorReseñas
@@ -21,15 +22,12 @@ class FragmentoPerfil : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var repository: ChambayaRepository
+    private lateinit var authGestor: FirebaseGestorAutenticacion
     private lateinit var reviewsAdapter: AdaptadorReseñas
-
-    /** true = el usuario ingresó con "Empezar" (sin cuenta) */
-    private var isGuestMode: Boolean = false
 
     companion object {
         private const val ARG_GUEST_MODE = "arg_guest_mode"
 
-        /** Crea una instancia con el modo invitado configurado */
         fun newInstance(isGuestMode: Boolean): FragmentoPerfil {
             return FragmentoPerfil().apply {
                 arguments = Bundle().apply {
@@ -37,11 +35,6 @@ class FragmentoPerfil : Fragment() {
                 }
             }
         }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        isGuestMode = arguments?.getBoolean(ARG_GUEST_MODE, false) ?: false
     }
 
     override fun onCreateView(
@@ -55,11 +48,21 @@ class FragmentoPerfil : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        authGestor = FirebaseGestorAutenticacion.getInstance(requireContext())
+        determinarModoVisual()
+    }
 
-        if (isGuestMode) {
-            showGuestMode()
-        } else {
+    override fun onResume() {
+        super.onResume()
+        // Re-evaluar cuando volvemos al fragmento (por ej: después del registro o login)
+        determinarModoVisual()
+    }
+
+    private fun determinarModoVisual() {
+        if (authGestor.estaAutenticado) {
             showProfileMode()
+        } else {
+            showGuestMode()
         }
     }
 
@@ -71,20 +74,18 @@ class FragmentoPerfil : Fragment() {
         binding.layoutGuestMode.visibility = View.VISIBLE
         binding.layoutProfileContent.visibility = View.GONE
 
-        // Tarjeta y botón: Registrarme como Trabajador
         val openRegisterWorker = View.OnClickListener {
-            val intent = Intent(requireContext(), com.example.chambaya.RegistroActivity::class.java).apply {
-                putExtra(com.example.chambaya.RegistroActivity.EXTRA_USER_TYPE, com.example.chambaya.RegistroActivity.USER_TYPE_WORKER)
+            val intent = Intent(requireContext(), RegistroActivity::class.java).apply {
+                putExtra(RegistroActivity.EXTRA_USER_TYPE, RegistroActivity.USER_TYPE_WORKER)
             }
             startActivity(intent)
         }
         binding.cardGuestWorker.setOnClickListener(openRegisterWorker)
         binding.btnGuestWorkerRegister.setOnClickListener(openRegisterWorker)
 
-        // Tarjeta y botón: Registrarme como Empresa / Contratante
         val openRegisterEmployer = View.OnClickListener {
-            val intent = Intent(requireContext(), com.example.chambaya.RegistroActivity::class.java).apply {
-                putExtra(com.example.chambaya.RegistroActivity.EXTRA_USER_TYPE, com.example.chambaya.RegistroActivity.USER_TYPE_EMPLOYER)
+            val intent = Intent(requireContext(), RegistroActivity::class.java).apply {
+                putExtra(RegistroActivity.EXTRA_USER_TYPE, RegistroActivity.USER_TYPE_EMPLOYER)
             }
             startActivity(intent)
         }
@@ -93,7 +94,7 @@ class FragmentoPerfil : Fragment() {
     }
 
     // ─────────────────────────────────────────────────────────────
-    // MODO CON CUENTA
+    // MODO CON CUENTA (FIREBASE)
     // ─────────────────────────────────────────────────────────────
 
     private fun showProfileMode() {
@@ -105,13 +106,9 @@ class FragmentoPerfil : Fragment() {
         setupReviews()
         setupListeners()
         loadProfileData()
-    }
 
-    override fun onResume() {
-        super.onResume()
-        if (!isGuestMode && ::repository.isInitialized) {
-            loadProfileData()
-        }
+        // Actualizar nombre y rol desde Firestore en segundo plano
+        cargarDatosFirestore()
     }
 
     private fun setupReviews() {
@@ -122,60 +119,109 @@ class FragmentoPerfil : Fragment() {
     private fun setupListeners() {
         binding.btnSwitchRole.setOnClickListener {
             val newRole = repository.switchRole()
-            val roleText = if (newRole == ChambayaRepository.ROLE_WORKER) "Trabajador (Buscar Chambas)" else "Contratante (Publicar)"
+            val roleText = if (newRole == ChambayaRepository.ROLE_WORKER)
+                "Trabajador (Buscar Chambas)"
+            else
+                "Contratante (Publicar)"
             Toast.makeText(requireContext(), "Modo cambiado a: $roleText", Toast.LENGTH_SHORT).show()
             loadProfileData()
         }
 
         binding.btnLeaveReview.setOnClickListener {
-            val dialog = DialogoFragmentoCalificarTrabajo.newInstance { _ ->
-                loadProfileData()
-            }
+            val dialog = DialogoFragmentoCalificarTrabajo.newInstance { _ -> loadProfileData() }
             dialog.show(parentFragmentManager, "RateDialog")
         }
 
         binding.btnOpenLocalAds.setOnClickListener {
-            val dialog = DialogoFragmentoAnunciosNegocios()
-            dialog.show(parentFragmentManager, "AdsDialog")
+            DialogoFragmentoAnunciosNegocios().show(parentFragmentManager, "AdsDialog")
         }
 
         binding.btnOpenPremiumPlan.setOnClickListener {
-            val dialog = DialogoFragmentoPlanPremium()
-            dialog.show(parentFragmentManager, "PremiumDialog")
+            DialogoFragmentoPlanPremium().show(parentFragmentManager, "PremiumDialog")
         }
     }
 
     private fun loadProfileData() {
+        val fbUser = authGestor.usuarioActual ?: return
         val isWorker = repository.currentRole == ChambayaRepository.ROLE_WORKER
+
+        // Nombre: primero de Firebase Auth, sino del email
+        val displayName = fbUser.displayName?.takeIf { it.isNotBlank() }
+            ?: fbUser.email?.substringBefore("@")
+            ?: "Usuario ChambAYA"
+
+        binding.tvProfileName.text = displayName
+        binding.tvProfileAvatarInitial.text = displayName.take(1).uppercase()
 
         if (isWorker) {
             val worker = repository.currentWorkerProfile
-            binding.tvProfileName.text = worker.fullName
-            binding.tvProfileAvatarInitial.text = worker.fullName.take(1).uppercase()
-            binding.tvProfileDistrict.text = "${worker.district}, Ayacucho"
+            binding.tvProfileDistrict.text = worker.district.ifBlank { "Huamanga, Ayacucho" }
             binding.tvProfileRating.text = String.format("%.1f", worker.rating)
             binding.tvProfileReviewsCount.text = "${worker.reviewsCount} opiniones"
             binding.tvProfileJobsDone.text = "${worker.completedJobsCount}"
             binding.tvProfileExp.text = "${worker.experienceYears} años"
-            binding.tvProfileBio.text = worker.bio
+            binding.tvProfileBio.text = worker.bio.ifBlank { "¡Hola! Soy nuevo en ChambAYA y estoy listo para trabajar." }
             binding.tvCurrentRoleLabel.text = "Modo: Buscando Chambas (Trabajador)"
             binding.btnSwitchRole.text = "Cambiar a Contratante"
         } else {
             val emp = repository.currentEmployerProfile
-            binding.tvProfileName.text = emp.fullName
-            binding.tvProfileAvatarInitial.text = emp.fullName.take(1).uppercase()
-            binding.tvProfileDistrict.text = "${emp.district}, Ayacucho"
+            binding.tvProfileDistrict.text = emp.district.ifBlank { "Huamanga, Ayacucho" }
             binding.tvProfileRating.text = String.format("%.1f", emp.rating)
             binding.tvProfileReviewsCount.text = "Contratante verificado"
             binding.tvProfileJobsDone.text = "${emp.jobsPostedCount}"
             binding.tvProfileExp.text = "Activo"
-            binding.tvProfileBio.text = "Contratante verificado en la ciudad de Huamanga. Publicando oportunidades para maestros y ayudantes."
+            binding.tvProfileBio.text = "Contratante en ChambAYA. Publicando oportunidades laborales en Ayacucho."
             binding.tvCurrentRoleLabel.text = "Modo: Publicando Trabajos (Contratante)"
             binding.btnSwitchRole.text = "Cambiar a Trabajador"
         }
 
         val reviews = repository.getReviewsForUser(repository.currentWorkerProfile.id)
         reviewsAdapter.updateReviews(reviews)
+    }
+
+    /**
+     * Carga datos reales del perfil desde Firestore y actualiza la UI.
+     */
+    private fun cargarDatosFirestore() {
+        val fbUser = authGestor.usuarioActual ?: return
+
+        authGestor.firestore.collection("usuarios")
+            .document(fbUser.uid)
+            .get()
+            .addOnSuccessListener { document ->
+                if (!isAdded || _binding == null) return@addOnSuccessListener
+                if (document == null || !document.exists()) return@addOnSuccessListener
+
+                val nombre = document.getString("nombre")
+                    ?: fbUser.displayName
+                    ?: "Usuario ChambAYA"
+                val rol = document.getString("rol") ?: RegistroActivity.USER_TYPE_WORKER
+
+                // Sincronizar rol del repositorio local con el de Firestore
+                val nuevoRol = if (rol == RegistroActivity.USER_TYPE_EMPLOYER)
+                    ChambayaRepository.ROLE_EMPLOYER
+                else
+                    ChambayaRepository.ROLE_WORKER
+
+                if (repository.currentRole != nuevoRol) {
+                    repository.currentRole = nuevoRol
+                }
+
+                // Actualizar nombre y avatar con datos reales de Firestore
+                binding.tvProfileName.text = nombre
+                binding.tvProfileAvatarInitial.text = nombre.take(1).uppercase()
+
+                if (nuevoRol == ChambayaRepository.ROLE_EMPLOYER) {
+                    binding.tvCurrentRoleLabel.text = "Modo: Publicando Trabajos (Contratante)"
+                    binding.btnSwitchRole.text = "Cambiar a Trabajador"
+                } else {
+                    binding.tvCurrentRoleLabel.text = "Modo: Buscando Chambas (Trabajador)"
+                    binding.btnSwitchRole.text = "Cambiar a Contratante"
+                }
+            }
+            .addOnFailureListener {
+                // Si falla Firestore, los datos de Auth ya están mostrados
+            }
     }
 
     override fun onDestroyView() {

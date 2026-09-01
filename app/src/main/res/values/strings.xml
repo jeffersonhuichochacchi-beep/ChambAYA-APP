@@ -111,4 +111,7 @@
     <!-- Dialog Role Selection -->
     <string name="dialog_choose_role_title">¿Cómo deseas registrarte?</string>
     <string name="dialog_choose_role_subtitle">Selecciona el tipo de cuenta para comenzar</string>
+
+    <!-- Google Sign In Web Client ID -->
+    <string name="default_web_client_id">626986578594-5m9l0aj3otcbc8ems2hrt7hdo8biiuc6.apps.googleusercontent.com</string>
 </resources>
