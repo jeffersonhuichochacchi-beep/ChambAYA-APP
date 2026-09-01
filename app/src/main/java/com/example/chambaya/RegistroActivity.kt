@@ -190,9 +190,9 @@ class RegistroActivity : AppCompatActivity() {
         val tvIcon = dialogView.findViewById<android.widget.TextView>(R.id.tvDialogIcon)
         val tvTitle = dialogView.findViewById<android.widget.TextView>(R.id.tvDialogTitle)
         val tvEmail = dialogView.findViewById<android.widget.TextView>(R.id.tvDialogEmail)
-        val tvInstruction = dialogView.findViewById<android.widget.TextView>(R.id.tvDialogInstruction)
         val progressChecking = dialogView.findViewById<android.widget.ProgressBar>(R.id.progressChecking)
         val tvStatusLabel = dialogView.findViewById<android.widget.TextView>(R.id.tvStatusLabel)
+        val btnOpenEmail = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnOpenEmailApp)
         val btnResend = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnResendVerification)
         val btnCancel = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnCancelVerification)
 
@@ -205,6 +205,23 @@ class RegistroActivity : AppCompatActivity() {
 
         verificationDialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
         verificationDialog?.show()
+
+        // Botón para abrir la app de correo del celular (Gmail, Outlook, etc.)
+        btnOpenEmail.setOnClickListener {
+            val emailIntent = Intent(Intent.ACTION_MAIN).apply {
+                addCategory(Intent.CATEGORY_APP_EMAIL)
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            try {
+                startActivity(Intent.createChooser(emailIntent, "Abrir bandeja de correo"))
+            } catch (e: Exception) {
+                try {
+                    startActivity(Intent(Intent.ACTION_VIEW, android.net.Uri.parse("mailto:")))
+                } catch (_: Exception) {
+                    Toast.makeText(this, "Abre tu aplicación de Gmail o correo para confirmar", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
 
         // Reenviar correo
         btnResend.setOnClickListener {
@@ -229,7 +246,7 @@ class RegistroActivity : AppCompatActivity() {
             authGestor.cerrarSesion()
         }
 
-        // Iniciar comprobación en tiempo real (cada 2.5 segundos)
+        // Iniciar comprobación en tiempo real (cada 2 segundos)
         verificationHandler = android.os.Handler(android.os.Looper.getMainLooper())
         verificationRunnable = object : Runnable {
             override fun run() {
@@ -239,13 +256,13 @@ class RegistroActivity : AppCompatActivity() {
                     if (user.isEmailVerified) {
                         detenerComprobacionVerificacion()
 
-                        // Estado verificado
+                        // Estado verificado exitoso
                         tvIcon.text = "✅"
                         tvTitle.text = "¡Correo Verificado!"
-                        tvInstruction.text = "Tu cuenta ha sido autorizada con éxito. Redirigiendo al inicio de sesión..."
                         progressChecking.visibility = View.GONE
-                        tvStatusLabel.text = "¡Verificación exitosa!"
+                        tvStatusLabel.text = "¡Autorización confirmada! Redirigiendo..."
                         tvStatusLabel.setTextColor(getColor(R.color.success))
+                        btnOpenEmail.visibility = View.GONE
                         btnResend.visibility = View.GONE
                         btnCancel.visibility = View.GONE
 
@@ -256,13 +273,13 @@ class RegistroActivity : AppCompatActivity() {
                             openLogin(email)
                         }, 1500L)
                     } else {
-                        // Seguir consultando cada 2.5 segundos
-                        verificationHandler?.postDelayed(this, 2500L)
+                        // Seguir consultando cada 2 segundos
+                        verificationHandler?.postDelayed(this, 2000L)
                     }
                 }
             }
         }
-        verificationHandler?.postDelayed(verificationRunnable!!, 2500L)
+        verificationHandler?.postDelayed(verificationRunnable!!, 2000L)
     }
 
     private fun detenerComprobacionVerificacion() {
