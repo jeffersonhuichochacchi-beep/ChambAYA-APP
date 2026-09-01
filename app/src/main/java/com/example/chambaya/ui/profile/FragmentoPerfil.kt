@@ -1,5 +1,6 @@
 package com.example.chambaya.ui.profile
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +23,27 @@ class FragmentoPerfil : Fragment() {
     private lateinit var repository: ChambayaRepository
     private lateinit var reviewsAdapter: AdaptadorReseñas
 
+    /** true = el usuario ingresó con "Empezar" (sin cuenta) */
+    private var isGuestMode: Boolean = false
+
+    companion object {
+        private const val ARG_GUEST_MODE = "arg_guest_mode"
+
+        /** Crea una instancia con el modo invitado configurado */
+        fun newInstance(isGuestMode: Boolean): FragmentoPerfil {
+            return FragmentoPerfil().apply {
+                arguments = Bundle().apply {
+                    putBoolean(ARG_GUEST_MODE, isGuestMode)
+                }
+            }
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        isGuestMode = arguments?.getBoolean(ARG_GUEST_MODE, false) ?: false
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -33,6 +55,74 @@ class FragmentoPerfil : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (isGuestMode) {
+            showGuestMode()
+        } else {
+            showProfileMode()
+        }
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    // MODO INVITADO
+    // ─────────────────────────────────────────────────────────────
+
+    private fun showGuestMode() {
+        binding.layoutGuestMode.visibility = View.VISIBLE
+        binding.layoutProfileContent.visibility = View.GONE
+
+        // Tarjeta Trabajador — toca para registrarse (próximamente)
+        binding.cardGuestWorker.setOnClickListener {
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.guest_coming_soon),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        binding.btnGuestWorkerRegister.setOnClickListener {
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.guest_coming_soon),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        // Tarjeta Empresa / Contratante — toca para registrarse (próximamente)
+        binding.cardGuestEmployer.setOnClickListener {
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.guest_coming_soon),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        binding.btnGuestEmployerRegister.setOnClickListener {
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.guest_coming_soon),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        // Enlace de login
+        binding.tvGuestLoginLink.setOnClickListener {
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.guest_coming_soon),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    // MODO CON CUENTA
+    // ─────────────────────────────────────────────────────────────
+
+    private fun showProfileMode() {
+        binding.layoutGuestMode.visibility = View.GONE
+        binding.layoutProfileContent.visibility = View.VISIBLE
+
         repository = ChambayaRepository.getInstance(requireContext())
 
         setupReviews()
@@ -42,7 +132,9 @@ class FragmentoPerfil : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        loadProfileData()
+        if (!isGuestMode && ::repository.isInitialized) {
+            loadProfileData()
+        }
     }
 
     private fun setupReviews() {
@@ -59,7 +151,7 @@ class FragmentoPerfil : Fragment() {
         }
 
         binding.btnLeaveReview.setOnClickListener {
-            val dialog = DialogoFragmentoCalificarTrabajo.newInstance { newReview ->
+            val dialog = DialogoFragmentoCalificarTrabajo.newInstance { _ ->
                 loadProfileData()
             }
             dialog.show(parentFragmentManager, "RateDialog")

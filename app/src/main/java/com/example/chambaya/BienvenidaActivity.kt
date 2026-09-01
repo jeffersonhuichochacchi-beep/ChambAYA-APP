@@ -61,7 +61,10 @@ class BienvenidaActivity : AppCompatActivity() {
 
     private fun openMain() {
         indicatorAnimator?.cancel()
-        startActivity(Intent(this, MainActivity::class.java))
+        val intent = Intent(this, MainActivity::class.java).apply {
+            putExtra(MainActivity.EXTRA_GUEST_MODE, true)
+        }
+        startActivity(intent)
         finish()
     }
 

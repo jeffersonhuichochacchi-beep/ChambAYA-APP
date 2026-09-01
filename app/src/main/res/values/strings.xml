@@ -78,4 +78,18 @@
     <string name="auth_continue_google">Continuar con Google</string>
     <string name="auth_no_account">No tienes una cuenta? </string>
     <string name="auth_have_account">Ya tienes una cuenta? </string>
+
+    <!-- Guest Mode Profile -->
+    <string name="guest_profile_title">Estás explorando ChambAYA</string>
+    <string name="guest_profile_subtitle">Crea una cuenta para guardar tu historial, chatear y postular a chambas</string>
+    <string name="guest_choose_type">¿Cómo quieres usar ChambAYA?</string>
+    <string name="guest_worker_title">Soy Trabajador</string>
+    <string name="guest_worker_desc">Busco chambas, postulo a ofertas y genero ingresos con mis habilidades</string>
+    <string name="guest_worker_btn">Registrarme como Trabajador</string>
+    <string name="guest_employer_title">Soy Empresa / Contratante</string>
+    <string name="guest_employer_desc">Publico trabajos, encuentro personal y contrato para mis proyectos</string>
+    <string name="guest_employer_btn">Registrarme como Empresa</string>
+    <string name="guest_already_account">¿Ya tienes cuenta? </string>
+    <string name="guest_login_link">Inicia sesión aquí</string>
+    <string name="guest_coming_soon">Próximamente disponible</string>
 </resources>

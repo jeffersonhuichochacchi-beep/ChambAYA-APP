@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
     private val mapFragment by lazy { FragmentoMapaChambas() }
     private val publishFragment by lazy { FragmentoPublicarTrabajo() }
     private val chatFragment by lazy { FragmentoListaChats() }
-    private val profileFragment by lazy { FragmentoPerfil() }
+    private lateinit var profileFragment: FragmentoPerfil
     private val bottomNavPopInterpolator = OvershootInterpolator(1.12f)
     private val bottomNavSettleInterpolator = DecelerateInterpolator()
     private var activeFragment: Fragment? = null
@@ -46,6 +46,10 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0)
             insets
         }
+
+        // Leer si el usuario entró como invitado (sin cuenta)
+        val isGuestMode = intent.getBooleanExtra(EXTRA_GUEST_MODE, false)
+        profileFragment = FragmentoPerfil.newInstance(isGuestMode)
 
         setupBottomNavigation()
         setupHeaderActions()
@@ -195,11 +199,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private companion object {
-        const val TAG_JOBS = "tab_jobs"
-        const val TAG_MAP = "tab_map"
-        const val TAG_PUBLISH = "tab_publish"
-        const val TAG_CHAT = "tab_chat"
-        const val TAG_PROFILE = "tab_profile"
+    companion object {
+        const val EXTRA_GUEST_MODE = "extra_guest_mode"
+        private const val TAG_JOBS = "tab_jobs"
+        private const val TAG_MAP = "tab_map"
+        private const val TAG_PUBLISH = "tab_publish"
+        private const val TAG_CHAT = "tab_chat"
+        private const val TAG_PROFILE = "tab_profile"
     }
 }
