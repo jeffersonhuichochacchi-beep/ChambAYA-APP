@@ -96,13 +96,23 @@ class LoginActivity : AppCompatActivity() {
         val password = binding.etPassword.text.toString().trim()
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            binding.etEmail.error = "Ingresa un correo electrónico válido."
+            com.example.chambaya.ui.common.AlertaAuth.mostrarErrorFlotante(
+                activity = this,
+                rootLayout = binding.root,
+                mensaje = "Por favor, ingresa un correo electrónico válido.",
+                campoErroneo = binding.etEmail
+            )
             binding.etEmail.requestFocus()
             return
         }
 
         if (password.isEmpty()) {
-            binding.etPassword.error = "Ingresa tu contraseña."
+            com.example.chambaya.ui.common.AlertaAuth.mostrarErrorFlotante(
+                activity = this,
+                rootLayout = binding.root,
+                mensaje = "Por favor, ingresa tu contraseña.",
+                campoErroneo = binding.etPassword
+            )
             binding.etPassword.requestFocus()
             return
         }
@@ -113,7 +123,6 @@ class LoginActivity : AppCompatActivity() {
             password = password,
             onExito = {
                 mostrarCarga(false)
-                Toast.makeText(this, "¡Bienvenido a ChambAYA!", Toast.LENGTH_SHORT).show()
                 openMain()
             },
             onEmailNoVerificado = { unverifiedUser ->
@@ -125,11 +134,19 @@ class LoginActivity : AppCompatActivity() {
                         authGestor.reenviarCorreoVerificacion(
                             user = unverifiedUser,
                             onExito = {
-                                Toast.makeText(this, "¡Enlace reenviado! Revisa tu bandeja de entrada o spam.", Toast.LENGTH_LONG).show()
+                                com.example.chambaya.ui.common.AlertaAuth.mostrarExitoFlotante(
+                                    activity = this,
+                                    rootLayout = binding.root,
+                                    mensaje = "¡Enlace reenviado! Revisa tu bandeja de entrada o spam."
+                                )
                                 authGestor.cerrarSesion()
                             },
                             onError = { error ->
-                                Toast.makeText(this, "Error al reenviar: $error", Toast.LENGTH_SHORT).show()
+                                com.example.chambaya.ui.common.AlertaAuth.mostrarErrorFlotante(
+                                    activity = this,
+                                    rootLayout = binding.root,
+                                    mensaje = "Error al reenviar: $error"
+                                )
                                 authGestor.cerrarSesion()
                             }
                         )
@@ -141,7 +158,12 @@ class LoginActivity : AppCompatActivity() {
             },
             onError = { error ->
                 mostrarCarga(false)
-                Toast.makeText(this, error, Toast.LENGTH_LONG).show()
+                com.example.chambaya.ui.common.AlertaAuth.mostrarErrorFlotante(
+                    activity = this,
+                    rootLayout = binding.root,
+                    mensaje = error,
+                    campoErroneo = binding.etPassword
+                )
             }
         )
     }
@@ -154,17 +176,30 @@ class LoginActivity : AppCompatActivity() {
     private fun recuperarContrasena() {
         val email = binding.etEmail.text.toString().trim()
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            Toast.makeText(this, "Ingresa tu correo en el campo para enviarte el enlace de recuperación.", Toast.LENGTH_LONG).show()
+            com.example.chambaya.ui.common.AlertaAuth.mostrarErrorFlotante(
+                activity = this,
+                rootLayout = binding.root,
+                mensaje = "Ingresa tu correo para enviarte el enlace de recuperación.",
+                campoErroneo = binding.etEmail
+            )
             binding.etEmail.requestFocus()
             return
         }
 
         authGestor.auth.sendPasswordResetEmail(email)
             .addOnSuccessListener {
-                Toast.makeText(this, "Se envió un enlace a tu correo para restablecer tu contraseña.", Toast.LENGTH_LONG).show()
+                com.example.chambaya.ui.common.AlertaAuth.mostrarExitoFlotante(
+                    activity = this,
+                    rootLayout = binding.root,
+                    mensaje = "Se envió un enlace a tu correo para restablecer tu contraseña."
+                )
             }
             .addOnFailureListener {
-                Toast.makeText(this, "No se pudo enviar el correo de recuperación: ${it.localizedMessage}", Toast.LENGTH_LONG).show()
+                com.example.chambaya.ui.common.AlertaAuth.mostrarErrorFlotante(
+                    activity = this,
+                    rootLayout = binding.root,
+                    mensaje = "No se pudo enviar el correo de recuperación: ${it.localizedMessage}"
+                )
             }
     }
 

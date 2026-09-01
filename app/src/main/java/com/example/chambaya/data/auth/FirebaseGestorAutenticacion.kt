@@ -193,18 +193,24 @@ class FirebaseGestorAutenticacion private constructor(private val context: Conte
         val error = mensaje ?: ""
         return when {
             error.contains("The email address is already in use", ignoreCase = true) ->
-                "El correo electrónico ya está registrado."
+                "Este correo ya está registrado. Inicia sesión o recupera tu contraseña."
             error.contains("The email address is badly formatted", ignoreCase = true) ->
-                "El formato del correo electrónico no es válido."
+                "El correo electrónico no tiene un formato válido."
             error.contains("Password should be at least 6 characters", ignoreCase = true) ->
                 "La contraseña debe tener al menos 6 caracteres."
             error.contains("INVALID_LOGIN_CREDENTIALS", ignoreCase = true) ||
+            error.contains("invalid-credential", ignoreCase = true) ||
             error.contains("There is no user record", ignoreCase = true) ||
+            error.contains("user-not-found", ignoreCase = true) ||
             error.contains("wrong-password", ignoreCase = true) ->
-                "Correo o contraseña incorrectos."
+                "Contraseña o correo incorrectos. Por favor, verifica tus datos."
+            error.contains("too-many-requests", ignoreCase = true) ->
+                "Demasiados intentos fallidos. Por seguridad, espera unos minutos."
+            error.contains("user-disabled", ignoreCase = true) ->
+                "Esta cuenta ha sido desactivada temporalmente."
             error.contains("network error", ignoreCase = true) ->
-                "Error de red. Verifica tu conexión a internet."
-            else -> error.ifEmpty { "Ocurrió un error inesperado al autenticar." }
+                "Sin conexión a internet. Revisa tus datos móviles o Wi-Fi."
+            else -> error.ifEmpty { "Ocurrió un error al autenticar. Inténtalo nuevamente." }
         }
     }
 

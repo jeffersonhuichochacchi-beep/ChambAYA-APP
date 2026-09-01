@@ -135,31 +135,56 @@ class RegistroActivity : AppCompatActivity() {
         val aceptaTerminos = binding.cbAgreement.isChecked
 
         if (nombre.isEmpty()) {
-            binding.etFullName.error = "Por favor ingresa tu nombre."
+            com.example.chambaya.ui.common.AlertaAuth.mostrarErrorFlotante(
+                activity = this,
+                rootLayout = binding.root,
+                mensaje = "Por favor, ingresa tu nombre completo.",
+                campoErroneo = binding.etFullName
+            )
             binding.etFullName.requestFocus()
             return
         }
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            binding.etEmail.error = "Ingresa un correo electrónico válido."
+            com.example.chambaya.ui.common.AlertaAuth.mostrarErrorFlotante(
+                activity = this,
+                rootLayout = binding.root,
+                mensaje = "Ingresa un correo electrónico válido.",
+                campoErroneo = binding.etEmail
+            )
             binding.etEmail.requestFocus()
             return
         }
 
         if (password.length < 6) {
-            binding.etPassword.error = "La contraseña debe tener al menos 6 caracteres."
+            com.example.chambaya.ui.common.AlertaAuth.mostrarErrorFlotante(
+                activity = this,
+                rootLayout = binding.root,
+                mensaje = "La contraseña debe tener al menos 6 caracteres.",
+                campoErroneo = binding.etPassword
+            )
             binding.etPassword.requestFocus()
             return
         }
 
         if (password != confirmPassword) {
-            binding.etConfirmPassword.error = "Las contraseñas no coinciden."
+            com.example.chambaya.ui.common.AlertaAuth.mostrarErrorFlotante(
+                activity = this,
+                rootLayout = binding.root,
+                mensaje = "Las contraseñas no coinciden. Verifícalas.",
+                campoErroneo = binding.etConfirmPassword
+            )
             binding.etConfirmPassword.requestFocus()
             return
         }
 
         if (!aceptaTerminos) {
-            Toast.makeText(this, "Debes aceptar los términos y condiciones.", Toast.LENGTH_SHORT).show()
+            com.example.chambaya.ui.common.AlertaAuth.mostrarErrorFlotante(
+                activity = this,
+                rootLayout = binding.root,
+                mensaje = "Debes aceptar los términos y condiciones de uso.",
+                campoErroneo = binding.cbAgreement
+            )
             return
         }
 
@@ -175,7 +200,12 @@ class RegistroActivity : AppCompatActivity() {
             },
             onError = { error ->
                 mostrarCarga(false)
-                Toast.makeText(this, error, Toast.LENGTH_LONG).show()
+                com.example.chambaya.ui.common.AlertaAuth.mostrarErrorFlotante(
+                    activity = this,
+                    rootLayout = binding.root,
+                    mensaje = error,
+                    campoErroneo = binding.etPassword
+                )
             }
         )
     }
