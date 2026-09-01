@@ -36,6 +36,7 @@ class LoginActivity : AppCompatActivity() {
     private fun setupPasswordToggle(editText: EditText, toggle: ImageView) {
         var isPasswordVisible = false
         editText.transformationMethod = PasswordTransformationMethod.getInstance()
+        updatePasswordToggleIcon(toggle, isPasswordVisible)
 
         toggle.setOnClickListener {
             isPasswordVisible = !isPasswordVisible
@@ -45,6 +46,16 @@ class LoginActivity : AppCompatActivity() {
                 PasswordTransformationMethod.getInstance()
             }
             editText.setSelection(editText.text?.length ?: 0)
+            updatePasswordToggleIcon(toggle, isPasswordVisible)
         }
+    }
+
+    private fun updatePasswordToggleIcon(toggle: ImageView, isPasswordVisible: Boolean) {
+        toggle.setImageResource(
+            if (isPasswordVisible) R.drawable.ic_login_eye_on else R.drawable.ic_login_eye_off
+        )
+        toggle.contentDescription = getString(
+            if (isPasswordVisible) R.string.auth_hide_password else R.string.auth_show_password
+        )
     }
 }
