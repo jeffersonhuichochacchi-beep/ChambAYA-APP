@@ -58,8 +58,8 @@ object AlertaAuth {
         textView.maxLines = 3
         textView.typeface = android.graphics.Typeface.create("sans-serif-medium", android.graphics.Typeface.NORMAL)
 
-        // Botón de acción rápido
-        snackbar.setAction("OK") { snackbar.dismiss() }
+        // Botón de acción rápido en español
+        snackbar.setAction("Cerrar") { snackbar.dismiss() }
         snackbar.setActionTextColor(Color.parseColor("#FCA5A5"))
 
         snackbar.show()

@@ -283,16 +283,16 @@ class RegistroActivity : AppCompatActivity() {
                     if (user.isEmailVerified) {
                         detenerComprobacionVerificacion()
 
-                        // Estado verificado exitoso (viñeta verde y botón Done idéntico a la imagen)
+                        // Estado verificado exitoso (viñeta verde y botón idéntico a la imagen)
                         ivBadgeIcon.setImageResource(R.drawable.ic_success_seal_badge)
                         progressWaiting.visibility = View.GONE
-                        tvTitle.text = "Successful"
+                        tvTitle.text = "¡Verificación Exitosa!"
                         tvSubtitle.text = "Tu cuenta ha sido activada correctamente.\nRedirigiendo al inicio de sesión..."
                         tvEmail.visibility = View.GONE
                         layoutSecondary.visibility = View.GONE
 
                         btnDoneAction.visibility = View.VISIBLE
-                        btnDoneAction.text = "Done"
+                        btnDoneAction.text = "Listo"
                         btnDoneAction.setOnClickListener {
                             verificationDialog?.dismiss()
                             authGestor.cerrarSesion()

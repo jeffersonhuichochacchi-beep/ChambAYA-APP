@@ -89,7 +89,7 @@
             android:layout_height="52dp"
             android:layout_marginTop="24dp"
             android:fontFamily="sans-serif-bold"
-            android:text="Done"
+            android:text="Listo"
             android:textColor="@color/white"
             android:textSize="15sp"
             android:visibility="gone"

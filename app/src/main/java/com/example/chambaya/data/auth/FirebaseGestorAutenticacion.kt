@@ -192,25 +192,47 @@ class FirebaseGestorAutenticacion private constructor(private val context: Conte
     private fun traducirErrorFirebase(mensaje: String?): String {
         val error = mensaje ?: ""
         return when {
-            error.contains("The email address is already in use", ignoreCase = true) ->
-                "Este correo ya está registrado. Inicia sesión o recupera tu contraseña."
-            error.contains("The email address is badly formatted", ignoreCase = true) ->
-                "El correo electrónico no tiene un formato válido."
-            error.contains("Password should be at least 6 characters", ignoreCase = true) ->
-                "La contraseña debe tener al menos 6 caracteres."
+            error.contains("supplied auth credential", ignoreCase = true) ||
+            error.contains("malformed or has expired", ignoreCase = true) ||
             error.contains("INVALID_LOGIN_CREDENTIALS", ignoreCase = true) ||
             error.contains("invalid-credential", ignoreCase = true) ||
+            error.contains("invalid credential", ignoreCase = true) ||
+            error.contains("wrong-password", ignoreCase = true) ||
+            error.contains("wrong password", ignoreCase = true) ->
+                "Contraseña o correo incorrectos. Por favor, verifica tus datos."
+
             error.contains("There is no user record", ignoreCase = true) ||
             error.contains("user-not-found", ignoreCase = true) ||
-            error.contains("wrong-password", ignoreCase = true) ->
-                "Contraseña o correo incorrectos. Por favor, verifica tus datos."
-            error.contains("too-many-requests", ignoreCase = true) ->
+            error.contains("user not found", ignoreCase = true) ->
+                "No existe una cuenta con este correo electrónico."
+
+            error.contains("already in use", ignoreCase = true) ||
+            error.contains("email-already-in-use", ignoreCase = true) ->
+                "Este correo ya está registrado. Inicia sesión o recupera tu contraseña."
+
+            error.contains("badly formatted", ignoreCase = true) ||
+            error.contains("invalid-email", ignoreCase = true) ->
+                "El correo electrónico no tiene un formato válido."
+
+            error.contains("at least 6 characters", ignoreCase = true) ||
+            error.contains("weak-password", ignoreCase = true) ->
+                "La contraseña debe tener al menos 6 caracteres."
+
+            error.contains("too-many-requests", ignoreCase = true) ||
+            error.contains("blocked all requests", ignoreCase = true) ||
+            error.contains("unusual activity", ignoreCase = true) ->
                 "Demasiados intentos fallidos. Por seguridad, espera unos minutos."
-            error.contains("user-disabled", ignoreCase = true) ->
+
+            error.contains("user-disabled", ignoreCase = true) ||
+            error.contains("account has been disabled", ignoreCase = true) ->
                 "Esta cuenta ha sido desactivada temporalmente."
-            error.contains("network error", ignoreCase = true) ->
+
+            error.contains("network error", ignoreCase = true) ||
+            error.contains("timeout", ignoreCase = true) ||
+            error.contains("interrupted connection", ignoreCase = true) ->
                 "Sin conexión a internet. Revisa tus datos móviles o Wi-Fi."
-            else -> error.ifEmpty { "Ocurrió un error al autenticar. Inténtalo nuevamente." }
+
+            else -> "Contraseña o correo incorrectos. Por favor, verifica tus datos."
         }
     }
 
