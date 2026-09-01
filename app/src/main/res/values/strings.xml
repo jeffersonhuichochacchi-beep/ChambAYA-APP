@@ -92,4 +92,19 @@
     <string name="guest_already_account">¿Ya tienes cuenta? </string>
     <string name="guest_login_link">Inicia sesión aquí</string>
     <string name="guest_coming_soon">Próximamente disponible</string>
+
+    <!-- Role Specific Registration -->
+    <string name="register_worker_badge">🔨 Cuenta de Trabajador</string>
+    <string name="register_worker_title">Registro de Trabajador</string>
+    <string name="register_worker_subtitle">Crea tu cuenta para buscar chambas y postular</string>
+    <string name="register_worker_name_label">Nombre completo</string>
+    <string name="register_worker_name_hint">Ingresa tu nombre y apellido</string>
+    <string name="register_worker_btn">Registrarme como Trabajador</string>
+
+    <string name="register_employer_badge">🏢 Cuenta de Empresa / Contratante</string>
+    <string name="register_employer_title">Registro de Empresa</string>
+    <string name="register_employer_subtitle">Crea tu cuenta para publicar chambas y contratar</string>
+    <string name="register_employer_name_label">Nombre de Empresa o Contacto</string>
+    <string name="register_employer_name_hint">Ingresa nombre comercial o de contacto</string>
+    <string name="register_employer_btn">Registrarme como Empresa</string>
 </resources>

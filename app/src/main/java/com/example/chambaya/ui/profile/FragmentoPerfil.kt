@@ -73,7 +73,9 @@ class FragmentoPerfil : Fragment() {
 
         // Tarjeta y botón: Registrarme como Trabajador
         val openRegisterWorker = View.OnClickListener {
-            val intent = Intent(requireContext(), com.example.chambaya.RegistroActivity::class.java)
+            val intent = Intent(requireContext(), com.example.chambaya.RegistroActivity::class.java).apply {
+                putExtra(com.example.chambaya.RegistroActivity.EXTRA_USER_TYPE, com.example.chambaya.RegistroActivity.USER_TYPE_WORKER)
+            }
             startActivity(intent)
         }
         binding.cardGuestWorker.setOnClickListener(openRegisterWorker)
@@ -81,7 +83,9 @@ class FragmentoPerfil : Fragment() {
 
         // Tarjeta y botón: Registrarme como Empresa / Contratante
         val openRegisterEmployer = View.OnClickListener {
-            val intent = Intent(requireContext(), com.example.chambaya.RegistroActivity::class.java)
+            val intent = Intent(requireContext(), com.example.chambaya.RegistroActivity::class.java).apply {
+                putExtra(com.example.chambaya.RegistroActivity.EXTRA_USER_TYPE, com.example.chambaya.RegistroActivity.USER_TYPE_EMPLOYER)
+            }
             startActivity(intent)
         }
         binding.cardGuestEmployer.setOnClickListener(openRegisterEmployer)
