@@ -20,15 +20,30 @@ class FragmentoPublicarTrabajo : Fragment() {
 
     private val categories = arrayOf(
         "Albañilería", "Pintura", "Limpieza", "Gasfitería", "Electricidad",
-        "Mudanzas", "Cocina", "Jardinería", "Carpintería", "Ventas", "Otro Oficio"
+        "Mudanzas", "Cocina", "Jardinería", "Carpintería", "Ventas", "Cerrajería", "Otro Oficio"
     )
 
-    private val districts = arrayOf(
+    private val districtsEmployer = arrayOf(
         "Ayacucho Centro", "Carmen Alto", "San Juan Bautista", "Jesús Nazareno", "Andrés Avelino Cáceres"
     )
 
-    private val paymentTypes = arrayOf("por día", "por tarea", "por hora", "por jornada")
-    private val toolOptions = arrayOf("Propias completas", "Herramientas básicas", "Sin herramientas")
+    private val freeDaysOptions = arrayOf(
+        "Fines de semana (Sáb - Dom)",
+        "Lunes a Viernes",
+        "Solo Tardes (todos los días)",
+        "Todos los días (Inmediato)",
+        "Días a coordinar"
+    )
+
+    private val scheduleOptions = arrayOf(
+        "Jornada completa (8am - 6pm)",
+        "Mañanas (8am - 1pm)",
+        "Tardes (2pm - 7pm)",
+        "Horario flexible",
+        "Noches / Emergencias"
+    )
+
+    private val paymentTypes = arrayOf("por día", "por tarea / obra", "por hora", "por jornada")
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,7 +59,8 @@ class FragmentoPublicarTrabajo : Fragment() {
         repository = ChambayaRepository.getInstance(requireContext())
 
         setupDropdowns()
-        setupListeners()
+        setupPlanListeners()
+        setupSubmitListeners()
         adaptarVistaSegunRol()
     }
 
@@ -55,133 +71,103 @@ class FragmentoPublicarTrabajo : Fragment() {
 
     private fun adaptarVistaSegunRol() {
         val isWorker = repository.currentRole == ChambayaRepository.ROLE_WORKER
-
-        if (isWorker) {
-            // MODO TRABAJADOR: Publicar tiempo libre / disponibilidad
-            binding.tvPublishHeaderTitle.text = "Publicar mi Disponibilidad"
-            binding.tvPublishHeaderSubtitle.text = "Publica tus días y horarios libres para que las empresas y clientes te contraten"
-
-            binding.tilPublishTitle.hint = "Oficio / Servicio que ofreces (Ej: Maestro Pintor, Albañil, Electricista...)"
-            binding.tilCategory.hint = "Tu Especialidad Principal"
-            binding.tilDistrict.hint = "Distrito / Zona de tu disponibilidad"
-            binding.tilAddress.hint = "Zonas de cobertura (Ej: Huamanga centro, Carmen Alto)"
-            binding.tilPayment.hint = "Tarifa estimada (S/.)"
-            binding.tilPaymentType.hint = "Cobro"
-            
-            // Campos exclusivos de trabajador
-            binding.layoutWorkerExtraFields.visibility = View.VISIBLE
-            binding.tilWorkers.visibility = View.GONE
-
-            binding.tilDate.hint = "Días libres"
-            binding.etPublishDate.setText("Fines de semana y tardes")
-            binding.tilSchedule.hint = "Horarios disponibles"
-            binding.etPublishSchedule.setText("2:00 PM - 7:00 PM")
-            binding.tilDuration.hint = "Tipo de contrato"
-            binding.etPublishDuration.setText("Por día o tarea")
-            binding.tilDesc.hint = "Describe tu experiencia, herramientas que tienes y garantía de tu trabajo"
-
-            binding.btnSubmitPublish.text = "⭐ Publicar mi Disponibilidad"
-        } else {
-            // MODO EMPRESA / CONTRATANTE: Publicar oferta de trabajo
-            binding.tvPublishHeaderTitle.text = "Publicar Oferta de Chamba"
-            binding.tvPublishHeaderSubtitle.text = "Conecta con trabajadores independientes de Ayacucho en minutos"
-
-            binding.tilPublishTitle.hint = "Título del trabajo (Ej: Pintar fachada 2 pisos, Maestro Albañil...)"
-            binding.tilCategory.hint = "Categoría / Oficio requerido"
-            binding.tilDistrict.hint = "Distrito donde se realizará el trabajo"
-            binding.tilAddress.hint = "Dirección exacta o referencia del lugar"
-            binding.tilPayment.hint = "Pago Ofrecido (S/.)"
-            binding.tilPaymentType.hint = "Modalidad"
-            
-            // Campos exclusivos de contratante
-            binding.layoutWorkerExtraFields.visibility = View.GONE
-            binding.tilWorkers.visibility = View.VISIBLE
-            binding.etPublishWorkers.setText("2")
-
-            binding.tilDate.hint = "Fecha de inicio"
-            binding.etPublishDate.setText("Mañana")
-            binding.tilSchedule.hint = "Horario"
-            binding.etPublishSchedule.setText("8:00 AM - 5:00 PM")
-            binding.tilDuration.hint = "Duración"
-            binding.etPublishDuration.setText("1 a 2 días")
-            binding.tilDesc.hint = "Descripción detallada del trabajo y requisitos"
-
-            binding.btnSubmitPublish.text = "📢 Publicar Oferta de Chamba"
-        }
+        binding.layoutWorkerPublish.visibility = if (isWorker) View.VISIBLE else View.GONE
+        binding.layoutEmployerPublish.visibility = if (isWorker) View.GONE else View.VISIBLE
     }
 
     private fun setupDropdowns() {
+        // Empresa
         val catAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, categories)
-        binding.actvCategory.setAdapter(catAdapter)
+        binding.actvEmpCategory.setAdapter(catAdapter)
 
-        val distAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, districts)
-        binding.actvDistrict.setAdapter(distAdapter)
+        val distEmpAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, districtsEmployer)
+        binding.actvEmpDistrict.setAdapter(distEmpAdapter)
 
-        val payAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, paymentTypes)
-        binding.actvPaymentType.setAdapter(payAdapter)
+        val payEmpAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, paymentTypes)
+        binding.actvEmpPaymentType.setAdapter(payEmpAdapter)
 
-        val toolAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, toolOptions)
-        binding.actvWorkerTools.setAdapter(toolAdapter)
+        // Trabajador
+        binding.actvWorkerCategory.setAdapter(catAdapter)
+
+        val freeDaysAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, freeDaysOptions)
+        binding.actvWorkerFreeDays.setAdapter(freeDaysAdapter)
+
+        val schedAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, scheduleOptions)
+        binding.actvWorkerSchedule.setAdapter(schedAdapter)
     }
 
-    private fun setupListeners() {
-        binding.cardOptionBasic.setOnClickListener {
-            binding.rbBasic.isChecked = true
-            binding.rbFeatured.isChecked = false
+    private fun setupPlanListeners() {
+        // Plan listeners – Empresa
+        binding.cardEmpOptionBasic.setOnClickListener {
+            binding.rbEmpBasic.isChecked = true
+            binding.rbEmpFeatured.isChecked = false
+        }
+        binding.cardEmpOptionFeatured.setOnClickListener {
+            binding.rbEmpFeatured.isChecked = true
+            binding.rbEmpBasic.isChecked = false
+        }
+        binding.rbEmpBasic.setOnCheckedChangeListener { _, checked ->
+            if (checked) binding.rbEmpFeatured.isChecked = false
+        }
+        binding.rbEmpFeatured.setOnCheckedChangeListener { _, checked ->
+            if (checked) binding.rbEmpBasic.isChecked = false
         }
 
-        binding.cardOptionFeatured.setOnClickListener {
-            binding.rbFeatured.isChecked = true
-            binding.rbBasic.isChecked = false
+        // Plan listeners – Trabajador
+        binding.cardWorkerOptionBasic.setOnClickListener {
+            binding.rbWorkerBasic.isChecked = true
+            binding.rbWorkerFeatured.isChecked = false
         }
-
-        binding.rbBasic.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) binding.rbFeatured.isChecked = false
+        binding.cardWorkerOptionFeatured.setOnClickListener {
+            binding.rbWorkerFeatured.isChecked = true
+            binding.rbWorkerBasic.isChecked = false
         }
-
-        binding.rbFeatured.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) binding.rbBasic.isChecked = false
+        binding.rbWorkerBasic.setOnCheckedChangeListener { _, checked ->
+            if (checked) binding.rbWorkerFeatured.isChecked = false
         }
-
-        binding.btnSubmitPublish.setOnClickListener {
-            publishJob()
+        binding.rbWorkerFeatured.setOnCheckedChangeListener { _, checked ->
+            if (checked) binding.rbWorkerBasic.isChecked = false
         }
     }
 
-    private fun publishJob() {
-        val isWorker = repository.currentRole == ChambayaRepository.ROLE_WORKER
-        val title = binding.etPublishTitle.text.toString().trim()
-        val category = binding.actvCategory.text.toString().trim()
-        val district = binding.actvDistrict.text.toString().trim()
-        val address = binding.etPublishAddress.text.toString().trim()
-        val paymentStr = binding.etPublishPayment.text.toString().trim()
-        val paymentType = binding.actvPaymentType.text.toString().trim()
-        val workersStr = binding.etPublishWorkers.text.toString().trim()
-        val date = binding.etPublishDate.text.toString().trim()
-        val schedule = binding.etPublishSchedule.text.toString().trim()
-        val duration = binding.etPublishDuration.text.toString().trim()
-        val desc = binding.etPublishDesc.text.toString().trim()
-        val isFeatured = binding.rbFeatured.isChecked
+    private fun setupSubmitListeners() {
+        binding.btnEmpPublishSubmit.setOnClickListener { publishEmployerJob() }
+        binding.btnWorkerPublishSubmit.setOnClickListener { publishWorkerAvailability() }
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    // PUBLICAR COMO EMPRESA
+    // ─────────────────────────────────────────────────────────────
+    private fun publishEmployerJob() {
+        val title = binding.etEmpJobTitle.text.toString().trim()
+        val category = binding.actvEmpCategory.text.toString().trim()
+        val district = binding.actvEmpDistrict.text.toString().trim()
+        val address = binding.etEmpAddress.text.toString().trim()
+        val paymentStr = binding.etEmpPayment.text.toString().trim()
+        val paymentType = binding.actvEmpPaymentType.text.toString().trim()
+        val workersStr = binding.etEmpWorkersNeeded.text.toString().trim()
+        val startDate = binding.etEmpStartDate.text.toString().trim()
+        val schedule = binding.etEmpSchedule.text.toString().trim()
+        val reqs = binding.etEmpRequirements.text.toString().trim()
+        val isFeatured = binding.rbEmpFeatured.isChecked
 
         if (title.isEmpty()) {
-            val errorMsg = if (isWorker) "Ingresa el oficio o servicio que ofreces" else "Ingresa el título del trabajo"
-            binding.etPublishTitle.error = errorMsg
+            binding.etEmpJobTitle.error = "Ingresa el título del trabajo"
+            binding.etEmpJobTitle.requestFocus()
             return
         }
         if (address.isEmpty()) {
-            val errorMsg = if (isWorker) "Ingresa tu zona de cobertura en Ayacucho" else "Ingresa la dirección o referencia en Ayacucho"
-            binding.etPublishAddress.error = errorMsg
+            binding.etEmpAddress.error = "Ingresa la dirección exacta o punto de referencia"
+            binding.etEmpAddress.requestFocus()
             return
         }
-        val payment = paymentStr.toDoubleOrNull() ?: 50.0
+
+        val payment = paymentStr.toDoubleOrNull() ?: 100.0
         val workers = workersStr.toIntOrNull() ?: 1
 
-        val finalDesc = if (desc.isEmpty()) {
-            if (isWorker)
-                "Trabajador disponible en $district. Tarifa estimada S/ $payment $paymentType."
-            else
-                "Trabajo en $district, pago puntual de S/ $payment $paymentType."
-        } else desc
+        val finalDesc = if (reqs.isEmpty())
+            "Se requiere $workers persona(s) para $title en $district. Pago de S/ $payment $paymentType."
+        else reqs
 
         repository.publishJob(
             title = title,
@@ -190,28 +176,68 @@ class FragmentoPublicarTrabajo : Fragment() {
             address = address,
             payment = payment,
             paymentType = paymentType,
-            duration = if (duration.isEmpty()) "1 día" else duration,
+            duration = "Por coordinar",
             schedule = if (schedule.isEmpty()) "Jornada completa" else schedule,
             workersNeeded = workers,
-            date = if (date.isEmpty()) "Inmediato" else date,
+            date = if (startDate.isEmpty()) "Inmediato" else startDate,
             description = finalDesc,
             isFeatured = isFeatured
         )
 
         val fee = if (isFeatured) "S/ 5.00 (Destacada 🔥)" else "S/ 2.00 (Básica)"
-        val exitoMsg = if (isWorker)
-            "¡Disponibilidad publicada con éxito!\nAhora los contratantes podrán ver tu perfil disponible."
+        Toast.makeText(requireContext(), "¡Oferta publicada con éxito!\nTarifa: $fee", Toast.LENGTH_LONG).show()
+
+        binding.etEmpJobTitle.text?.clear()
+        binding.etEmpAddress.text?.clear()
+        binding.etEmpRequirements.text?.clear()
+
+        (activity as? com.example.chambaya.MainActivity)?.navigateToTab(R.id.nav_jobs)
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    // PUBLICAR COMO TRABAJADOR
+    // ─────────────────────────────────────────────────────────────
+    private fun publishWorkerAvailability() {
+        val category = binding.actvWorkerCategory.text.toString().trim()
+        val freeDays = binding.actvWorkerFreeDays.text.toString().trim()
+        val schedule = binding.actvWorkerSchedule.text.toString().trim()
+        val bioDesc = binding.etWorkerBioDesc.text.toString().trim()
+        val isFeatured = binding.rbWorkerFeatured.isChecked
+
+        if (category.isEmpty()) {
+            Toast.makeText(requireContext(), "Selecciona la categoría de tu oficio", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val descCompleta = if (bioDesc.isEmpty())
+            "Trabajador disponible en $category. Disponibilidad: $freeDays en horario $schedule."
         else
-            "¡Chamba publicada con éxito!\nTarifa aplicada: $fee"
+            "$bioDesc\n\nDisponibilidad: $freeDays ($schedule)."
 
-        Toast.makeText(requireContext(), exitoMsg, Toast.LENGTH_LONG).show()
+        repository.publishJob(
+            title = "⭐ DISPONIBLE: $category",
+            category = category,
+            district = "Huamanga",
+            address = "Zonas de Huamanga",
+            payment = 0.0,
+            paymentType = "a coordinar",
+            duration = freeDays,
+            schedule = schedule,
+            workersNeeded = 1,
+            date = "Disponible $freeDays",
+            description = descCompleta,
+            isFeatured = isFeatured
+        )
 
-        // Limpiar campos
-        binding.etPublishTitle.text?.clear()
-        binding.etPublishAddress.text?.clear()
-        binding.etPublishDesc.text?.clear()
+        val fee = if (isFeatured) "S/ 5.00 (Destacado 🔥)" else "S/ 2.00 (Básico)"
+        Toast.makeText(
+            requireContext(),
+            "¡Tu disponibilidad fue publicada!\nTarifa: $fee\nAhora las empresas podrán encontrarte.",
+            Toast.LENGTH_LONG
+        ).show()
 
-        // Cambiar al feed principal
+        binding.etWorkerBioDesc.text?.clear()
+
         (activity as? com.example.chambaya.MainActivity)?.navigateToTab(R.id.nav_jobs)
     }
 

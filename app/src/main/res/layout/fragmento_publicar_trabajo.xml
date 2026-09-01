@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_light">
@@ -12,328 +11,51 @@
         android:orientation="vertical"
         android:paddingBottom="100dp">
 
+        <!-- ================================================================= -->
+        <!-- VISTA EMPRESA / CONTRATANTE                                        -->
+        <!-- ================================================================= -->
         <LinearLayout
+            android:id="@+id/layoutEmployerPublish"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_main_header"
             android:orientation="vertical"
-            android:paddingHorizontal="16dp"
-            android:paddingTop="18dp"
-            android:paddingBottom="20dp">
-
-            <TextView
-                android:id="@+id/tvPublishHeaderTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-black"
-                android:text="Publicar Oferta de Chamba"
-                android:textColor="@color/white"
-                android:textSize="22sp" />
-
-            <TextView
-                android:id="@+id/tvPublishHeaderSubtitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:fontFamily="sans-serif"
-                android:text="Conecta con trabajadores independientes de Ayacucho en minutos"
-                android:textColor="@color/primary_container"
-                android:textSize="13sp" />
-        </LinearLayout>
-
-        <!-- Form Card -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="16dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="5dp"
-            app:strokeColor="@color/primary_container"
-            app:strokeWidth="1dp"
-            app:cardBackgroundColor="@color/surface_light">
+            android:visibility="visible">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/bg_main_header"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:paddingHorizontal="16dp"
+                android:paddingTop="18dp"
+                android:paddingBottom="20dp">
 
-                <!-- Job Title -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tilPublishTitle"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Título del trabajo (Ej: Pintar fachada 2 pisos)">
+                    android:fontFamily="sans-serif-black"
+                    android:text="🏢 Publicar Oferta de Chamba"
+                    android:textColor="@color/white"
+                    android:textSize="22sp" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etPublishTitle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textCapSentences"
-                        android:maxLines="2" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- Category Spinner / Dropdown -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tilCategory"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:hint="Categoría / Oficio">
-
-                    <AutoCompleteTextView
-                        android:id="@+id/actvCategory"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="none"
-                        android:text="Albañilería" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- District Dropdown -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tilDistrict"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:hint="Distrito en Ayacucho">
-
-                    <AutoCompleteTextView
-                        android:id="@+id/actvDistrict"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="none"
-                        android:text="Carmen Alto" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- Address / Reference -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tilAddress"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:hint="Dirección exacta o referencia">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etPublishAddress"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textPostalAddress" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- Payment & Mode Row -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:orientation="horizontal">
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/tilPayment"
-                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="1"
-                        android:hint="Pago (S/.)">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etPublishPayment"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="numberDecimal"
-                            android:text="100" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/tilPaymentType"
-                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1.2"
-                        android:hint="Modalidad">
-
-                        <AutoCompleteTextView
-                            android:id="@+id/actvPaymentType"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="none"
-                            android:text="por día" />
-                    </com.google.android.material.textfield.TextInputLayout>
-                </LinearLayout>
-
-                <!-- Workers needed & Date -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:orientation="horizontal">
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/tilWorkers"
-                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="1"
-                        android:hint="N° Trabajadores">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etPublishWorkers"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="number"
-                            android:text="2" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/tilDate"
-                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1.2"
-                        android:hint="Fecha de inicio">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etPublishDate"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Mañana" />
-                    </com.google.android.material.textfield.TextInputLayout>
-                </LinearLayout>
-
-                <!-- Horario & Duracion -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:orientation="horizontal">
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/tilSchedule"
-                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="1"
-                        android:hint="Horario">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etPublishSchedule"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="8:00 AM - 5:00 PM" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/tilDuration"
-                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:hint="Duración">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etPublishDuration"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="1 a 2 días" />
-                    </com.google.android.material.textfield.TextInputLayout>
-                </LinearLayout>
-
-                <!-- Worker Specific Fields (WhatsApp & Herramientas) -->
-                <LinearLayout
-                    android:id="@+id/layoutWorkerExtraFields"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:orientation="horizontal"
-                    android:visibility="gone">
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/tilWorkerPhone"
-                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="1.2"
-                        android:hint="WhatsApp de contacto">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etWorkerPhone"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="phone"
-                            android:text="966 123 456" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/tilWorkerTools"
-                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:hint="Herramientas">
-
-                        <AutoCompleteTextView
-                            android:id="@+id/actvWorkerTools"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="none"
-                            android:text="Propias" />
-                    </com.google.android.material.textfield.TextInputLayout>
-                </LinearLayout>
-
-                <!-- Detailed Description -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tilDesc"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:hint="Descripción detallada y requisitos">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etPublishDesc"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="top"
-                        android:lines="3" />
-                </com.google.android.material.textfield.TextInputLayout>
-
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="sans-serif"
+                    android:text="Encuentra trabajadores calificados y ayudantes para tu obra o negocio"
+                    android:textColor="@color/primary_container"
+                    android:textSize="13sp" />
             </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
 
-        <!-- Business Model Selection: Basic vs Featured -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="20dp"
-            android:fontFamily="sans-serif-bold"
-            android:text="Elige el tipo de publicación"
-            android:textColor="@color/text_primary"
-            android:textSize="16sp" />
-
-        <RadioGroup
-            android:id="@+id/rgPublicationType"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="8dp">
-
-            <!-- Plan Basic S/2 -->
+            <!-- Form Card Empresa -->
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardOptionBasic"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                app:cardCornerRadius="14dp"
-                app:cardElevation="3dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
                 app:strokeColor="@color/primary_container"
                 app:strokeWidth="1dp"
                 app:cardBackgroundColor="@color/surface_light">
@@ -341,133 +63,578 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="12dp">
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                    <RadioButton
-                        android:id="@+id/rbBasic"
-                        android:layout_width="wrap_content"
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:checked="true" />
+                        android:hint="Título del trabajo (Ej: Techado y vaciado de losa)">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etEmpJobTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textCapSentences"
+                            android:maxLines="2" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:hint="Oficio / Categoría requerida">
+                        <AutoCompleteTextView
+                            android:id="@+id/actvEmpCategory"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none"
+                            android:text="Albañilería" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:hint="Distrito donde se ubica la obra">
+                        <AutoCompleteTextView
+                            android:id="@+id/actvEmpDistrict"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none"
+                            android:text="Ayacucho Centro" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:hint="Dirección exacta o punto de referencia">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etEmpAddress"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPostalAddress" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal">
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-bold"
-                            android:text="Publicación Estándar"
-                            android:textColor="@color/text_primary"
-                            android:textSize="14sp" />
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:hint="Presupuesto (S/.)">
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etEmpPayment"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="numberDecimal"
+                                android:text="120" />
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif"
-                            android:text="Aparece en el feed regular y mapa de Huamanga."
-                            android:textColor="@color/text_secondary"
-                            android:textSize="12sp" />
+                            android:layout_weight="1.2"
+                            android:hint="Modalidad">
+                            <AutoCompleteTextView
+                                android:id="@+id/actvEmpPaymentType"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="none"
+                                android:text="por día" />
+                        </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-black"
-                        android:text="S/ 2.00"
-                        android:textColor="@color/primary"
-                        android:textSize="16sp" />
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:hint="N° Trabajadores">
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etEmpWorkersNeeded"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="number"
+                                android:text="2" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.2"
+                            android:hint="Fecha de inicio">
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etEmpStartDate"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Mañana" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:hint="Horario de trabajo (Ej: 8:00 AM - 5:00 PM)">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etEmpSchedule"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="8:00 AM - 5:00 PM" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:hint="Requisitos y detalles del trabajo">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etEmpRequirements"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="top"
+                            android:lines="3" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Plan Featured S/5 -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardOptionFeatured"
+            <!-- Plan de publicación empresa -->
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="14dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="sans-serif-bold"
+                android:text="Elige el tipo de publicación"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp" />
+
+            <RadioGroup
+                android:id="@+id/rgEmpPublicationType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="8dp">
+
+                <!-- Plan Básico S/2 -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardEmpOptionBasic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    app:cardCornerRadius="14dp"
+                    app:cardElevation="3dp"
+                    app:strokeColor="@color/primary_container"
+                    app:strokeWidth="1dp"
+                    app:cardBackgroundColor="@color/surface_light">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="12dp">
+                        <RadioButton
+                            android:id="@+id/rbEmpBasic"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true" />
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-bold"
+                                android:text="Publicación Estándar"
+                                android:textColor="@color/text_primary"
+                                android:textSize="14sp" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif"
+                                android:text="Aparece en el feed regular y mapa de Huamanga."
+                                android:textColor="@color/text_secondary"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-black"
+                            android:text="S/ 2.00"
+                            android:textColor="@color/primary"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Plan Destacado S/5 -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardEmpOptionFeatured"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="14dp"
+                    app:cardElevation="4dp"
+                    app:strokeColor="@color/primary"
+                    app:strokeWidth="1.5dp"
+                    app:cardBackgroundColor="@color/primary_container">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="12dp">
+                        <RadioButton
+                            android:id="@+id/rbEmpFeatured"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-black"
+                                    android:text="Publicación Destacada"
+                                    android:textColor="@color/primary"
+                                    android:textSize="14sp" />
+                                <ImageView
+                                    android:layout_width="16dp"
+                                    android:layout_height="16dp"
+                                    android:layout_marginStart="4dp"
+                                    android:src="@drawable/ic_fire" />
+                            </LinearLayout>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif"
+                                android:text="3x más postulantes, insignia de fuego y radar prioritario."
+                                android:textColor="@color/text_secondary"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-black"
+                            android:text="S/ 5.00"
+                            android:textColor="@color/primary"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+            </RadioGroup>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnEmpPublishSubmit"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="sans-serif-bold"
+                android:text="📢 Publicar Oferta de Chamba"
+                android:textSize="16sp"
+                app:cornerRadius="14dp"
+                app:backgroundTint="@color/primary" />
+        </LinearLayout>
+
+
+        <!-- ================================================================= -->
+        <!-- VISTA TRABAJADOR (PUBLICAR DISPONIBILIDAD Y SERVICIOS)            -->
+        <!-- ================================================================= -->
+        <LinearLayout
+            android:id="@+id/layoutWorkerPublish"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_main_header"
+                android:orientation="vertical"
+                android:paddingHorizontal="16dp"
+                android:paddingTop="18dp"
+                android:paddingBottom="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-black"
+                    android:text="🔨 Publicar mis Servicios y Disponibilidad"
+                    android:textColor="@color/white"
+                    android:textSize="21sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="sans-serif"
+                    android:text="Haz visible tu perfil con tus días libres para que las empresas y clientes te contraten"
+                    android:textColor="@color/primary_container"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <!-- Form Card Trabajador — solo datos relevantes -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="16dp"
                 app:cardElevation="4dp"
-                app:strokeColor="@color/primary"
-                app:strokeWidth="1.5dp"
-                app:cardBackgroundColor="@color/primary_container">
+                app:strokeColor="@color/primary_container"
+                app:strokeWidth="1dp"
+                app:cardBackgroundColor="@color/surface_light">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="12dp">
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                    <RadioButton
-                        android:id="@+id/rbFeatured"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
+                    <!-- Categoría / Especialidad que ofrece -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:hint="¿En qué categoría de trabajo te especializas?">
+                        <AutoCompleteTextView
+                            android:id="@+id/actvWorkerCategory"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none"
+                            android:text="Pintura" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                        <LinearLayout
+                    <!-- Días libres disponibles -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:hint="¿Qué días tienes libres?">
+                        <AutoCompleteTextView
+                            android:id="@+id/actvWorkerFreeDays"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none"
+                            android:text="Fines de semana (Sáb - Dom)" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Horario disponible -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:hint="¿Cuál es tu horario disponible?">
+                        <AutoCompleteTextView
+                            android:id="@+id/actvWorkerSchedule"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none"
+                            android:text="Jornada completa (8am - 6pm)" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Descripción corta de experiencia -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:hint="Describe brevemente tu experiencia y servicios">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etWorkerBioDesc"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="top"
+                            android:lines="3" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Plan de publicación trabajador -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="sans-serif-bold"
+                android:text="Elige el tipo de publicación"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp" />
+
+            <RadioGroup
+                android:id="@+id/rgWorkerPublicationType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="8dp">
+
+                <!-- Plan Básico S/2 -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardWorkerOptionBasic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    app:cardCornerRadius="14dp"
+                    app:cardElevation="3dp"
+                    app:strokeColor="@color/primary_container"
+                    app:strokeWidth="1dp"
+                    app:cardBackgroundColor="@color/surface_light">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="12dp">
+                        <RadioButton
+                            android:id="@+id/rbWorkerBasic"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
+                            android:checked="true" />
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="sans-serif-black"
-                                android:text="Publicación Destacada"
-                                android:textColor="@color/primary"
+                                android:fontFamily="sans-serif-bold"
+                                android:text="Publicación Estándar"
+                                android:textColor="@color/text_primary"
                                 android:textSize="14sp" />
-
-                            <ImageView
-                                android:layout_width="16dp"
-                                android:layout_height="16dp"
-                                android:layout_marginStart="4dp"
-                                android:src="@drawable/ic_fire" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif"
+                                android:text="Tu perfil aparece en el feed de disponibles."
+                                android:textColor="@color/text_secondary"
+                                android:textSize="12sp" />
                         </LinearLayout>
-
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif"
-                            android:text="3x más postulantes, insignia de fuego y radar prioritario."
-                            android:textColor="@color/text_secondary"
-                            android:textSize="12sp" />
+                            android:fontFamily="sans-serif-black"
+                            android:text="S/ 2.00"
+                            android:textColor="@color/primary"
+                            android:textSize="16sp" />
                     </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                <!-- Plan Destacado S/5 -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardWorkerOptionFeatured"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="14dp"
+                    app:cardElevation="4dp"
+                    app:strokeColor="@color/primary"
+                    app:strokeWidth="1.5dp"
+                    app:cardBackgroundColor="@color/primary_container">
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-black"
-                        android:text="S/ 5.00"
-                        android:textColor="@color/primary"
-                        android:textSize="16sp" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-        </RadioGroup>
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="12dp">
+                        <RadioButton
+                            android:id="@+id/rbWorkerFeatured"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-black"
+                                    android:text="Perfil Destacado"
+                                    android:textColor="@color/primary"
+                                    android:textSize="14sp" />
+                                <ImageView
+                                    android:layout_width="16dp"
+                                    android:layout_height="16dp"
+                                    android:layout_marginStart="4dp"
+                                    android:src="@drawable/ic_fire" />
+                            </LinearLayout>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif"
+                                android:text="3x más visualizaciones, apareces primero en la búsqueda de empresas."
+                                android:textColor="@color/text_secondary"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-black"
+                            android:text="S/ 5.00"
+                            android:textColor="@color/primary"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </RadioGroup>
 
-        <!-- Submit Button -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnSubmitPublish"
-            android:layout_width="match_parent"
-            android:layout_height="54dp"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="20dp"
-            android:fontFamily="sans-serif-bold"
-            android:text="Publicar Chamba Ahora"
-            android:textSize="16sp"
-            app:cornerRadius="14dp"
-            app:backgroundTint="@color/primary" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnWorkerPublishSubmit"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="sans-serif-bold"
+                android:text="⭐ Publicar mi Perfil y Disponibilidad"
+                android:textSize="16sp"
+                app:cornerRadius="14dp"
+                app:backgroundTint="@color/primary" />
+        </LinearLayout>
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
