@@ -71,47 +71,26 @@ class FragmentoPerfil : Fragment() {
         binding.layoutGuestMode.visibility = View.VISIBLE
         binding.layoutProfileContent.visibility = View.GONE
 
-        // Tarjeta Trabajador — toca para registrarse (próximamente)
-        binding.cardGuestWorker.setOnClickListener {
-            Toast.makeText(
-                requireContext(),
-                getString(R.string.guest_coming_soon),
-                Toast.LENGTH_SHORT
-            ).show()
+        // Tarjeta y botón: Registrarme como Trabajador
+        val openRegisterWorker = View.OnClickListener {
+            val intent = Intent(requireContext(), com.example.chambaya.RegistroActivity::class.java)
+            startActivity(intent)
         }
+        binding.cardGuestWorker.setOnClickListener(openRegisterWorker)
+        binding.btnGuestWorkerRegister.setOnClickListener(openRegisterWorker)
 
-        binding.btnGuestWorkerRegister.setOnClickListener {
-            Toast.makeText(
-                requireContext(),
-                getString(R.string.guest_coming_soon),
-                Toast.LENGTH_SHORT
-            ).show()
+        // Tarjeta y botón: Registrarme como Empresa / Contratante
+        val openRegisterEmployer = View.OnClickListener {
+            val intent = Intent(requireContext(), com.example.chambaya.RegistroActivity::class.java)
+            startActivity(intent)
         }
+        binding.cardGuestEmployer.setOnClickListener(openRegisterEmployer)
+        binding.btnGuestEmployerRegister.setOnClickListener(openRegisterEmployer)
 
-        // Tarjeta Empresa / Contratante — toca para registrarse (próximamente)
-        binding.cardGuestEmployer.setOnClickListener {
-            Toast.makeText(
-                requireContext(),
-                getString(R.string.guest_coming_soon),
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-
-        binding.btnGuestEmployerRegister.setOnClickListener {
-            Toast.makeText(
-                requireContext(),
-                getString(R.string.guest_coming_soon),
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-
-        // Enlace de login
+        // Enlace de inicio de sesión
         binding.tvGuestLoginLink.setOnClickListener {
-            Toast.makeText(
-                requireContext(),
-                getString(R.string.guest_coming_soon),
-                Toast.LENGTH_SHORT
-            ).show()
+            val intent = Intent(requireContext(), com.example.chambaya.LoginActivity::class.java)
+            startActivity(intent)
         }
     }
 
