@@ -3,255 +3,132 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="28dp"
-    app:cardElevation="12dp"
-    app:strokeWidth="1dp"
-    app:strokeColor="#E2E8F0"
-    app:cardBackgroundColor="@color/surface_light">
+    app:cardCornerRadius="32dp"
+    app:cardElevation="16dp"
+    app:strokeWidth="0dp"
+    app:cardBackgroundColor="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:paddingHorizontal="22dp"
-        android:paddingTop="26dp"
-        android:paddingBottom="24dp">
+        android:paddingHorizontal="28dp"
+        android:paddingTop="36dp"
+        android:paddingBottom="30dp">
 
-        <!-- Top Badge -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_pill_chip"
-            android:fontFamily="sans-serif-black"
-            android:letterSpacing="0.08"
-            android:paddingHorizontal="14dp"
-            android:paddingVertical="5dp"
-            android:text="✨ ACTIVACIÓN DE CUENTA"
-            android:textColor="@color/primary"
-            android:textSize="10sp" />
-
-        <!-- Icon with Glow Circle -->
+        <!-- Badge / Icon Container -->
         <FrameLayout
-            android:layout_width="84dp"
-            android:layout_height="84dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/bg_verification_icon_glow">
+            android:layout_width="100dp"
+            android:layout_height="100dp">
 
-            <TextView
-                android:id="@+id/tvDialogIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <!-- Scalloped Badge / Icon -->
+            <ImageView
+                android:id="@+id/ivBadgeIcon"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
                 android:layout_gravity="center"
-                android:text="📩"
-                android:textSize="38sp" />
+                android:contentDescription="Icono de verificación"
+                android:src="@drawable/ic_mail_waiting_circle" />
+
+            <!-- Circular Progress Overlay during waiting -->
+            <ProgressBar
+                android:id="@+id/progressWaiting"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_gravity="center"
+                android:indeterminate="true"
+                android:indeterminateTint="@color/primary" />
         </FrameLayout>
 
-        <!-- Main Title -->
+        <!-- Title (like "Successful" in screenshot) -->
         <TextView
             android:id="@+id/tvDialogTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="20dp"
             android:fontFamily="sans-serif-black"
-            android:text="Verificando tu Correo"
-            android:textColor="@color/text_primary"
+            android:text="Esperando Verificación"
+            android:textColor="#18181B"
             android:textSize="22sp"
             android:textAlignment="center" />
 
+        <!-- Subtitle -->
         <TextView
+            android:id="@+id/tvDialogSubtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="8dp"
             android:fontFamily="sans-serif"
-            android:text="Hemos enviado tu enlace seguro a:"
-            android:textColor="@color/text_secondary"
+            android:lineSpacingExtra="3dp"
+            android:text="Hemos enviado el enlace a tu correo. Haz clic en él para continuar."
+            android:textColor="#71717A"
             android:textSize="13sp"
             android:textAlignment="center" />
 
-        <!-- Highlighted Email Box -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/bg_verification_email_box"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingHorizontal="14dp"
-            android:paddingVertical="10dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
-                android:text="✉️"
-                android:textSize="15sp" />
-
-            <TextView
-                android:id="@+id/tvDialogEmail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="middle"
-                android:fontFamily="sans-serif-bold"
-                android:singleLine="true"
-                android:text="tu_correo@gmail.com"
-                android:textColor="@color/primary"
-                android:textSize="14sp" />
-        </LinearLayout>
-
-        <!-- Micro Steps Section -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/bg_live_status_box"
-            android:orientation="vertical"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="12dp">
-
-            <!-- Step 1 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:background="@drawable/bg_pill_chip"
-                    android:gravity="center"
-                    android:text="1"
-                    android:textColor="@color/primary"
-                    android:textSize="11sp"
-                    android:fontFamily="sans-serif-bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:fontFamily="sans-serif"
-                    android:text="Abre tu app de correo (Gmail, Outlook...)"
-                    android:textColor="@color/text_primary"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-            <!-- Step 2 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:background="@drawable/bg_pill_chip"
-                    android:gravity="center"
-                    android:text="2"
-                    android:textColor="@color/primary"
-                    android:textSize="11sp"
-                    android:fontFamily="sans-serif-bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:fontFamily="sans-serif"
-                    android:text="Haz clic en el enlace para dar permiso"
-                    android:textColor="@color/text_primary"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-            <!-- Step 3 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:background="@drawable/bg_pill_chip"
-                    android:gravity="center"
-                    android:text="3"
-                    android:textColor="@color/primary"
-                    android:textSize="11sp"
-                    android:fontFamily="sans-serif-bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="¡Esta app avanzará automáticamente!"
-                    android:textColor="@color/primary"
-                    android:textSize="12sp" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- Live Radar / Status Pulse -->
-        <LinearLayout
-            android:id="@+id/layoutCheckingStatus"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <ProgressBar
-                android:id="@+id/progressChecking"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:indeterminateTint="@color/primary" />
-
-            <TextView
-                android:id="@+id/tvStatusLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:fontFamily="sans-serif-medium"
-                android:text="Escaneando autorización en tiempo real..."
-                android:textColor="@color/text_secondary"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <!-- Primary Action: Open Email App -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnOpenEmailApp"
-            style="@style/Widget.Material3.Button"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="16dp"
-            android:fontFamily="sans-serif-bold"
-            android:text="🚀 Abrir mi Correo"
-            android:textSize="14sp"
-            app:backgroundTint="@color/primary"
-            app:cornerRadius="14dp" />
-
-        <!-- Resend Link Button -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnResendVerification"
-            style="@style/Widget.Material3.Button.TextButton"
+        <!-- Email Display Box -->
+        <TextView
+            android:id="@+id/tvDialogEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="¿No te llegó el correo? Reenviar"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_pill_chip"
+            android:fontFamily="sans-serif-medium"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="5dp"
+            android:singleLine="true"
+            android:text="usuario@gmail.com"
             android:textColor="@color/primary"
             android:textSize="13sp" />
 
-        <!-- Cancel Button -->
+        <!-- Primary Action Button (Matches "Done" button in screenshot) -->
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnCancelVerification"
-            style="@style/Widget.Material3.Button.TextButton"
+            android:id="@+id/btnDoneAction"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="26dp"
+            android:fontFamily="sans-serif-bold"
+            android:text="Abrir mi Correo"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            app:backgroundTint="#27272A"
+            app:cornerRadius="16dp" />
+
+        <!-- Secondary Buttons Container -->
+        <LinearLayout
+            android:id="@+id/layoutSecondaryActions"
             android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:text="Cancelar"
-            android:textColor="@color/text_muted"
-            android:textSize="12sp" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnResendVerification"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:text="Reenviar correo"
+                android:textColor="@color/primary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="•"
+                android:textColor="#A1A1AA"
+                android:textSize="12sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCancelVerification"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:text="Cancelar"
+                android:textColor="#71717A"
+                android:textSize="12sp" />
+        </LinearLayout>
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

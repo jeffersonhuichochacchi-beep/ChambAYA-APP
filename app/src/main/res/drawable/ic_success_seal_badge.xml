@@ -1,0 +1,16 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="96dp"
+    android:height="96dp"
+    android:viewportWidth="96"
+    android:viewportHeight="96">
+    
+    <!-- Scalloped Seal Badge (Light Green) -->
+    <path
+        android:fillColor="#B7F582"
+        android:pathData="M48,8 C53.5,8 57.5,12 62.5,13.5 C67.5,15 72.5,16.5 75.5,21 C78.5,25.5 77.5,31 79.5,36 C81.5,41 86,44 86,48 C86,52 81.5,55 79.5,60 C77.5,65 78.5,70.5 75.5,75 C72.5,79.5 67.5,81 62.5,82.5 C57.5,84 53.5,88 48,88 C42.5,88 38.5,84 33.5,82.5 C28.5,81 23.5,79.5 20.5,75 C17.5,70.5 18.5,65 16.5,60 C14.5,55 10,52 10,48 C10,44 14.5,41 16.5,36 C18.5,31 17.5,25.5 20.5,21 C23.5,16.5 28.5,15 33.5,13.5 C38.5,12 42.5,8 48,8 Z" />
+
+    <!-- Bold Dark Green Checkmark -->
+    <path
+        android:fillColor="#0D5F28"
+        android:pathData="M42.2,61.8 L30.5,50.1 C29.3,48.9 29.3,47 30.5,45.8 C31.7,44.6 33.6,44.6 34.8,45.8 L44.3,55.3 L61.2,38.4 C62.4,37.2 64.3,37.2 65.5,38.4 C66.7,39.6 66.7,41.5 65.5,42.7 L46.4,61.8 C45.2,63 43.4,63 42.2,61.8 Z" />
+</vector>

@@ -1,0 +1,16 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="96dp"
+    android:height="96dp"
+    android:viewportWidth="96"
+    android:viewportHeight="96">
+    
+    <!-- Soft Light Blue/Violet Circle Background -->
+    <path
+        android:fillColor="#EEF2FF"
+        android:pathData="M48,8 A40,40 0 1,0 48,88 A40,40 0 1,0 48,8 Z" />
+
+    <!-- Mail Envelope Icon in Primary -->
+    <path
+        android:fillColor="#5046E5"
+        android:pathData="M30,34 L66,34 C68.2,34 70,35.8 70,38 L70,58 C70,60.2 68.2,62 66,62 L30,62 C27.8,62 26,60.2 26,58 L26,38 C26,35.8 27.8,34 30,34 Z M65,38 L31,38 L48,49 L65,38 Z M30,42 L30,58 L66,58 L66,42 L48,53.5 L30,42 Z" />
+</vector>

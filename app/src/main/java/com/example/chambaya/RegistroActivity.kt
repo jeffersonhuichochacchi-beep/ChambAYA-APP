@@ -187,16 +187,19 @@ class RegistroActivity : AppCompatActivity() {
     private fun mostrarDialogoEsperandoVerificacion(user: com.google.firebase.auth.FirebaseUser, email: String) {
         val dialogView = layoutInflater.inflate(R.layout.dialogo_esperando_verificacion, null)
 
-        val tvIcon = dialogView.findViewById<android.widget.TextView>(R.id.tvDialogIcon)
+        val ivBadgeIcon = dialogView.findViewById<android.widget.ImageView>(R.id.ivBadgeIcon)
+        val progressWaiting = dialogView.findViewById<android.widget.ProgressBar>(R.id.progressWaiting)
         val tvTitle = dialogView.findViewById<android.widget.TextView>(R.id.tvDialogTitle)
+        val tvSubtitle = dialogView.findViewById<android.widget.TextView>(R.id.tvDialogSubtitle)
         val tvEmail = dialogView.findViewById<android.widget.TextView>(R.id.tvDialogEmail)
-        val progressChecking = dialogView.findViewById<android.widget.ProgressBar>(R.id.progressChecking)
-        val tvStatusLabel = dialogView.findViewById<android.widget.TextView>(R.id.tvStatusLabel)
-        val btnOpenEmail = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnOpenEmailApp)
+        val btnDoneAction = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnDoneAction)
+        val layoutSecondary = dialogView.findViewById<android.view.View>(R.id.layoutSecondaryActions)
         val btnResend = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnResendVerification)
         val btnCancel = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnCancelVerification)
 
         tvEmail.text = email
+        ivBadgeIcon.setImageResource(R.drawable.ic_mail_waiting_circle)
+        progressWaiting.visibility = View.VISIBLE
 
         verificationDialog = com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
             .setView(dialogView)
@@ -206,8 +209,8 @@ class RegistroActivity : AppCompatActivity() {
         verificationDialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
         verificationDialog?.show()
 
-        // Botón para abrir la app de correo del celular (Gmail, Outlook, etc.)
-        btnOpenEmail.setOnClickListener {
+        // Botón principal: abre la app de correo (Gmail, Outlook, etc.)
+        btnDoneAction.setOnClickListener {
             val emailIntent = Intent(Intent.ACTION_MAIN).apply {
                 addCategory(Intent.CATEGORY_APP_EMAIL)
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -256,22 +259,29 @@ class RegistroActivity : AppCompatActivity() {
                     if (user.isEmailVerified) {
                         detenerComprobacionVerificacion()
 
-                        // Estado verificado exitoso
-                        tvIcon.text = "✅"
-                        tvTitle.text = "¡Correo Verificado!"
-                        progressChecking.visibility = View.GONE
-                        tvStatusLabel.text = "¡Autorización confirmada! Redirigiendo..."
-                        tvStatusLabel.setTextColor(getColor(R.color.success))
-                        btnOpenEmail.visibility = View.GONE
-                        btnResend.visibility = View.GONE
-                        btnCancel.visibility = View.GONE
+                        // Estado verificado exitoso (con la viñeta verde como en la imagen)
+                        ivBadgeIcon.setImageResource(R.drawable.ic_success_seal_badge)
+                        progressWaiting.visibility = View.GONE
+                        tvTitle.text = "¡Verificación Exitosa!"
+                        tvSubtitle.text = "Tu cuenta ha sido activada correctamente.\nRedirigiendo al inicio de sesión..."
+                        tvEmail.visibility = View.GONE
+                        layoutSecondary.visibility = View.GONE
 
-                        // Redirigir al Login después de 1.5 segundos
-                        android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
+                        btnDoneAction.text = "Listo"
+                        btnDoneAction.setOnClickListener {
                             verificationDialog?.dismiss()
                             authGestor.cerrarSesion()
                             openLogin(email)
-                        }, 1500L)
+                        }
+
+                        // Redirigir al Login automáticamente después de 1.8 segundos
+                        android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
+                            if (!isFinishing && !isDestroyed && verificationDialog?.isShowing == true) {
+                                verificationDialog?.dismiss()
+                                authGestor.cerrarSesion()
+                                openLogin(email)
+                            }
+                        }, 1800L)
                     } else {
                         // Seguir consultando cada 2 segundos
                         verificationHandler?.postDelayed(this, 2000L)
