@@ -51,11 +51,10 @@ class FirebaseGestorAutenticacion private constructor(private val context: Conte
                         .setDisplayName(nombre)
                         .build()
 
-                    user.updateProfile(profileUpdates).addOnCompleteListener {
-                        // Guardar datos en Firestore
-                        guardarUsuarioEnFirestore(user, nombre, rol) {
-                            onExito(user)
-                        }
+                    user.updateProfile(profileUpdates)
+                    // Guardar datos en Firestore
+                    guardarUsuarioEnFirestore(user, nombre, rol) {
+                        onExito(user)
                     }
                 } else {
                     onError("No se pudo obtener el usuario creado.")
@@ -151,8 +150,8 @@ class FirebaseGestorAutenticacion private constructor(private val context: Conte
         firestore.collection("usuarios")
             .document(user.uid)
             .set(datosUsuario, SetOptions.merge())
-            .addOnSuccessListener { onCompletado() }
-            .addOnFailureListener { onCompletado() } // No bloquea si falla offline
+
+        onCompletado()
     }
 
     fun cerrarSesion() {

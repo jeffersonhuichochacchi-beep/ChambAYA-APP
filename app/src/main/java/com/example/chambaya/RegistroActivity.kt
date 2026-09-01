@@ -167,8 +167,9 @@ class RegistroActivity : AppCompatActivity() {
             rol = currentUserRole,
             onExito = {
                 mostrarCarga(false)
-                Toast.makeText(this, "¡Cuenta creada exitosamente en Firebase!", Toast.LENGTH_SHORT).show()
-                openMain()
+                Toast.makeText(this, "¡Cuenta creada exitosamente! Inicia sesión para continuar.", Toast.LENGTH_LONG).show()
+                authGestor.cerrarSesion()
+                openLogin(email)
             },
             onError = { error ->
                 mostrarCarga(false)
@@ -195,8 +196,13 @@ class RegistroActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun openLogin() {
-        startActivity(Intent(this, LoginActivity::class.java))
+    private fun openLogin(prefillEmail: String? = null) {
+        val intent = Intent(this, LoginActivity::class.java).apply {
+            if (!prefillEmail.isNullOrBlank()) {
+                putExtra(LoginActivity.EXTRA_PREFILL_EMAIL, prefillEmail)
+            }
+        }
+        startActivity(intent)
         finish()
     }
 

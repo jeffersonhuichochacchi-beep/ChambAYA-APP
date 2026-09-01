@@ -20,6 +20,10 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActividadLoginBinding
     private lateinit var authGestor: FirebaseGestorAutenticacion
 
+    companion object {
+        const val EXTRA_PREFILL_EMAIL = "extra_prefill_email"
+    }
+
     // Launcher para Google Sign-In
     private val googleSignInLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -66,6 +70,13 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         authGestor = FirebaseGestorAutenticacion.getInstance(this)
+
+        // Pre-llenar email si viene de una pantalla de registro exitoso
+        val prefillEmail = intent.getStringExtra(EXTRA_PREFILL_EMAIL)
+        if (!prefillEmail.isNullOrBlank()) {
+            binding.etEmail.setText(prefillEmail)
+            binding.etPassword.requestFocus()
+        }
 
         binding.btnBack.setOnClickListener { finish() }
         binding.btnSignIn.setOnClickListener { realizarLoginCorreo() }
