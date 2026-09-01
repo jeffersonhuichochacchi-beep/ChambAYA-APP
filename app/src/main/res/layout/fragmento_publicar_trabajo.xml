@@ -22,6 +22,7 @@
             android:paddingBottom="20dp">
 
             <TextView
+                android:id="@+id/tvPublishHeaderTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-black"
@@ -30,6 +31,7 @@
                 android:textSize="22sp" />
 
             <TextView
+                android:id="@+id/tvPublishHeaderSubtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
@@ -59,6 +61,7 @@
 
                 <!-- Job Title -->
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilPublishTitle"
                     style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -74,6 +77,7 @@
 
                 <!-- Category Spinner / Dropdown -->
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilCategory"
                     style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -90,6 +94,7 @@
 
                 <!-- District Dropdown -->
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilDistrict"
                     style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -106,6 +111,7 @@
 
                 <!-- Address / Reference -->
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilAddress"
                     style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -127,6 +133,7 @@
                     android:orientation="horizontal">
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilPayment"
                         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -143,6 +150,7 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilPaymentType"
                         style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -166,6 +174,7 @@
                     android:orientation="horizontal">
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilWorkers"
                         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -182,6 +191,7 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilDate"
                         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -204,6 +214,7 @@
                     android:orientation="horizontal">
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilSchedule"
                         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -219,6 +230,7 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilDuration"
                         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -235,6 +247,7 @@
 
                 <!-- Detailed Description -->
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilDesc"
                     style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

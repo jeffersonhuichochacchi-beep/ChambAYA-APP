@@ -44,6 +44,62 @@ class FragmentoPublicarTrabajo : Fragment() {
 
         setupDropdowns()
         setupListeners()
+        adaptarVistaSegunRol()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        adaptarVistaSegunRol()
+    }
+
+    private fun adaptarVistaSegunRol() {
+        val isWorker = repository.currentRole == ChambayaRepository.ROLE_WORKER
+
+        if (isWorker) {
+            // MODO TRABAJADOR: Publicar tiempo libre / disponibilidad
+            binding.tvPublishHeaderTitle.text = "Publicar mi Disponibilidad"
+            binding.tvPublishHeaderSubtitle.text = "Publica tus días y horarios libres para que las empresas y clientes te contraten"
+
+            binding.tilPublishTitle.hint = "Oficio / Servicio que ofreces (Ej: Maestro Pintor, Albañil, Electricista...)"
+            binding.tilCategory.hint = "Tu Especialidad Principal"
+            binding.tilDistrict.hint = "Distrito / Zona de tu disponibilidad"
+            binding.tilAddress.hint = "Zonas de cobertura (Ej: Huamanga centro, Carmen Alto)"
+            binding.tilPayment.hint = "Tarifa estimada (S/.)"
+            binding.tilPaymentType.hint = "Cobro"
+            binding.tilWorkers.hint = "Años de experiencia"
+            binding.etPublishWorkers.setText("3")
+            binding.tilDate.hint = "Disponibilidad"
+            binding.etPublishDate.setText("Inmediata")
+            binding.tilSchedule.hint = "Horarios disponibles"
+            binding.etPublishSchedule.setText("Fines de semana / Tardes")
+            binding.tilDuration.hint = "Tipo de chamba preferida"
+            binding.etPublishDuration.setText("Por día o tarea")
+            binding.tilDesc.hint = "Describe tu experiencia, herramientas que tienes y garantía de tu trabajo"
+
+            binding.btnSubmitPublish.text = "⭐ Publicar mi Disponibilidad"
+        } else {
+            // MODO EMPRESA / CONTRATANTE: Publicar oferta de trabajo
+            binding.tvPublishHeaderTitle.text = "Publicar Oferta de Chamba"
+            binding.tvPublishHeaderSubtitle.text = "Conecta con trabajadores independientes de Ayacucho en minutos"
+
+            binding.tilPublishTitle.hint = "Título del trabajo (Ej: Pintar fachada 2 pisos, Maestro Albañil...)"
+            binding.tilCategory.hint = "Categoría / Oficio requerido"
+            binding.tilDistrict.hint = "Distrito donde se realizará el trabajo"
+            binding.tilAddress.hint = "Dirección exacta o referencia del lugar"
+            binding.tilPayment.hint = "Pago Ofrecido (S/.)"
+            binding.tilPaymentType.hint = "Modalidad"
+            binding.tilWorkers.hint = "N° Trabajadores"
+            binding.etPublishWorkers.setText("2")
+            binding.tilDate.hint = "Fecha de inicio"
+            binding.etPublishDate.setText("Mañana")
+            binding.tilSchedule.hint = "Horario"
+            binding.etPublishSchedule.setText("8:00 AM - 5:00 PM")
+            binding.tilDuration.hint = "Duración"
+            binding.etPublishDuration.setText("1 a 2 días")
+            binding.tilDesc.hint = "Descripción detallada del trabajo y requisitos"
+
+            binding.btnSubmitPublish.text = "📢 Publicar Oferta de Chamba"
+        }
     }
 
     private fun setupDropdowns() {
@@ -82,6 +138,7 @@ class FragmentoPublicarTrabajo : Fragment() {
     }
 
     private fun publishJob() {
+        val isWorker = repository.currentRole == ChambayaRepository.ROLE_WORKER
         val title = binding.etPublishTitle.text.toString().trim()
         val category = binding.actvCategory.text.toString().trim()
         val district = binding.actvDistrict.text.toString().trim()
@@ -96,17 +153,24 @@ class FragmentoPublicarTrabajo : Fragment() {
         val isFeatured = binding.rbFeatured.isChecked
 
         if (title.isEmpty()) {
-            binding.etPublishTitle.error = "Ingresa el título del trabajo"
+            val errorMsg = if (isWorker) "Ingresa el oficio o servicio que ofreces" else "Ingresa el título del trabajo"
+            binding.etPublishTitle.error = errorMsg
             return
         }
         if (address.isEmpty()) {
-            binding.etPublishAddress.error = "Ingresa la dirección de referencia en Ayacucho"
+            val errorMsg = if (isWorker) "Ingresa tu zona de cobertura en Ayacucho" else "Ingresa la dirección o referencia en Ayacucho"
+            binding.etPublishAddress.error = errorMsg
             return
         }
         val payment = paymentStr.toDoubleOrNull() ?: 50.0
         val workers = workersStr.toIntOrNull() ?: 1
 
-        val finalDesc = if (desc.isEmpty()) "Trabajo en $district, pago puntual de S/ $payment $paymentType." else desc
+        val finalDesc = if (desc.isEmpty()) {
+            if (isWorker)
+                "Trabajador disponible en $district. Tarifa estimada S/ $payment $paymentType."
+            else
+                "Trabajo en $district, pago puntual de S/ $payment $paymentType."
+        } else desc
 
         repository.publishJob(
             title = title,
@@ -124,14 +188,19 @@ class FragmentoPublicarTrabajo : Fragment() {
         )
 
         val fee = if (isFeatured) "S/ 5.00 (Destacada 🔥)" else "S/ 2.00 (Básica)"
-        Toast.makeText(requireContext(), "¡Chamba publicada con éxito!\nTarifa aplicada: $fee", Toast.LENGTH_LONG).show()
+        val exitoMsg = if (isWorker)
+            "¡Disponibilidad publicada con éxito!\nAhora los contratantes podrán ver tu perfil disponible."
+        else
+            "¡Chamba publicada con éxito!\nTarifa aplicada: $fee"
 
-        // Clear fields
+        Toast.makeText(requireContext(), exitoMsg, Toast.LENGTH_LONG).show()
+
+        // Limpiar campos
         binding.etPublishTitle.text?.clear()
         binding.etPublishAddress.text?.clear()
         binding.etPublishDesc.text?.clear()
 
-        // Switch to feed
+        // Cambiar al feed principal
         (activity as? com.example.chambaya.MainActivity)?.navigateToTab(R.id.nav_jobs)
     }
 
