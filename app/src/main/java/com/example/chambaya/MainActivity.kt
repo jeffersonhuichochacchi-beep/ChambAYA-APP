@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import com.example.chambaya.databinding.ActividadPrincipalBinding
 import com.example.chambaya.ui.chat.FragmentoListaChats
 import com.example.chambaya.ui.dialogs.DialogoFragmentoAnunciosNegocios
@@ -31,9 +32,10 @@ class MainActivity : AppCompatActivity() {
     private val profileFragment by lazy { FragmentoPerfil() }
     private val bottomNavPopInterpolator = OvershootInterpolator(1.12f)
     private val bottomNavSettleInterpolator = DecelerateInterpolator()
-    private var hasShownInitialFragment = false
+    private var activeFragment: Fragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        IdiomaManager.applySavedLanguage(this)
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActividadPrincipalBinding.inflate(layoutInflater)
@@ -49,7 +51,11 @@ class MainActivity : AppCompatActivity() {
         setupHeaderActions()
 
         if (savedInstanceState == null) {
-            switchFragment(jobsFeedFragment)
+            switchToTab(R.id.nav_jobs)
+        } else {
+            activeFragment = supportFragmentManager.fragments.firstOrNull {
+                it.id == R.id.fragmentContainer && !it.isHidden
+            }
         }
     }
 
@@ -60,23 +66,23 @@ class MainActivity : AppCompatActivity() {
 
             when (item.itemId) {
                 R.id.nav_jobs -> {
-                    switchFragment(jobsFeedFragment)
+                    switchToTab(R.id.nav_jobs)
                     true
                 }
                 R.id.nav_map -> {
-                    switchFragment(mapFragment)
+                    switchToTab(R.id.nav_map)
                     true
                 }
                 R.id.nav_publish -> {
-                    switchFragment(publishFragment)
+                    switchToTab(R.id.nav_publish)
                     true
                 }
                 R.id.nav_chat -> {
-                    switchFragment(chatFragment)
+                    switchToTab(R.id.nav_chat)
                     true
                 }
                 R.id.nav_profile -> {
-                    switchFragment(profileFragment)
+                    switchToTab(R.id.nav_profile)
                     true
                 }
                 else -> false
@@ -140,21 +146,60 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigation.selectedItemId = tabId
     }
 
-    private fun switchFragment(fragment: Fragment) {
-        val transaction = supportFragmentManager.beginTransaction()
+    private fun switchToTab(tabId: Int) {
+        val tag = tabTag(tabId)
+        val fragment = supportFragmentManager.findFragmentByTag(tag) ?: createFragmentForTab(tabId)
+        if (fragment == activeFragment) return
 
-        if (hasShownInitialFragment) {
-            transaction.setCustomAnimations(
-                R.anim.nav_fragment_enter,
-                R.anim.nav_fragment_exit
-            )
+        val transaction = supportFragmentManager.beginTransaction()
+            .setReorderingAllowed(true)
+
+        activeFragment?.let { current ->
+            transaction
+                .hide(current)
+                .setMaxLifecycle(current, Lifecycle.State.STARTED)
+        }
+
+        if (fragment.isAdded) {
+            transaction.show(fragment)
+        } else {
+            transaction.add(R.id.fragmentContainer, fragment, tag)
         }
 
         transaction
-            .setReorderingAllowed(true)
-            .replace(R.id.fragmentContainer, fragment)
+            .setMaxLifecycle(fragment, Lifecycle.State.RESUMED)
             .commit()
 
-        hasShownInitialFragment = true
+        activeFragment = fragment
+    }
+
+    private fun createFragmentForTab(tabId: Int): Fragment {
+        return when (tabId) {
+            R.id.nav_jobs -> jobsFeedFragment
+            R.id.nav_map -> mapFragment
+            R.id.nav_publish -> publishFragment
+            R.id.nav_chat -> chatFragment
+            R.id.nav_profile -> profileFragment
+            else -> jobsFeedFragment
+        }
+    }
+
+    private fun tabTag(tabId: Int): String {
+        return when (tabId) {
+            R.id.nav_jobs -> TAG_JOBS
+            R.id.nav_map -> TAG_MAP
+            R.id.nav_publish -> TAG_PUBLISH
+            R.id.nav_chat -> TAG_CHAT
+            R.id.nav_profile -> TAG_PROFILE
+            else -> TAG_JOBS
+        }
+    }
+
+    private companion object {
+        const val TAG_JOBS = "tab_jobs"
+        const val TAG_MAP = "tab_map"
+        const val TAG_PUBLISH = "tab_publish"
+        const val TAG_CHAT = "tab_chat"
+        const val TAG_PROFILE = "tab_profile"
     }
 }

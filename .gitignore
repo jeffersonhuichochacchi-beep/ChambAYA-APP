@@ -14,3 +14,7 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+.gradle-user/
+.android/
+analytics.settings

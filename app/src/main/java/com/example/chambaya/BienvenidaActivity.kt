@@ -7,6 +7,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.animation.LinearInterpolator
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chambaya.databinding.ActividadBienvenidaBinding
 
@@ -36,7 +37,7 @@ class BienvenidaActivity : AppCompatActivity() {
 
         binding.btnAccessAccount.setOnClickListener { openMain() }
         binding.tvSignup.setOnClickListener { openRegister() }
-        binding.btnLanguage.setOnClickListener { IdiomaManager.toggleLanguage(this) }
+        binding.btnLanguage.setOnClickListener { changeWelcomeLanguage() }
         showSlide(0, restartProgress = true)
     }
 
@@ -78,8 +79,7 @@ class BienvenidaActivity : AppCompatActivity() {
         currentSlideIndex = index
         val slide = getSlides()[index]
         binding.imgWelcomeIllustration.setImageResource(slide.imageRes)
-        binding.tvWelcomeTitle.text = getString(slide.titleRes)
-        binding.tvWelcomeSubtitle.text = getString(slide.subtitleRes)
+        updateCurrentSlideText()
 
         indicators.forEachIndexed { indicatorIndex, indicator ->
             val isSelected = indicatorIndex == index
@@ -127,13 +127,36 @@ class BienvenidaActivity : AppCompatActivity() {
 
                 override fun onAnimationEnd(animation: Animator) {
                     if (!wasCancelled) {
-                    val nextIndex = (currentSlideIndex + 1) % getSlides().size
-                    showSlide(nextIndex, restartProgress = true)
-                }
+                        val nextIndex = (currentSlideIndex + 1) % getSlides().size
+                        showSlide(nextIndex, restartProgress = true)
+                    }
                 }
             })
             start()
         }
+    }
+
+    private fun changeWelcomeLanguage() {
+        IdiomaManager.toggleSavedLanguage(this)
+        updateLocalizedTexts()
+    }
+
+    private fun updateLocalizedTexts() {
+        binding.btnLanguage.contentDescription = localizedString(R.string.action_change_language)
+        binding.btnAccessAccount.text = localizedString(R.string.welcome_get_started)
+        binding.tvNoAccount.text = localizedString(R.string.auth_no_account)
+        binding.tvSignup.text = localizedString(R.string.auth_signup)
+        updateCurrentSlideText()
+    }
+
+    private fun updateCurrentSlideText() {
+        val slide = getSlides()[currentSlideIndex]
+        binding.tvWelcomeTitle.text = localizedString(slide.titleRes)
+        binding.tvWelcomeSubtitle.text = localizedString(slide.subtitleRes)
+    }
+
+    private fun localizedString(@StringRes resId: Int): String {
+        return IdiomaManager.createLocalizedContext(this).getString(resId)
     }
 
     private fun dp(value: Int): Int = (value * resources.displayMetrics.density).toInt()

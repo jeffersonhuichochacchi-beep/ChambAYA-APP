@@ -57,12 +57,6 @@ class FragmentoMapaChambas : Fragment() {
         val osmBaseDir = File(ctx.cacheDir, "osmdroid")
         if (!osmBaseDir.exists()) osmBaseDir.mkdirs()
 
-        // Limpiar caché previa para borrar imágenes de error 403
-        val tileCache = File(osmBaseDir, "tiles")
-        if (tileCache.exists()) {
-            tileCache.deleteRecursively()
-        }
-
         config.osmdroidBasePath = osmBaseDir
         config.osmdroidTileCache = File(osmBaseDir, "tiles")
         config.userAgentValue = "ChambAYA_Ayacucho_Android_App/1.0"

@@ -1,8 +1,10 @@
 package com.example.chambaya
 
 import android.content.Context
+import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
+import java.util.Locale
 
 object IdiomaManager {
 
@@ -20,16 +22,32 @@ object IdiomaManager {
     }
 
     fun toggleLanguage(context: Context) {
-        val nextLanguage = if (getSavedLanguage(context) == SPANISH) ENGLISH else SPANISH
-        context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-            .edit()
-            .putString(KEY_LANGUAGE, nextLanguage)
-            .apply()
+        val nextLanguage = toggleSavedLanguage(context)
         AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(nextLanguage))
     }
 
-    private fun getSavedLanguage(context: Context): String {
+    fun toggleSavedLanguage(context: Context): String {
+        val nextLanguage = if (getSavedLanguage(context) == SPANISH) ENGLISH else SPANISH
+        saveLanguage(context, nextLanguage)
+        return nextLanguage
+    }
+
+    fun createLocalizedContext(context: Context): Context {
+        val language = getSavedLanguage(context)
+        val configuration = Configuration(context.resources.configuration)
+        configuration.setLocale(Locale.forLanguageTag(language))
+        return context.createConfigurationContext(configuration)
+    }
+
+    fun getSavedLanguage(context: Context): String {
         return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
             .getString(KEY_LANGUAGE, SPANISH) ?: SPANISH
+    }
+
+    private fun saveLanguage(context: Context, language: String) {
+        context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            .edit()
+            .putString(KEY_LANGUAGE, language)
+            .apply()
     }
 }
