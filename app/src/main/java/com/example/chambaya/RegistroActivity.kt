@@ -330,8 +330,13 @@ class RegistroActivity : AppCompatActivity() {
     }
 
     private fun iniciarFlujoGoogle() {
-        val signInIntent = authGestor.getGoogleSignInClient().signInIntent
-        googleSignInLauncher.launch(signInIntent)
+        mostrarCarga(true)
+        val client = authGestor.getGoogleSignInClient()
+        client.signOut().addOnCompleteListener {
+            mostrarCarga(false)
+            val signInIntent = client.signInIntent
+            googleSignInLauncher.launch(signInIntent)
+        }
     }
 
     private fun mostrarCarga(cargando: Boolean) {

@@ -28,6 +28,7 @@ class FragmentoPublicarTrabajo : Fragment() {
     )
 
     private val paymentTypes = arrayOf("por día", "por tarea", "por hora", "por jornada")
+    private val toolOptions = arrayOf("Propias completas", "Herramientas básicas", "Sin herramientas")
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,13 +67,16 @@ class FragmentoPublicarTrabajo : Fragment() {
             binding.tilAddress.hint = "Zonas de cobertura (Ej: Huamanga centro, Carmen Alto)"
             binding.tilPayment.hint = "Tarifa estimada (S/.)"
             binding.tilPaymentType.hint = "Cobro"
-            binding.tilWorkers.hint = "Años de experiencia"
-            binding.etPublishWorkers.setText("3")
-            binding.tilDate.hint = "Disponibilidad"
-            binding.etPublishDate.setText("Inmediata")
+            
+            // Campos exclusivos de trabajador
+            binding.layoutWorkerExtraFields.visibility = View.VISIBLE
+            binding.tilWorkers.visibility = View.GONE
+
+            binding.tilDate.hint = "Días libres"
+            binding.etPublishDate.setText("Fines de semana y tardes")
             binding.tilSchedule.hint = "Horarios disponibles"
-            binding.etPublishSchedule.setText("Fines de semana / Tardes")
-            binding.tilDuration.hint = "Tipo de chamba preferida"
+            binding.etPublishSchedule.setText("2:00 PM - 7:00 PM")
+            binding.tilDuration.hint = "Tipo de contrato"
             binding.etPublishDuration.setText("Por día o tarea")
             binding.tilDesc.hint = "Describe tu experiencia, herramientas que tienes y garantía de tu trabajo"
 
@@ -88,8 +92,12 @@ class FragmentoPublicarTrabajo : Fragment() {
             binding.tilAddress.hint = "Dirección exacta o referencia del lugar"
             binding.tilPayment.hint = "Pago Ofrecido (S/.)"
             binding.tilPaymentType.hint = "Modalidad"
-            binding.tilWorkers.hint = "N° Trabajadores"
+            
+            // Campos exclusivos de contratante
+            binding.layoutWorkerExtraFields.visibility = View.GONE
+            binding.tilWorkers.visibility = View.VISIBLE
             binding.etPublishWorkers.setText("2")
+
             binding.tilDate.hint = "Fecha de inicio"
             binding.etPublishDate.setText("Mañana")
             binding.tilSchedule.hint = "Horario"
@@ -111,6 +119,9 @@ class FragmentoPublicarTrabajo : Fragment() {
 
         val payAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, paymentTypes)
         binding.actvPaymentType.setAdapter(payAdapter)
+
+        val toolAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, toolOptions)
+        binding.actvWorkerTools.setAdapter(toolAdapter)
     }
 
     private fun setupListeners() {
