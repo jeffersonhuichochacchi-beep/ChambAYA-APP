@@ -107,4 +107,8 @@
     <string name="register_employer_name_label">Nombre de Empresa o Contacto</string>
     <string name="register_employer_name_hint">Ingresa nombre comercial o de contacto</string>
     <string name="register_employer_btn">Registrarme como Empresa</string>
+
+    <!-- Dialog Role Selection -->
+    <string name="dialog_choose_role_title">¿Cómo deseas registrarte?</string>
+    <string name="dialog_choose_role_subtitle">Selecciona el tipo de cuenta para comenzar</string>
 </resources>

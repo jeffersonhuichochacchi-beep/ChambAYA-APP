@@ -74,8 +74,8 @@ class BienvenidaActivity : AppCompatActivity() {
     }
 
     private fun openRegister() {
-        indicatorAnimator?.cancel()
-        startActivity(Intent(this, RegistroActivity::class.java))
+        val dialog = com.example.chambaya.ui.dialogs.DialogoSeleccionarRolRegistro.newInstance()
+        dialog.show(supportFragmentManager, com.example.chambaya.ui.dialogs.DialogoSeleccionarRolRegistro.TAG)
     }
 
     private fun showSlide(index: Int, restartProgress: Boolean) {
