@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="100dp">
+            android:paddingBottom="32dp">
 
             <!-- Header degradado -->
             <LinearLayout
@@ -383,9 +383,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="16dp"
+                android:layout_marginTop="28dp"
+                android:layout_marginBottom="28dp"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingHorizontal="24dp"
+                android:paddingVertical="14dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -399,6 +402,7 @@
                     android:id="@+id/tvGuestLoginLink"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
                     android:clickable="true"
                     android:focusable="true"
                     android:fontFamily="sans-serif-black"
