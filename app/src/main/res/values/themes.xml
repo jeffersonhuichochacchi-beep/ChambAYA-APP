@@ -41,15 +41,40 @@
 
     <!-- Bottom Navigation Style -->
     <style name="Widget.ChambAYA.BottomNav" parent="Widget.Material3.BottomNavigationView">
-        <item name="itemIconTint">@color/bottom_nav_color_selector</item>
+        <item name="itemBackground">@null</item>
+        <item name="itemIconTint">@color/bottom_nav_icon_selector</item>
         <item name="itemTextColor">@color/bottom_nav_color_selector</item>
-        <item name="itemRippleColor">@color/primary_container</item>
-        <item name="elevation">8dp</item>
-        <item name="backgroundTint">@color/surface_light</item>
+        <item name="itemIconSize">26dp</item>
+        <item name="itemPaddingTop">8dp</item>
+        <item name="itemPaddingBottom">8dp</item>
+        <item name="activeIndicatorLabelPadding">5dp</item>
+        <item name="itemRippleColor">@color/bottom_nav_ripple_selector</item>
+        <item name="itemTextAppearanceActive">@style/TextAppearance.ChambAYA.BottomNav.Active</item>
+        <item name="itemTextAppearanceInactive">@style/TextAppearance.ChambAYA.BottomNav.Inactive</item>
+        <item name="itemTextAppearanceActiveBoldEnabled">false</item>
+        <item name="labelMaxLines">1</item>
+        <item name="elevation">14dp</item>
         <item name="itemActiveIndicatorStyle">@style/Widget.ChambAYA.BottomNav.ActiveIndicator</item>
     </style>
 
     <style name="Widget.ChambAYA.BottomNav.ActiveIndicator" parent="">
-        <item name="android:color">@color/primary_container</item>
+        <item name="android:width">60dp</item>
+        <item name="android:height">40dp</item>
+        <item name="marginHorizontal">6dp</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.ChambAYA.BottomNav.ActiveIndicator</item>
+        <item name="android:color">@color/primary</item>
+        <item name="expandedHeight">40dp</item>
+    </style>
+
+    <style name="ShapeAppearance.ChambAYA.BottomNav.ActiveIndicator" parent="ShapeAppearance.Material3.Corner.Full" />
+
+    <style name="TextAppearance.ChambAYA.BottomNav.Active" parent="TextAppearance.Material3.LabelMedium">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="TextAppearance.ChambAYA.BottomNav.Inactive" parent="TextAppearance.Material3.LabelMedium">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">11sp</item>
     </style>
 </resources>

@@ -114,6 +114,7 @@
         android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:paddingBottom="10dp"
         app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
         app:layout_constraintTop_toBottomOf="@id/topAppBar" />
 
@@ -121,10 +122,20 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
         style="@style/Widget.ChambAYA.BottomNav"
-        android:layout_width="match_parent"
-        android:layout_height="72dp"
+        android:layout_width="0dp"
+        android:layout_height="82dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="14dp"
+        android:background="@drawable/bg_bottom_nav_modern"
+        android:clipToOutline="true"
+        android:hapticFeedbackEnabled="true"
+        android:outlineProvider="background"
         app:labelVisibilityMode="labeled"
+        app:itemHorizontalTranslationEnabled="false"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_nav_menu" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

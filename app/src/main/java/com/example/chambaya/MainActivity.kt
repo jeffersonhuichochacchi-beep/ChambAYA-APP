@@ -1,7 +1,11 @@
 package com.example.chambaya
 
 import android.os.Bundle
+import android.view.HapticFeedbackConstants
 import android.view.View
+import android.view.ViewGroup
+import android.view.animation.DecelerateInterpolator
+import android.view.animation.OvershootInterpolator
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -25,6 +29,9 @@ class MainActivity : AppCompatActivity() {
     private val publishFragment by lazy { FragmentoPublicarTrabajo() }
     private val chatFragment by lazy { FragmentoListaChats() }
     private val profileFragment by lazy { FragmentoPerfil() }
+    private val bottomNavPopInterpolator = OvershootInterpolator(1.12f)
+    private val bottomNavSettleInterpolator = DecelerateInterpolator()
+    private var hasShownInitialFragment = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +55,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupBottomNavigation() {
         binding.bottomNavigation.setOnItemSelectedListener { item ->
+            binding.bottomNavigation.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
+            animateBottomNavSelection(item.itemId)
+
             when (item.itemId) {
                 R.id.nav_jobs -> {
                     switchFragment(jobsFeedFragment)
@@ -72,6 +82,45 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
+
+        binding.bottomNavigation.setOnItemReselectedListener { item ->
+            binding.bottomNavigation.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
+            animateBottomNavSelection(item.itemId)
+        }
+
+        binding.bottomNavigation.post {
+            val selectedItemId = binding.bottomNavigation.selectedItemId.takeIf { it != View.NO_ID }
+                ?: R.id.nav_jobs
+            animateBottomNavSelection(selectedItemId, animate = false)
+        }
+    }
+
+    private fun animateBottomNavSelection(selectedItemId: Int, animate: Boolean = true) {
+        val menuView = binding.bottomNavigation.getChildAt(0) as? ViewGroup ?: return
+
+        for (index in 0 until menuView.childCount) {
+            val itemView = menuView.getChildAt(index)
+            val isSelected = itemView.id == selectedItemId
+            val targetScale = if (isSelected) 1.06f else 1f
+            val targetAlpha = if (isSelected) 1f else 0.78f
+
+            itemView.animate().cancel()
+
+            if (!animate) {
+                itemView.scaleX = targetScale
+                itemView.scaleY = targetScale
+                itemView.alpha = targetAlpha
+                continue
+            }
+
+            itemView.animate()
+                .scaleX(targetScale)
+                .scaleY(targetScale)
+                .alpha(targetAlpha)
+                .setDuration(if (isSelected) 230L else 170L)
+                .setInterpolator(if (isSelected) bottomNavPopInterpolator else bottomNavSettleInterpolator)
+                .start()
+        }
     }
 
     private fun setupHeaderActions() {
@@ -92,8 +141,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun switchFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
+        val transaction = supportFragmentManager.beginTransaction()
+
+        if (hasShownInitialFragment) {
+            transaction.setCustomAnimations(
+                R.anim.nav_fragment_enter,
+                R.anim.nav_fragment_exit
+            )
+        }
+
+        transaction
+            .setReorderingAllowed(true)
             .replace(R.id.fragmentContainer, fragment)
             .commit()
+
+        hasShownInitialFragment = true
     }
 }
