@@ -200,31 +200,25 @@ class RegistroActivity : AppCompatActivity() {
         tvEmail.text = email
         ivBadgeIcon.setImageResource(R.drawable.ic_mail_waiting_circle)
         progressWaiting.visibility = View.VISIBLE
+        btnDoneAction.visibility = View.GONE
 
         verificationDialog = com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
             .setView(dialogView)
             .setCancelable(false)
             .create()
 
-        verificationDialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        verificationDialog?.show()
-
-        // Botón principal: abre la app de correo (Gmail, Outlook, etc.)
-        btnDoneAction.setOnClickListener {
-            val emailIntent = Intent(Intent.ACTION_MAIN).apply {
-                addCategory(Intent.CATEGORY_APP_EMAIL)
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            }
-            try {
-                startActivity(Intent.createChooser(emailIntent, "Abrir bandeja de correo"))
-            } catch (e: Exception) {
-                try {
-                    startActivity(Intent(Intent.ACTION_VIEW, android.net.Uri.parse("mailto:")))
-                } catch (_: Exception) {
-                    Toast.makeText(this, "Abre tu aplicación de Gmail o correo para confirmar", Toast.LENGTH_SHORT).show()
+        verificationDialog?.window?.apply {
+            setBackgroundDrawableResource(android.R.color.transparent)
+            addFlags(android.view.WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+            setDimAmount(0.70f) // Fondo oscuro / opaco como en la imagen
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+                addFlags(android.view.WindowManager.LayoutParams.FLAG_BLUR_BEHIND)
+                attributes = attributes.apply {
+                    blurBehindRadius = 20
                 }
             }
         }
+        verificationDialog?.show()
 
         // Reenviar correo
         btnResend.setOnClickListener {
@@ -259,15 +253,16 @@ class RegistroActivity : AppCompatActivity() {
                     if (user.isEmailVerified) {
                         detenerComprobacionVerificacion()
 
-                        // Estado verificado exitoso (con la viñeta verde como en la imagen)
+                        // Estado verificado exitoso (viñeta verde y botón Done idéntico a la imagen)
                         ivBadgeIcon.setImageResource(R.drawable.ic_success_seal_badge)
                         progressWaiting.visibility = View.GONE
-                        tvTitle.text = "¡Verificación Exitosa!"
+                        tvTitle.text = "Successful"
                         tvSubtitle.text = "Tu cuenta ha sido activada correctamente.\nRedirigiendo al inicio de sesión..."
                         tvEmail.visibility = View.GONE
                         layoutSecondary.visibility = View.GONE
 
-                        btnDoneAction.text = "Listo"
+                        btnDoneAction.visibility = View.VISIBLE
+                        btnDoneAction.text = "Done"
                         btnDoneAction.setOnClickListener {
                             verificationDialog?.dismiss()
                             authGestor.cerrarSesion()
