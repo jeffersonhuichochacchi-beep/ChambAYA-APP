@@ -34,32 +34,36 @@ class RegistroActivity : AppCompatActivity() {
     private val googleSignInLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-            try {
-                val account = task.getResult(ApiException::class.java)
-                val idToken = account?.idToken
-                if (idToken != null) {
-                    mostrarCarga(true)
-                    authGestor.autenticarConGoogle(
-                        idToken = idToken,
-                        rolPorDefecto = currentUserRole,
-                        onExito = {
-                            mostrarCarga(false)
-                            Toast.makeText(this, "¡Bienvenido a ChambAYA!", Toast.LENGTH_SHORT).show()
-                            openMain()
-                        },
-                        onError = { error ->
-                            mostrarCarga(false)
-                            Toast.makeText(this, error, Toast.LENGTH_LONG).show()
-                        }
-                    )
-                } else {
-                    Toast.makeText(this, "No se pudo obtener el token de Google.", Toast.LENGTH_SHORT).show()
-                }
-            } catch (e: ApiException) {
-                Toast.makeText(this, "Error de inicio de sesión con Google: ${e.statusCode}", Toast.LENGTH_LONG).show()
+        val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+        try {
+            val account = task.getResult(ApiException::class.java)
+            val idToken = account?.idToken
+            if (idToken != null) {
+                mostrarCarga(true)
+                authGestor.autenticarConGoogle(
+                    idToken = idToken,
+                    rolPorDefecto = currentUserRole,
+                    onExito = {
+                        mostrarCarga(false)
+                        Toast.makeText(this, "¡Bienvenido a ChambAYA!", Toast.LENGTH_SHORT).show()
+                        openMain()
+                    },
+                    onError = { error ->
+                        mostrarCarga(false)
+                        Toast.makeText(this, error, Toast.LENGTH_LONG).show()
+                    }
+                )
+            } else {
+                Toast.makeText(this, "No se pudo obtener el token de Google.", Toast.LENGTH_SHORT).show()
             }
+        } catch (e: ApiException) {
+            val mensaje = when (e.statusCode) {
+                10 -> "Error 10 (DEVELOPER_ERROR): Falta registrar la huella SHA-1 en Firebase Console."
+                12500 -> "Error 12500: Revisa tu conexión y servicios de Google Play."
+                12501 -> "Inicio de sesión con Google cancelado."
+                else -> "Error de Google (${e.statusCode}): ${e.localizedMessage}"
+            }
+            Toast.makeText(this, mensaje, Toast.LENGTH_LONG).show()
         }
     }
 
@@ -167,9 +171,16 @@ class RegistroActivity : AppCompatActivity() {
             rol = currentUserRole,
             onExito = {
                 mostrarCarga(false)
-                Toast.makeText(this, "¡Cuenta creada exitosamente! Inicia sesión para continuar.", Toast.LENGTH_LONG).show()
                 authGestor.cerrarSesion()
-                openLogin(email)
+
+                com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
+                    .setTitle("📧 ¡Verifica tu Correo!")
+                    .setMessage("Hemos enviado un correo de autorización a:\n\n$email\n\nPor favor, abre tu bandeja de entrada (o carpeta de spam), haz clic en el enlace para activar tu cuenta y luego inicia sesión.")
+                    .setCancelable(false)
+                    .setPositiveButton("Ir a Iniciar Sesión") { _, _ ->
+                        openLogin(email)
+                    }
+                    .show()
             },
             onError = { error ->
                 mostrarCarga(false)

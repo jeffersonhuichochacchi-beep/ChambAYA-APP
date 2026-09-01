@@ -32,7 +32,8 @@ class FirebaseGestorAutenticacion private constructor(private val context: Conte
     }
 
     /**
-     * Registra un nuevo usuario con Correo y Contraseña, actualiza su perfil y lo guarda en Firestore.
+     * Registra un nuevo usuario con Correo y Contraseña, actualiza su perfil,
+     * envía correo de verificación a su bandeja personal y guarda en Firestore.
      */
     fun registrarConCorreo(
         nombre: String,
@@ -52,6 +53,10 @@ class FirebaseGestorAutenticacion private constructor(private val context: Conte
                         .build()
 
                     user.updateProfile(profileUpdates)
+
+                    // Enviar correo de autorización/verificación a su bandeja personal
+                    user.sendEmailVerification()
+
                     // Guardar datos en Firestore
                     guardarUsuarioEnFirestore(user, nombre, rol) {
                         onExito(user)
@@ -66,23 +71,46 @@ class FirebaseGestorAutenticacion private constructor(private val context: Conte
     }
 
     /**
-     * Inicia sesión con Correo y Contraseña
+     * Inicia sesión con Correo y Contraseña, comprobando que el correo esté verificado.
      */
     fun iniciarSesionConCorreo(
         email: String,
         password: String,
         onExito: (FirebaseUser) -> Unit,
+        onEmailNoVerificado: (FirebaseUser) -> Unit,
         onError: (String) -> Unit
     ) {
         auth.signInWithEmailAndPassword(email, password)
             .addOnSuccessListener { result ->
                 val user = result.user
                 if (user != null) {
-                    onExito(user)
+                    // Recargar datos del usuario para tener el estado más reciente de isEmailVerified
+                    user.reload().addOnCompleteListener {
+                        if (user.isEmailVerified) {
+                            onExito(user)
+                        } else {
+                            onEmailNoVerificado(user)
+                        }
+                    }
                 } else {
                     onError("No se pudo iniciar sesión.")
                 }
             }
+            .addOnFailureListener { exception ->
+                onError(traducirErrorFirebase(exception.message))
+            }
+    }
+
+    /**
+     * Reenvía el correo de verificación a la bandeja personal del usuario.
+     */
+    fun reenviarCorreoVerificacion(
+        user: FirebaseUser,
+        onExito: () -> Unit,
+        onError: (String) -> Unit
+    ) {
+        user.sendEmailVerification()
+            .addOnSuccessListener { onExito() }
             .addOnFailureListener { exception ->
                 onError(traducirErrorFirebase(exception.message))
             }

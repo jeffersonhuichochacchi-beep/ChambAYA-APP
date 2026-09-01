@@ -28,32 +28,36 @@ class LoginActivity : AppCompatActivity() {
     private val googleSignInLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-            try {
-                val account = task.getResult(ApiException::class.java)
-                val idToken = account?.idToken
-                if (idToken != null) {
-                    mostrarCarga(true)
-                    authGestor.autenticarConGoogle(
-                        idToken = idToken,
-                        rolPorDefecto = "worker",
-                        onExito = {
-                            mostrarCarga(false)
-                            Toast.makeText(this, "¡Sesión iniciada con Google!", Toast.LENGTH_SHORT).show()
-                            openMain()
-                        },
-                        onError = { error ->
-                            mostrarCarga(false)
-                            Toast.makeText(this, error, Toast.LENGTH_LONG).show()
-                        }
-                    )
-                } else {
-                    Toast.makeText(this, "No se pudo obtener el token de Google.", Toast.LENGTH_SHORT).show()
-                }
-            } catch (e: ApiException) {
-                Toast.makeText(this, "Error de inicio de sesión con Google: ${e.statusCode}", Toast.LENGTH_LONG).show()
+        val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+        try {
+            val account = task.getResult(ApiException::class.java)
+            val idToken = account?.idToken
+            if (idToken != null) {
+                mostrarCarga(true)
+                authGestor.autenticarConGoogle(
+                    idToken = idToken,
+                    rolPorDefecto = "worker",
+                    onExito = {
+                        mostrarCarga(false)
+                        Toast.makeText(this, "¡Sesión iniciada con Google!", Toast.LENGTH_SHORT).show()
+                        openMain()
+                    },
+                    onError = { error ->
+                        mostrarCarga(false)
+                        Toast.makeText(this, error, Toast.LENGTH_LONG).show()
+                    }
+                )
+            } else {
+                Toast.makeText(this, "No se pudo obtener el token de Google.", Toast.LENGTH_SHORT).show()
             }
+        } catch (e: ApiException) {
+            val mensaje = when (e.statusCode) {
+                10 -> "Error 10 (DEVELOPER_ERROR): Falta registrar la huella SHA-1 en Firebase Console."
+                12500 -> "Error 12500: Revisa tu conexión y servicios de Google Play."
+                12501 -> "Inicio de sesión con Google cancelado."
+                else -> "Error de Google (${e.statusCode}): ${e.localizedMessage}"
+            }
+            Toast.makeText(this, mensaje, Toast.LENGTH_LONG).show()
         }
     }
 
@@ -111,6 +115,29 @@ class LoginActivity : AppCompatActivity() {
                 mostrarCarga(false)
                 Toast.makeText(this, "¡Bienvenido a ChambAYA!", Toast.LENGTH_SHORT).show()
                 openMain()
+            },
+            onEmailNoVerificado = { unverifiedUser ->
+                mostrarCarga(false)
+                com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
+                    .setTitle("⚠️ Correo aún no verificado")
+                    .setMessage("Tu cuenta con el correo:\n\n$email\n\naún no ha sido autorizada. Abre tu correo personal y haz clic en el enlace de verificación para activarla.\n\n¿Deseas que te reenviemos el enlace?")
+                    .setPositiveButton("Reenviar Enlace") { _, _ ->
+                        authGestor.reenviarCorreoVerificacion(
+                            user = unverifiedUser,
+                            onExito = {
+                                Toast.makeText(this, "¡Enlace reenviado! Revisa tu bandeja de entrada o spam.", Toast.LENGTH_LONG).show()
+                                authGestor.cerrarSesion()
+                            },
+                            onError = { error ->
+                                Toast.makeText(this, "Error al reenviar: $error", Toast.LENGTH_SHORT).show()
+                                authGestor.cerrarSesion()
+                            }
+                        )
+                    }
+                    .setNegativeButton("Entendido") { _, _ ->
+                        authGestor.cerrarSesion()
+                    }
+                    .show()
             },
             onError = { error ->
                 mostrarCarga(false)
