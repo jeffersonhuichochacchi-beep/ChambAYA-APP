@@ -23,6 +23,12 @@ import org.osmdroid.util.BoundingBox
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.CustomZoomButtonsController
 import org.osmdroid.views.overlay.Marker
+import org.osmdroid.events.MapListener
+import org.osmdroid.events.ScrollEvent
+import org.osmdroid.events.ZoomEvent
+import androidx.transition.TransitionManager
+import androidx.transition.Slide
+import android.view.Gravity
 import java.io.File
 
 class FragmentoMapaChambas : Fragment() {
@@ -34,6 +40,7 @@ class FragmentoMapaChambas : Fragment() {
     private lateinit var carouselAdapter: AdaptadorTrabajo
     private var selectedDistrict: String = "Todos"
     private var selectedJobId: String? = null
+    private var isProgrammaticPan: Boolean = false
 
     // Servidor de mapas moderno, rápido y sin bloqueos (CartoDB Voyager)
     private val cartoVoyagerTileSource = XYTileSource(
@@ -90,6 +97,24 @@ class FragmentoMapaChambas : Fragment() {
         mapView.zoomController.setVisibility(CustomZoomButtonsController.Visibility.NEVER)
         mapView.setDestroyMode(false)
 
+        mapView.addMapListener(object : MapListener {
+            override fun onScroll(event: ScrollEvent): Boolean {
+                if (!isProgrammaticPan) hideCarousel()
+                return false
+            }
+            override fun onZoom(event: ZoomEvent): Boolean {
+                if (!isProgrammaticPan) hideCarousel()
+                return false
+            }
+        })
+
+        mapView.setOnTouchListener { _, event ->
+            if (event.action == android.view.MotionEvent.ACTION_DOWN) {
+                isProgrammaticPan = false
+            }
+            false
+        }
+
         val mapController = mapView.controller
         mapController.setZoom(15.0)
         mapController.setCenter(centerHuamanga)
@@ -110,31 +135,38 @@ class FragmentoMapaChambas : Fragment() {
                 val msg = if (isApplied) "¡Postulaste a '${job.title}'!" else "Postulación retirada"
                 Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
                 loadMapData()
+            },
+            onShareClick = { job ->
+                val shareIntent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, "¡Oye, mira esta chamba en ChambAYA! Buscan: ${job.title} en ${job.district}, pagando S/ ${job.payment}. ¡Postula ya!")
+                    type = "text/plain"
+                }
+                startActivity(Intent.createChooser(shareIntent, "Compartir chamba"))
             }
         )
         binding.rvMapJobsCarousel.adapter = carouselAdapter
     }
 
     private fun selectJob(job: JobOffer, fromMapMarker: Boolean) {
+        setCarouselVisible(true)
         selectedJobId = job.id
-        binding.tvMapHint.text = "🎯 Chamba seleccionada: ${job.title}"
 
-        // Si se seleccionó desde el mapa, scrollear carrusel
-        val jobs = repository.getJobs(district = selectedDistrict)
-        val index = jobs.indexOfFirst { it.id == job.id }
-        if (index >= 0 && fromMapMarker) {
-            binding.rvMapJobsCarousel.smoothScrollToPosition(index)
-        }
+        // Mostrar un solo dato, no hacerlo deslizable con todos
+        carouselAdapter.updateData(listOf(job))
 
         // Mover mapa hacia la ubicación de la oferta
+        isProgrammaticPan = true
         val targetPoint = GeoPoint(job.latitude, job.longitude)
         binding.osmMapView.controller.animateTo(targetPoint, 16.0, 500L)
+        binding.osmMapView.postDelayed({ isProgrammaticPan = false }, 600L)
 
         refreshMarkers()
     }
 
     private fun setupListeners() {
         binding.mapChipGroupDistricts.setOnCheckedStateChangeListener { _, checkedIds ->
+            hideCarousel()
             selectedDistrict = when (checkedIds.firstOrNull()) {
                 R.id.mapChipCentro -> "Ayacucho Centro"
                 R.id.mapChipCarmen -> "Carmen Alto"
@@ -148,8 +180,11 @@ class FragmentoMapaChambas : Fragment() {
 
     private fun loadMapData() {
         val jobs = repository.getJobs(district = selectedDistrict)
-        carouselAdapter.updateData(jobs)
         binding.tvActivePinCount.text = "${jobs.size} ofertas"
+
+        if (jobs.none { it.id == selectedJobId }) {
+            hideCarousel()
+        }
 
         refreshMarkers()
 
@@ -161,11 +196,13 @@ class FragmentoMapaChambas : Fragment() {
 
             if (jobs.size == 1) {
                 val singleJob = jobs.first()
+                isProgrammaticPan = true
                 mapView.controller.animateTo(
                     GeoPoint(singleJob.latitude, singleJob.longitude),
                     15.5,
                     500L
                 )
+                mapView.postDelayed({ isProgrammaticPan = false }, 600L)
             } else if (jobs.isNotEmpty()) {
                 val latitudes = jobs.map { it.latitude }
                 val longitudes = jobs.map { it.longitude }
@@ -175,6 +212,7 @@ class FragmentoMapaChambas : Fragment() {
                 val minLon = longitudes.minOrNull() ?: centerHuamanga.longitude
 
                 try {
+                    isProgrammaticPan = true
                     val boundingBox = BoundingBox(
                         maxLat + 0.008,
                         maxLon + 0.008,
@@ -182,6 +220,7 @@ class FragmentoMapaChambas : Fragment() {
                         minLon - 0.008
                     )
                     mapView.zoomToBoundingBox(boundingBox, true, 80)
+                    mapView.postDelayed({ isProgrammaticPan = false }, 1000L)
                 } catch (e: Exception) {
                     mapView.controller.setCenter(centerHuamanga)
                 }
@@ -239,79 +278,54 @@ class FragmentoMapaChambas : Fragment() {
         isFeatured: Boolean,
         isSelected: Boolean
     ): Drawable {
-        val text = "S/${price.toInt()}"
-        val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            textSize = dpToPx(context, 12f)
-            typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
-            color = Color.WHITE
-        }
-
-        val textBounds = Rect()
-        paint.getTextBounds(text, 0, text.length, textBounds)
-
-        val paddingH = dpToPx(context, 10f)
-        val paddingV = dpToPx(context, 6f)
-        val pointerHeight = dpToPx(context, 6f)
-        val strokeWidth = dpToPx(context, 2f)
-
-        val pillWidth = textBounds.width() + paddingH * 2
-        val pillHeight = textBounds.height() + paddingV * 2
-        val totalWidth = (pillWidth + strokeWidth * 2).toInt().coerceAtLeast(dpToPx(context, 48f).toInt())
-        val totalHeight = (pillHeight + pointerHeight + strokeWidth * 2).toInt()
-
-        val bitmap = Bitmap.createBitmap(totalWidth, totalHeight, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(bitmap)
-
+        val iconDrawable = androidx.core.content.ContextCompat.getDrawable(context, R.drawable.ic_location)?.mutate()
+        
         val bgColor = when {
-            isSelected -> Color.parseColor("#312E81") // Índigo oscuro destacado
-            isFeatured -> Color.parseColor("#0891B2") // Cian vibrante destacada
-            else -> Color.parseColor("#4F46E5")       // Color primario ChambAYA
+            isSelected -> Color.parseColor("#B71C1C") // Rojo oscuro intenso (seleccionado)
+            else -> Color.parseColor("#E53935")       // Rojo estándar clásico (normal/destacado)
         }
-
-        val bgPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = bgColor
-            style = Paint.Style.FILL
-        }
-
-        val borderPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = Color.WHITE
-            style = Paint.Style.STROKE
-            this.strokeWidth = strokeWidth
-        }
-
-        val rectF = RectF(
-            strokeWidth,
-            strokeWidth,
-            totalWidth.toFloat() - strokeWidth,
-            pillHeight + strokeWidth
-        )
-        val cornerRadius = dpToPx(context, 12f)
-
-        // Dibujar burbuja redondeada
-        canvas.drawRoundRect(rectF, cornerRadius, cornerRadius, bgPaint)
-        canvas.drawRoundRect(rectF, cornerRadius, cornerRadius, borderPaint)
-
-        // Dibujar indicador triangular en la parte inferior
-        val centerX = totalWidth / 2f
-        val pointerTop = pillHeight + strokeWidth
-        val path = Path().apply {
-            moveTo(centerX - dpToPx(context, 5f), pointerTop - dpToPx(context, 1f))
-            lineTo(centerX + dpToPx(context, 5f), pointerTop - dpToPx(context, 1f))
-            lineTo(centerX, totalHeight.toFloat() - strokeWidth)
-            close()
-        }
-        canvas.drawPath(path, bgPaint)
-
-        // Dibujar texto del precio centrado
-        val textX = (totalWidth - textBounds.width()) / 2f - textBounds.left
-        val textY = (pillHeight + strokeWidth + textBounds.height()) / 2f - dpToPx(context, 1f)
-        canvas.drawText(text, textX, textY, paint)
+        iconDrawable?.setTint(bgColor)
+        
+        val size = dpToPx(context, if (isSelected) 46f else 36f).toInt()
+        val bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        
+        iconDrawable?.setBounds(0, 0, size, size)
+        iconDrawable?.draw(canvas)
 
         return BitmapDrawable(context.resources, bitmap)
     }
 
     private fun dpToPx(context: Context, dp: Float): Float {
         return dp * context.resources.displayMetrics.density
+    }
+
+    private fun setCarouselVisible(visible: Boolean) {
+        val container = _binding?.bottomCarouselContainer ?: return
+        if ((container.visibility == View.VISIBLE) == visible) return
+
+        val transition = Slide(Gravity.BOTTOM).apply {
+            duration = 180
+            addTarget(container)
+        }
+        TransitionManager.beginDelayedTransition(_binding?.root as ViewGroup, transition)
+        container.visibility = if (visible) View.VISIBLE else View.GONE
+    }
+
+    private fun hideCarousel() {
+        val container = _binding?.bottomCarouselContainer ?: return
+        if (container.visibility == View.VISIBLE) {
+            setCarouselVisible(false)
+            selectedJobId = null
+            refreshMarkers()
+        }
+    }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (hidden) {
+            hideCarousel()
+        }
     }
 
     override fun onResume() {
